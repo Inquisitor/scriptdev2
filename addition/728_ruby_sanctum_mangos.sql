@@ -2,6 +2,7 @@
 UPDATE `instance_template` SET `ScriptName`='instance_ruby_sanctum' WHERE `map`=724;
 -- Halion
 UPDATE `creature_template` SET `ScriptName`='boss_halion_real', `AIName` ='' WHERE `entry`=39863;
+UPDATE `creature_template` SET `KillCredit1`=39863 WHERE `entry` IN (40142, 40143, 40144, 40145);
 UPDATE `creature_template` SET `ScriptName`='boss_halion_twilight', `AIName` ='' WHERE `entry`=40142;
 UPDATE `creature_template` SET `ScriptName`='mob_halion_meteor', `AIName` ='' WHERE `entry` = 40029;
 UPDATE `creature_template` SET `ScriptName`='mob_halion_flame', `AIName` ='' WHERE `entry` IN (40041);
