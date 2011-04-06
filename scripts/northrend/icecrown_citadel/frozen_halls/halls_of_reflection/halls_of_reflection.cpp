@@ -852,7 +852,7 @@ struct MANGOS_DLL_DECL npc_jaina_and_sylvana_HRextroAI : public npc_escortAI
             case 610:
               m_creature->CastSpell(m_creature, SPELL_SHIELD_DISRUPTION,false);
               m_pInstance->SetData(DATA_ESCAPE_LIDER,m_creature->GetEntry());
-              m_creature->SummonGameObject(GO_CAVE, 5275.28f, 1694.23f, 786.147f, 0.981225f, 0);
+              m_creature->SummonGameobject(GO_CAVE, 5275.28f, 1694.23f, 786.147f, 0.981225f, 0);
               m_pInstance->SetNextEvent(611,m_creature->GetEntry(),6000);
               break;
             case 611:
