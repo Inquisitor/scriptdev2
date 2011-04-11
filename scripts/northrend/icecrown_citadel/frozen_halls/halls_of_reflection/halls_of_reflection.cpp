@@ -1285,6 +1285,9 @@ struct MANGOS_DLL_DECL npc_queldelar_horAI : public ScriptedAI
 
         debug_log("HOR event: team %u, leader %u ",team,newLeader);
 
+        if (!m_pInstance->GetData64(NPC_JAINA))
+            return;
+
         if (Creature* pNewLeader = m_creature->SummonCreature(newLeader,WallLoc[4].x,WallLoc[4].y,WallLoc[4].z,WallLoc[4].o,TEMPSUMMON_MANUAL_DESPAWN,0,true))
         {
              pNewLeader->SetCreatorGuid(ObjectGuid());

@@ -48,6 +48,7 @@ struct MANGOS_DLL_DECL instance_halls_of_reflection : public BSWScriptedInstance
     uint64 m_uiLichKingGUID;
     uint64 m_uiLiderGUID;
     uint64 m_uiUtherGUID;
+    uint64 m_uiJainaOrSylvanaGUID;
 
     uint64 m_uiQuelDelarGUID;
 
@@ -78,6 +79,7 @@ struct MANGOS_DLL_DECL instance_halls_of_reflection : public BSWScriptedInstance
         m_uiSummons = 0;
         m_uiIceWallGUID = 0;
         m_uiCaveGUID = 0;
+        m_uiJainaOrSylvanaGUID = 0;
     }
 
     void OnCreatureCreate(Creature* pCreature)
@@ -101,6 +103,10 @@ struct MANGOS_DLL_DECL instance_halls_of_reflection : public BSWScriptedInstance
                    break;
             case NPC_UTHER:
                    m_uiUtherGUID = pCreature->GetGUID();
+                   break;
+            case NPC_JAINA:
+            case NPC_SYLVANA:
+                   m_uiJainaOrSylvanaGUID = pCreature->GetGUID();
                    break;
         }
     }
@@ -269,6 +275,7 @@ struct MANGOS_DLL_DECL instance_halls_of_reflection : public BSWScriptedInstance
             case NPC_FALRIC:           return m_uiFalricGUID;
             case NPC_MARWYN:           return m_uiMarwynGUID;
             case NPC_UTHER:            return m_uiUtherGUID;
+            case NPC_JAINA:            return m_uiJainaOrSylvanaGUID;
             case BOSS_LICH_KING:       return m_uiLichKingGUID;
             case DATA_ESCAPE_LIDER:    return m_uiLiderGUID;
             case NPC_FROST_GENERAL:    return m_uiFrostGeneralGUID;
