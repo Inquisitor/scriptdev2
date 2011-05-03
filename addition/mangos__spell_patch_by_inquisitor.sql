@@ -1,4 +1,4 @@
-DELETE FROM `spell_patch` WHERE `dbc = 'Spell.dbc' AND `entry` IN (69674, 70873);
+DELETE FROM `spell_patch` WHERE `dbc` = 'Spell.dbc' AND `entry` IN (69674, 70873);
 
 INSERT INTO `spell_patch`(`entry`,`dbc`,`data`,`comment`) VALUES 
 -- ICC
