@@ -1000,17 +1000,15 @@ struct MANGOS_DLL_DECL mob_halion_controlAI : public BSWScriptedAI
             float m_diff = (p_TwilightHP - p_RealHP);
             int32 buffnum;
 
-            buffnum = (int32)m_diff;
-
             if (m_diff<0)
             {
-                buffnum = m_lastBuffNum + buffnum - 1;
+                buffnum = m_lastBuffNum - 1;
             }
             else 
             {
                 if (m_diff>0)
                 {
-                    buffnum = m_lastBuffNum + buffnum + 1;
+                    buffnum = m_lastBuffNum + 1;
                 }
                 else
                 {
