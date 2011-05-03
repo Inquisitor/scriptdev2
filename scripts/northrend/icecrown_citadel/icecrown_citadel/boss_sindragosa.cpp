@@ -134,10 +134,12 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
 
         if (Creature* pTemp = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_RIMEFANG)))
            if (!pTemp->isAlive())
-                pTemp->SetRespawnDelay(HOUR);
+               pTemp->Respawn();
         if (Creature* pTemp = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_SPINESTALKER)))
            if (!pTemp->isAlive())
-                pTemp->SetRespawnDelay(HOUR);
+               pTemp->Respawn();
+
+        m_creature->ForcedDespawn();
     }
 
     void EnterEvadeMode()
@@ -560,7 +562,6 @@ struct MANGOS_DLL_DECL mob_rimefangAI : public BSWScriptedAI
         if(!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) == DONE) 
             return;
-        if (pBrother && !pBrother->isAlive())
         if (pBrother && !pBrother->isAlive())
         {
             Creature* pSindr = m_creature->SummonCreature(NPC_SINDRAGOSA, SpawnLoc[0].x, SpawnLoc[0].y, SpawnLoc[0].z, 3.17f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, HOUR*IN_MILLISECONDS, true);
