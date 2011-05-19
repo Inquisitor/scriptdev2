@@ -68,7 +68,8 @@ enum BossSpells
 static Locations SpawnLoc[]=
 {
     {4408.052734f, 2484.825439f, 203.374207f},  // 0 Sindragosa spawn
-    {4474.239746f, 2484.243896f, 231.0f},       // 1 Sindragosa fly o=3.11
+    //{4474.239746f, 2484.243896f, 231.0f},       // 1 Sindragosa fly o=3.11
+    {4432.229980f, 2484.243896f, 231.0f},       // 1 Sindragosa fly o=3.11
     {4474.239746f, 2484.243896f, 203.380402f},  // 2 Sindragosa fly - ground point o=3.11
 };
 
@@ -83,6 +84,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
     ScriptedInstance *pInstance;
     bool MovementStarted;
     bool gripped;
+    bool first_beacon;
     Unit* marked[5];
     uint8 bombs;
 
@@ -95,6 +97,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
         setStage(0);
         bombs = 0;
         gripped = false;
+        first_beacon = true;
         m_creature->SetRespawnDelay(7*DAY);
         m_creature->SetSpeedRate(MOVE_RUN, 1.0f);
         m_creature->SetSpeedRate(MOVE_WALK, 1.0f);
@@ -252,8 +255,11 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
                         gripped = false;
                     }
 
-                    if (timedQuery(SPELL_FROST_BEACON, diff) && m_creature->GetHealthPercent() < 85.0f)
+                    if ((first_beacon || timedQuery(SPELL_FROST_BEACON, diff)) && m_creature->GetHealthPercent() < 85.0f)
+                    {
+                        first_beacon = false;
                         setStage(1);
+                    }
 
                     if (m_creature->GetHealthPercent() < 35.0f) 
                     {
@@ -461,7 +467,7 @@ struct MANGOS_DLL_DECL mob_frost_bombAI : public ScriptedAI
         SetCombatMovement(false);
         m_creature->SetRespawnDelay(7*DAY);
         visual_timer = 6000;
-        boom_timer = 9000;
+        boom_timer = 7000;
         finita = false;
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
     }
