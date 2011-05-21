@@ -143,7 +143,7 @@ struct MANGOS_DLL_DECL npc_blastmaster_emi_shortfuseAI : public npc_escortAI
     uint32 m_uiPhaseTimer;
     uint64 m_uiPlayerGUID;
     bool m_bDidAggroText, m_bSouthernCaveInOpened, m_bNorthernCaveInOpened;
-    std::list<uint64> m_luiSummonedMobGUIDs;
+    GUIDList m_luiSummonedMobGUIDs;
 
     void Reset()
     {
@@ -251,7 +251,7 @@ struct MANGOS_DLL_DECL npc_blastmaster_emi_shortfuseAI : public npc_escortAI
         if (m_bNorthernCaveInOpened)                        // close northern cave-in door
             m_pInstance->DoUseDoorOrButton(m_pInstance->GetData64(GO_CAVE_IN_NORTH));
 
-        for (std::list<uint64>::const_iterator itr = m_luiSummonedMobGUIDs.begin(); itr != m_luiSummonedMobGUIDs.end(); ++itr)
+        for (GUIDList::const_iterator itr = m_luiSummonedMobGUIDs.begin(); itr != m_luiSummonedMobGUIDs.end(); ++itr)
         {
             if (Creature* pSummoned = m_creature->GetMap()->GetCreature(*itr))
                 pSummoned->ForcedDespawn();
@@ -357,7 +357,7 @@ struct MANGOS_DLL_DECL npc_blastmaster_emi_shortfuseAI : public npc_escortAI
                         m_uiPhaseTimer = 3500;              // 6s delay, but 2500ms for escortstarting
                         break;
                     case 3:
-                        Start(false, m_uiPlayerGUID, NULL, false, false);
+                        Start(false, m_creature->GetMap()->GetPlayer(m_uiPlayerGUID), NULL, false, false);
                         m_uiPhaseTimer = 0;
                         break;
 
@@ -601,7 +601,7 @@ bool GossipHello_npc_blastmaster_emi_shortfuse(Player* pPlayer, Creature* pCreat
         if (pInstance->GetData(TYPE_GRUBBIS) == NOT_STARTED || pInstance->GetData(TYPE_GRUBBIS) == FAIL)
         {
             pPlayer->ADD_GOSSIP_ITEM_ID(GOSSIP_ICON_CHAT, GOSSIP_ITEM_START, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
-            pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetGUID());
+            pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetObjectGuid());
         }
     }
     return true;

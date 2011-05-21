@@ -68,7 +68,7 @@ struct MANGOS_DLL_DECL boss_ionarAI : public ScriptedAI
 
     ScriptedInstance* m_pInstance;
 
-    std::list<uint64> m_lSparkGUIDList;
+    GUIDList m_lSparkGUIDList;
 
     bool m_bIsRegularMode;
 
@@ -160,7 +160,7 @@ struct MANGOS_DLL_DECL boss_ionarAI : public ScriptedAI
         if (m_lSparkGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lSparkGUIDList.begin(); itr != m_lSparkGUIDList.end(); ++itr)
+        for(GUIDList::const_iterator itr = m_lSparkGUIDList.begin(); itr != m_lSparkGUIDList.end(); ++itr)
         {
             if (Creature* pTemp = m_creature->GetMap()->GetCreature(*itr))
             {
@@ -179,7 +179,7 @@ struct MANGOS_DLL_DECL boss_ionarAI : public ScriptedAI
         if (m_lSparkGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lSparkGUIDList.begin(); itr != m_lSparkGUIDList.end(); ++itr)
+        for(GUIDList::const_iterator itr = m_lSparkGUIDList.begin(); itr != m_lSparkGUIDList.end(); ++itr)
         {
             if (Creature* pSpark = m_creature->GetMap()->GetCreature(*itr))
             {
@@ -278,7 +278,7 @@ struct MANGOS_DLL_DECL boss_ionarAI : public ScriptedAI
         if (m_uiBallLightning_Timer < uiDiff)
         {
             if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
-                m_creature->CastSpell(pTarget->GetPositionX(), pTarget->GetPositionY(), pTarget->GetPositionZ(), m_bIsRegularMode ? SPELL_BALL_LIGHTNING_N : SPELL_BALL_LIGHTNING_H, false, NULL, NULL, m_creature->GetGUID());
+                m_creature->CastSpell(pTarget->GetPositionX(), pTarget->GetPositionY(), pTarget->GetPositionZ(), m_bIsRegularMode ? SPELL_BALL_LIGHTNING_N : SPELL_BALL_LIGHTNING_H, false, NULL, NULL, m_creature->GetObjectGuid());
             m_uiBallLightning_Timer = urand(10000, 11000);
         }
         else

@@ -5,8 +5,6 @@
 #ifndef SC_ESCORTAI_H
 #define SC_ESCORTAI_H
 
-#include "../system/system.h"
-
 struct Escort_Waypoint
 {
     Escort_Waypoint(uint32 uiId, float fX, float fY, float fZ, uint32 uiWaitTime) :
@@ -24,7 +22,7 @@ struct Escort_Waypoint
     uint32 uiWaitTime;
 };
 
-enum eEscortState
+enum EscortState
 {
     STATE_ESCORT_NONE       = 0x000,                        //nothing in progress
     STATE_ESCORT_ESCORTING  = 0x001,                        //escort are in progress
@@ -68,7 +66,7 @@ struct MANGOS_DLL_DECL npc_escortAI : public ScriptedAI
         virtual void WaypointReached(uint32 uiPointId) = 0;
         virtual void WaypointStart(uint32 uiPointId) {}
 
-        void Start(bool bRun = false, uint64 uiPlayerGUID = 0, const Quest* pQuest = NULL, bool bInstantRespawn = false, bool bCanLoopPath = false);
+        void Start(bool bRun = false, const Player* pPlayer = NULL, const Quest* pQuest = NULL, bool bInstantRespawn = false, bool bCanLoopPath = false);
 
         void SetRun(bool bRun = true);
         void SetEscortPaused(bool uPaused);
@@ -79,7 +77,7 @@ struct MANGOS_DLL_DECL npc_escortAI : public ScriptedAI
         void SetCurrentWaypoint(uint32 uiPointId);
 
     protected:
-        Player* GetPlayerForEscort() { return m_creature->GetMap()->GetPlayer(m_uiPlayerGUID); }
+        Player* GetPlayerForEscort() { return m_creature->GetMap()->GetPlayer(m_playerGuid); }
         virtual void JustStartedEscort() {}
 
     private:
@@ -90,7 +88,7 @@ struct MANGOS_DLL_DECL npc_escortAI : public ScriptedAI
         void AddEscortState(uint32 uiEscortState) { m_uiEscortState |= uiEscortState; }
         void RemoveEscortState(uint32 uiEscortState) { m_uiEscortState &= ~uiEscortState; }
 
-        uint64 m_uiPlayerGUID;
+        ObjectGuid m_playerGuid;
         uint32 m_uiWPWaitTimer;
         uint32 m_uiPlayerCheckTimer;
         uint32 m_uiEscortState;

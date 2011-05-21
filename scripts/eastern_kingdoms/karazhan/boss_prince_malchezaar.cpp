@@ -174,7 +174,7 @@ struct MANGOS_DLL_DECL boss_malchezaarAI : public ScriptedAI
     uint32 AxesTargetSwitchTimer;
     uint32 InfernalCleanupTimer;
 
-    std::vector<uint64> infernals;
+    GUIDVector infernals;
     std::vector<InfernalPoint*> positions;
 
     uint64 axes[2];
@@ -243,7 +243,7 @@ struct MANGOS_DLL_DECL boss_malchezaarAI : public ScriptedAI
     void InfernalCleanup()
     {
         //Infernal Cleanup
-        for(std::vector<uint64>::iterator itr = infernals.begin(); itr!= infernals.end(); ++itr)
+        for(GUIDVector::const_iterator itr = infernals.begin(); itr!= infernals.end(); ++itr)
         {
             Creature *pInfernal = m_creature->GetMap()->GetCreature(*itr);
             if (pInfernal && pInfernal->isAlive())
@@ -394,8 +394,8 @@ struct MANGOS_DLL_DECL boss_malchezaarAI : public ScriptedAI
         if (m_creature->hasUnitState(UNIT_STAT_STUNNED))    //While shifting to phase 2 malchezaar stuns himself
             return;
 
-        if (m_creature->GetUInt64Value(UNIT_FIELD_TARGET)!=m_creature->getVictim()->GetGUID())
-            m_creature->SetUInt64Value(UNIT_FIELD_TARGET, m_creature->getVictim()->GetGUID());
+        if (m_creature->GetTargetGuid() != m_creature->getVictim()->GetObjectGuid())
+            m_creature->SetTargetGuid(m_creature->getVictim()->GetObjectGuid());
 
         if (phase == 1)
         {
@@ -597,7 +597,7 @@ struct MANGOS_DLL_DECL boss_malchezaarAI : public ScriptedAI
 
     void Cleanup(Creature *infernal, InfernalPoint *point)
     {
-        for(std::vector<uint64>::iterator itr = infernals.begin(); itr!= infernals.end(); ++itr)
+        for(GUIDVector::iterator itr = infernals.begin(); itr!= infernals.end(); ++itr)
             if (*itr == infernal->GetGUID())
         {
             infernals.erase(itr);

@@ -7,30 +7,33 @@
 
 enum
 {
-    MAX_ENCOUNTER               = 9,
+    MAX_ENCOUNTER               = 11,
     MAX_GENERATORS              = 5,
 
     // East
     TYPE_ALZZIN                 = 0,                        // Do not change - Handled with Acid
+    TYPE_ZEVRIM                 = 1,
+    TYPE_IRONBARK               = 2,
 
     // West
-    TYPE_IMMOLTHAR              = 1,
-    TYPE_PRINCE                 = 2,
-    TYPE_PYLON_1                = 3,
+    TYPE_IMMOLTHAR              = 3,
+    TYPE_PRINCE                 = 4,
+    TYPE_PYLON_1                = 5,
     TYPE_PYLON_2                = TYPE_PYLON_1 + 1,
     TYPE_PYLON_3                = TYPE_PYLON_1 + 2,
     TYPE_PYLON_4                = TYPE_PYLON_1 + 3,
     TYPE_PYLON_5                = TYPE_PYLON_1 + 4,
 
     // North
-    TYPE_KING_GORDOK            = 8,
+    TYPE_KING_GORDOK            = 10,
 
     // East
     GO_CRUMBLE_WALL             = 177220,
     GO_CORRUPT_VINE             = 179502,
     GO_FELVINE_SHARD            = 179559,
-    GO_CONSERVATORY_DOOR        = 176907,
+    GO_CONSERVATORY_DOOR        = 176907,                   // Opened by Ironbark the redeemed
 
+    NPC_ZEVRIM_THORNHOOF        = 11490,
     NPC_OLD_IRONBARK            = 11491,
     NPC_IRONBARK_REDEEMED       = 14241,
 
@@ -67,6 +70,7 @@ enum
 
     SAY_FREE_IMMOLTHAR          = -1429000,
     SAY_KILL_IMMOLTHAR          = -1429001,
+    SAY_IRONBARK_REDEEM         = -1429002,
 
     FACTION_HOSTILE             = 14,
     SPELL_KING_OF_GORDOK        = 22799,
@@ -108,7 +112,7 @@ class MANGOS_DLL_DECL instance_dire_maul : public ScriptedInstance
         uint64 m_uiConservatoryDoorGUID;
         uint64 m_uiOldIronbarkGUID;
 
-        std::list<uint64> m_lFelvineShardGUIDs;
+        GUIDList m_lFelvineShardGUIDs;
 
         // West
         uint64 m_auiCrystalGeneratorGUID[MAX_GENERATORS];
@@ -119,8 +123,8 @@ class MANGOS_DLL_DECL instance_dire_maul : public ScriptedInstance
         uint64 m_uiPrincesChestAuraGUID;
         uint64 m_uiTendrisWarpwoodDoorGUID;
 
-        std::list<uint64> m_luiHighborneSummonerGUIDs;
-        std::list<uint64> m_lGeneratorGuardGUIDs;
+        GUIDList m_luiHighborneSummonerGUIDs;
+        GUIDList m_lGeneratorGuardGUIDs;
         std::set<uint32> m_sSortedGeneratorGuards[MAX_GENERATORS];
 
         // North

@@ -61,6 +61,11 @@ void instance_dire_maul::OnCreatureCreate(Creature* pCreature)
 {
     switch(pCreature->GetEntry())
     {
+        // East
+        case NPC_OLD_IRONBARK:
+            m_uiOldIronbarkGUID = pCreature->GetGUID();
+            break;
+
         // West
         case NPC_PRINCE_TORTHELDRIN:
             m_uiPrinceTortheldrinGUID = pCreature->GetGUID();
@@ -96,9 +101,14 @@ void instance_dire_maul::OnObjectCreate(GameObject* pGo)
     switch(pGo->GetEntry())
     {
         // East
+        case GO_CONSERVATORY_DOOR:
+            m_uiConservatoryDoorGUID = pGo->GetGUID();
+            if (m_auiEncounter[TYPE_IRONBARK] == DONE)
+                pGo->SetGoState(GO_STATE_ACTIVE);
+            break;
         case GO_CRUMBLE_WALL:
             m_uiCrumbleWallGUID = pGo->GetGUID();
-            if (m_bWallDestroyed)
+            if (m_bWallDestroyed || m_auiEncounter[TYPE_ALZZIN] == DONE)
                 pGo->SetGoState(GO_STATE_ACTIVE);
             break;
         case GO_CORRUPT_VINE:
@@ -152,6 +162,21 @@ void instance_dire_maul::SetData(uint32 uiType, uint32 uiData)
     switch(uiType)
     {
         // East
+        case TYPE_ZEVRIM:
+            if (uiData == DONE)
+            {
+                // Update Old Ironbark so he can open the conservatory door
+                if (Creature* pIronbark = instance->GetCreature(m_uiOldIronbarkGUID))
+                {
+                    DoScriptText(SAY_IRONBARK_REDEEM, pIronbark);
+                    pIronbark->UpdateEntry(NPC_IRONBARK_REDEEMED);
+                }
+            }
+            m_auiEncounter[uiType] = uiData;
+            break;
+        case TYPE_IRONBARK:
+            m_auiEncounter[uiType] = uiData;
+            break;
         case TYPE_ALZZIN:                                   // This Encounter is expected to be handled within Acid (reason handling at 50% hp)
             if (uiData == DONE)
             {
@@ -165,8 +190,8 @@ void instance_dire_maul::SetData(uint32 uiType, uint32 uiData)
 
                 if (!m_lFelvineShardGUIDs.empty())
                 {
-                    for(std::list<uint64>::iterator i = m_lFelvineShardGUIDs.begin(); i != m_lFelvineShardGUIDs.end(); ++i)
-                        DoRespawnGameObject(*i);
+                    for(GUIDList::const_iterator itr = m_lFelvineShardGUIDs.begin(); itr != m_lFelvineShardGUIDs.end(); ++itr)
+                        DoRespawnGameObject(*itr);
                 }
             }
             else if (uiData == SPECIAL && !m_bWallDestroyed)
@@ -225,14 +250,15 @@ void instance_dire_maul::SetData(uint32 uiType, uint32 uiData)
             break;
     }
 
-    if (uiData >= DONE)
+    if (uiData == DONE)
     {
         OUT_SAVE_INST_DATA;
 
         std::ostringstream saveStream;
         saveStream    << m_auiEncounter[0] << " " << m_auiEncounter[1] << " " << m_auiEncounter[2] << " "
                       << m_auiEncounter[3] << " " << m_auiEncounter[4] << " " << m_auiEncounter[5] << " "
-                      << m_auiEncounter[6] << " " << m_auiEncounter[7] << " " << m_auiEncounter[8];
+                      << m_auiEncounter[6] << " " << m_auiEncounter[7] << " " << m_auiEncounter[8] << " "
+                      << m_auiEncounter[9] << " " << m_auiEncounter[10];
 
         m_strInstData = saveStream.str();
 
@@ -270,7 +296,7 @@ void instance_dire_maul::OnCreatureEnterCombat(Creature* pCreature)
         case NPC_MANA_REMNANT:
             if (!m_lGeneratorGuardGUIDs.empty())
             {
-                for (uint8 i = 0; i < MAX_GENERATORS; i++)
+                for (uint8 i = 0; i < MAX_GENERATORS; ++i)
                 {
                     GameObject* pGenerator = instance->GetGameObject(m_auiCrystalGeneratorGUID[i]);
                     // Skip non-existing or finished generators
@@ -278,7 +304,7 @@ void instance_dire_maul::OnCreatureEnterCombat(Creature* pCreature)
                         continue;
 
                     // Sort all remaining (alive) NPCs to unfinished generators
-                    for (std::list<uint64>::iterator itr = m_lGeneratorGuardGUIDs.begin(); itr != m_lGeneratorGuardGUIDs.end();)
+                    for (GUIDList::iterator itr = m_lGeneratorGuardGUIDs.begin(); itr != m_lGeneratorGuardGUIDs.end();)
                     {
                         Creature* pGuard = instance->GetCreature(*itr);
                         if (!pGuard || pGuard->isDead())    // Remove invalid guids and dead guards
@@ -309,11 +335,20 @@ void instance_dire_maul::OnCreatureDeath(Creature* pCreature)
 {
     switch (pCreature->GetEntry())
     {
+        // East
+        // - Handling Zevrim and Old Ironbark for the door event
+        case NPC_ZEVRIM_THORNHOOF:
+            SetData(TYPE_ZEVRIM, DONE);
+            break;
+        case NPC_IRONBARK_REDEEMED:
+            SetData(TYPE_IRONBARK, DONE);
+            break;
+
         // West
         // - Handling of guards of generators
         case NPC_ARCANE_ABERRATION:
         case NPC_MANA_REMNANT:
-            for (uint8 i = 0; i < MAX_GENERATORS; i++)
+            for (uint8 i = 0; i < MAX_GENERATORS; ++i)
             {
                 // Skip already activated generators
                 if (GetData(TYPE_PYLON_1 + i) == DONE)
@@ -356,7 +391,8 @@ void instance_dire_maul::Load(const char* chrIn)
     std::istringstream loadStream(chrIn);
     loadStream >>   m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >>
                     m_auiEncounter[3] >> m_auiEncounter[4] >> m_auiEncounter[5] >>
-                    m_auiEncounter[6] >> m_auiEncounter[7] >> m_auiEncounter[8];
+                    m_auiEncounter[6] >> m_auiEncounter[7] >> m_auiEncounter[8] >>
+                    m_auiEncounter[9] >> m_auiEncounter[10];
 
     if (m_auiEncounter[TYPE_ALZZIN] >= DONE)
        m_bWallDestroyed = true;
@@ -389,7 +425,7 @@ void instance_dire_maul::ProcessForceFieldOpening()
         return;
 
     bool bHasYelled = false;
-    for (std::list<uint64>::const_iterator itr = m_luiHighborneSummonerGUIDs.begin(); itr != m_luiHighborneSummonerGUIDs.end(); ++itr)
+    for (GUIDList::const_iterator itr = m_luiHighborneSummonerGUIDs.begin(); itr != m_luiHighborneSummonerGUIDs.end(); ++itr)
     {
         Creature* pSummoner = instance->GetCreature(*itr);
 

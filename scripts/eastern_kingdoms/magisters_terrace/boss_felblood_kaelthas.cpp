@@ -127,26 +127,14 @@ struct MANGOS_DLL_DECL boss_felblood_kaelthasAI : public ScriptedAI
         HasTaunted = false;
 
         Phase = 0;
-
-        if (m_pInstance)
-        {
-            m_pInstance->SetData(DATA_KAELTHAS_EVENT, NOT_STARTED);
-
-            if (GameObject* pDoor = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(DATA_KAEL_DOOR)))
-                pDoor->SetGoState(GO_STATE_ACTIVE);         // Open the big encounter door. Close it in Aggro and open it only in JustDied(and here)
-                                                            // Small door opened after event are expected to be closed by default
-        }
     }
 
     void JustDied(Unit *killer)
     {
         DoScriptText(SAY_DEATH, m_creature);
 
-        if (!m_pInstance)
-            return;
-
-        if (GameObject* pEncounterDoor = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(DATA_KAEL_DOOR)))
-            pEncounterDoor->SetGoState(GO_STATE_ACTIVE);    // Open the encounter door
+        if (m_pInstance)
+            m_pInstance->SetData(TYPE_KAELTHAS, DONE);
     }
 
     void DamageTaken(Unit* done_by, uint32 &damage)
@@ -157,11 +145,15 @@ struct MANGOS_DLL_DECL boss_felblood_kaelthasAI : public ScriptedAI
 
     void Aggro(Unit *who)
     {
-        if (!m_pInstance)
-            return;
+        if (m_pInstance)
+            m_pInstance->SetData(TYPE_KAELTHAS, IN_PROGRESS);
+    }
 
-        if (GameObject* pEncounterDoor = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(DATA_KAEL_DOOR)))
-            pEncounterDoor->SetGoState(GO_STATE_READY);     //Close the encounter door, open it in JustDied/Reset
+    void JustReachedHome()
+    {
+        if (m_pInstance)
+            m_pInstance->SetData(TYPE_KAELTHAS, FAIL);
+
     }
 
     void MoveInLineOfSight(Unit *who)
@@ -178,7 +170,7 @@ struct MANGOS_DLL_DECL boss_felblood_kaelthasAI : public ScriptedAI
     void JustSummoned(Creature* pSummoned)
     {
         if (pSummoned->GetEntry() == NPC_FLAME_STRIKE_TRIGGER)
-            pSummoned->CastSpell(pSummoned, SPELL_FLAME_STRIKE_DUMMY, false, NULL, NULL, m_creature->GetGUID());
+            pSummoned->CastSpell(pSummoned, SPELL_FLAME_STRIKE_DUMMY, false, NULL, NULL, m_creature->GetObjectGuid());
     }
 
     void SetThreatList(Creature* SummonedUnit)
@@ -225,7 +217,7 @@ struct MANGOS_DLL_DECL boss_felblood_kaelthasAI : public ScriptedAI
 
             // Knockback into the air
             if (pUnit && pUnit->GetTypeId() == TYPEID_PLAYER)
-                pUnit->CastSpell(pUnit, SPELL_GRAVITY_LAPSE_DOT, true, 0, 0, m_creature->GetGUID());
+                pUnit->CastSpell(pUnit, SPELL_GRAVITY_LAPSE_DOT, true, 0, 0, m_creature->GetObjectGuid());
         }
     }
 
@@ -240,7 +232,7 @@ struct MANGOS_DLL_DECL boss_felblood_kaelthasAI : public ScriptedAI
 
             // Also needs an exception in spell system.
             if (pUnit && pUnit->GetTypeId() == TYPEID_PLAYER)
-                pUnit->CastSpell(pUnit, SPELL_GRAVITY_LAPSE_FLY, true, 0, 0, m_creature->GetGUID());
+                pUnit->CastSpell(pUnit, SPELL_GRAVITY_LAPSE_FLY, true, 0, 0, m_creature->GetObjectGuid());
         }
     }
 
@@ -352,10 +344,10 @@ struct MANGOS_DLL_DECL boss_felblood_kaelthasAI : public ScriptedAI
 
                                 if (m_pInstance)
                                 {
-                                    if (GameObject* pKaelLeft = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(DATA_KAEL_STATUE_LEFT)))
+                                    if (GameObject* pKaelLeft = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(GO_KAEL_STATUE_LEFT)))
                                         pKaelLeft->SetGoState(GO_STATE_ACTIVE);
 
-                                    if (GameObject* pKaelRight = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(DATA_KAEL_STATUE_RIGHT)))
+                                    if (GameObject* pKaelRight = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(GO_KAEL_STATUE_RIGHT)))
                                         pKaelRight->SetGoState(GO_STATE_ACTIVE);
                                 }
                             }
@@ -453,7 +445,7 @@ struct MANGOS_DLL_DECL mob_felkael_phoenixAI : public ScriptedAI
 
         }
         //Don't really die in all phases of Kael'Thas
-        if (m_pInstance && m_pInstance->GetData(DATA_KAELTHAS_EVENT) == 0)
+        if (m_pInstance && m_pInstance->GetData(TYPE_KAELTHAS) == NOT_STARTED)
         {
             //prevent death
             damage = 0;
@@ -468,7 +460,7 @@ struct MANGOS_DLL_DECL mob_felkael_phoenixAI : public ScriptedAI
             m_creature->ModifyAuraState(AURA_STATE_HEALTHLESS_35_PERCENT, false);
             m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
             m_creature->ClearAllReactives();
-            m_creature->SetUInt64Value(UNIT_FIELD_TARGET,0);
+            m_creature->SetTargetGuid(ObjectGuid());
             m_creature->GetMotionMaster()->Clear();
             m_creature->GetMotionMaster()->MoveIdle();
             m_creature->SetStandState(UNIT_STAND_STATE_DEAD);

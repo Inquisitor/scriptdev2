@@ -7,7 +7,7 @@
 
 enum
 {
-    MAX_ENCOUNTER               = 7,
+    MAX_ENCOUNTER               = 8,
     MAX_SILVERHAND              = 5,
     MAX_ZIGGURATS               = 3,
 
@@ -19,6 +19,7 @@ enum
     TYPE_RAMSTEIN_OBSOLETE      = 5,                        // Still set in Acid, remove when removed from Acid :)
     TYPE_BARON                  = 6,                        // Adapt then
     TYPE_BARTHILAS_RUN          = 7,
+    TYPE_BLACK_GUARDS           = 8,
 
     TYPE_SH_QUEST               = 20,
     TYPE_SH_CATHELA             = 21,
@@ -120,7 +121,6 @@ struct MANGOS_DLL_DECL instance_stratholme : public ScriptedInstance
     protected:
         uint32 m_auiEncounter[MAX_ENCOUNTER];
         bool m_bIsSilverHandDead[MAX_SILVERHAND];
-        bool m_bIsSlaughterhouseGateOpened;
         std::string strInstData;
 
         uint32 m_uiBaronRunTimer;
@@ -148,12 +148,12 @@ struct MANGOS_DLL_DECL instance_stratholme : public ScriptedInstance
         uint64 m_uiAcolyteAnnouncerGUID;
         uint64 m_auiCrystalSortedGUID[MAX_ZIGGURATS];
 
-        std::list<uint64> m_luiCrystalGUIDs;
-        std::set<uint64> m_sAbomnationGUID;
-        std::list<uint64> m_luiAcolyteGUIDs;
-        std::list<uint64> m_alZigguratAcolyteGUID[MAX_ZIGGURATS];
-        std::list<uint64> m_luiUndeadGUIDs;
-        std::list<uint64> m_luiGuardGUIDs;
+        GUIDList m_luiCrystalGUIDs;
+        GUIDSet m_sAbomnationGUID;
+        GUIDList m_luiAcolyteGUIDs;
+        GUIDList m_alZigguratAcolyteGUID[MAX_ZIGGURATS];
+        GUIDList m_luiUndeadGUIDs;
+        GUIDList m_luiGuardGUIDs;
 };
 
 #endif

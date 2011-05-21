@@ -85,7 +85,7 @@ struct MANGOS_DLL_DECL boss_vexallusAI : public ScriptedAI
         Enraged = false;
 
         if (m_pInstance)
-            m_pInstance->SetData(DATA_VEXALLUS_EVENT, NOT_STARTED);
+            m_pInstance->SetData(TYPE_VEXALLUS, NOT_STARTED);
     }
 
     void KilledUnit(Unit *victim)
@@ -96,7 +96,7 @@ struct MANGOS_DLL_DECL boss_vexallusAI : public ScriptedAI
     void JustDied(Unit *victim)
     {
         if (m_pInstance)
-            m_pInstance->SetData(DATA_VEXALLUS_EVENT, DONE);
+            m_pInstance->SetData(TYPE_VEXALLUS, DONE);
     }
 
     void Aggro(Unit *who)
@@ -104,7 +104,7 @@ struct MANGOS_DLL_DECL boss_vexallusAI : public ScriptedAI
         DoScriptText(SAY_AGGRO, m_creature);
 
         if (m_pInstance)
-            m_pInstance->SetData(DATA_VEXALLUS_EVENT, IN_PROGRESS);
+            m_pInstance->SetData(TYPE_VEXALLUS, IN_PROGRESS);
     }
 
     void JustSummoned(Creature* pSummoned)
@@ -112,7 +112,7 @@ struct MANGOS_DLL_DECL boss_vexallusAI : public ScriptedAI
         if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             pSummoned->GetMotionMaster()->MoveFollow(pTarget, 0.0f, 0.0f);
 
-        pSummoned->CastSpell(pSummoned, SPELL_ENERGY_BOLT, false, NULL, NULL, m_creature->GetGUID());
+        pSummoned->CastSpell(pSummoned, SPELL_ENERGY_BOLT, false, NULL, NULL, m_creature->GetObjectGuid());
     }
 
     void UpdateAI(const uint32 diff)
