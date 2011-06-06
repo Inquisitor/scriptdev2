@@ -681,6 +681,7 @@ UPDATE creature_template SET ScriptName='npc_silvermoon_harry' WHERE entry=24539
 
 /* FORGE OF SOULS */
 UPDATE creature_template SET ScriptName='boss_bronjahm' WHERE entry=36497;
+UPDATE creature_template SET ScriptName='npc_corrupted_soul_fragment' WHERE entry=36535;
 UPDATE creature_template SET ScriptName='boss_devourer_of_souls' WHERE entry=36502;
 UPDATE instance_template SET ScriptName='instance_forge_of_souls' WHERE map=632;
 
@@ -1047,6 +1048,11 @@ INSERT INTO scripted_event_id VALUES
 (3098,'event_antalarion_statue_activation'),
 (3099,'event_antalarion_statue_activation'),
 (3100,'event_antalarion_statue_activation');
+UPDATE creature_template SET ScriptName='npc_shade_of_hakkar' WHERE entry=8440;
+UPDATE gameobject_template SET ScriptName='go_eternal_flame' WHERE entry IN (148418,148419,148420,148421);
+DELETE FROM scripted_event_id WHERE id=8502;
+INSERT INTO scripted_event_id VALUES
+(8502,'event_avatar_of_hakkar');
 
 /* SUNWELL PLATEAU */
 UPDATE instance_template SET ScriptName='instance_sunwell_plateau' WHERE map=580;
