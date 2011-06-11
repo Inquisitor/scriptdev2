@@ -105,8 +105,8 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
         m_creature->SetUInt32Value(UNIT_FIELD_BYTES_0, 0);
         m_creature->SetUInt32Value(UNIT_FIELD_BYTES_1, 0);
 
-        Creature* pTemp1 = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_RIMEFANG));
-        Creature* pTemp2 = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_SPINESTALKER));
+        Creature* pTemp1 = pInstance->GetSingleCreatureFromStorage(NPC_RIMEFANG);
+        Creature* pTemp2 = pInstance->GetSingleCreatureFromStorage(NPC_SPINESTALKER);
 
         if (pTemp1 && pTemp1->isAlive() && pTemp2 && pTemp2->isAlive())
             m_creature->ForcedDespawn();
@@ -135,10 +135,10 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
         doRemoveFromAll(SPELL_ICY_TOMB);
         DoScriptText(-1631422,m_creature);
 
-        if (Creature* pTemp = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_RIMEFANG)))
+        if (Creature* pTemp = pInstance->GetSingleCreatureFromStorage(NPC_RIMEFANG))
            if (!pTemp->isAlive())
                pTemp->Respawn();
-        if (Creature* pTemp = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_SPINESTALKER)))
+        if (Creature* pTemp = pInstance->GetSingleCreatureFromStorage(NPC_SPINESTALKER))
            if (!pTemp->isAlive())
                pTemp->Respawn();
 
@@ -181,9 +181,9 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
         pInstance->SetData(TYPE_SINDRAGOSA, DONE);
         DoScriptText(-1631423,m_creature,killer);
 
-        if (Creature* pTemp = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_RIMEFANG)))
+        if (Creature* pTemp = pInstance->GetSingleCreatureFromStorage(NPC_RIMEFANG))
             pTemp->SetRespawnDelay(7*DAY);
-        if (Creature* pTemp = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_SPINESTALKER)))
+        if (Creature* pTemp = pInstance->GetSingleCreatureFromStorage(NPC_SPINESTALKER))
             pTemp->SetRespawnDelay(7*DAY);
     }
 
@@ -381,12 +381,12 @@ struct MANGOS_DLL_DECL mob_ice_tombAI : public BSWScriptedAI
     }
 
     ScriptedInstance* m_pInstance;
-    uint64 victimGUID;
+    ObjectGuid victimGUID;
 
     void Reset()
     {
         SetCombatMovement(false);
-        victimGUID = 0;
+        victimGUID.Clear();
         m_creature->SetRespawnDelay(7*DAY);
     }
 
@@ -396,12 +396,12 @@ struct MANGOS_DLL_DECL mob_ice_tombAI : public BSWScriptedAI
         {
              if (pWho->HasAura(SPELL_ICY_TOMB))
              {
-                 victimGUID = pWho->GetGUID();
+                 victimGUID = pWho->GetObjectGuid();
                  m_creature->SetInCombatWith(pWho);
              }
              else if (Unit* pTarget = doSelectRandomPlayer(SPELL_ICY_TOMB,true,3.0f))
              {
-                 victimGUID = pTarget->GetGUID();
+                 victimGUID = pTarget->GetObjectGuid();
                  m_creature->SetInCombatWith(pTarget);
              }
 
@@ -558,7 +558,7 @@ struct MANGOS_DLL_DECL mob_rimefangAI : public BSWScriptedAI
     {
         if(!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE) pInstance->SetData(TYPE_SINDRAGOSA, IN_PROGRESS);
-        pBrother = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_SPINESTALKER));
+        pBrother = pInstance->GetSingleCreatureFromStorage(NPC_SPINESTALKER);
         if (pBrother && !pBrother->isAlive()) pBrother->Respawn();
         if (pBrother) pBrother->SetInCombatWithZone();
     }
@@ -648,7 +648,7 @@ struct MANGOS_DLL_DECL mob_spinestalkerAI : public BSWScriptedAI
     {
         if(!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE) pInstance->SetData(TYPE_SINDRAGOSA, IN_PROGRESS);
-        pBrother = m_creature->GetMap()->GetCreature(pInstance->GetData64(NPC_RIMEFANG));
+        pBrother = pInstance->GetSingleCreatureFromStorage(NPC_RIMEFANG);
         if (pBrother && !pBrother->isAlive()) pBrother->Respawn();
         if (pBrother) pBrother->SetInCombatWithZone();
     }
