@@ -46,7 +46,7 @@ void BSWScriptedInstance::DoOpenDoor(ObjectGuid guid)
     if (pGo)
         pGo->SetGoState(GO_STATE_ACTIVE);
     else
-        debug_log("BSW: DoOpenDoor attempt set data to object %u, but no this object", guid);
+        debug_log("BSW: DoOpenDoor attempt set data to object %u, but no this object", guid.GetCounter());
 }
 
 void BSWScriptedInstance::DoCloseDoor(ObjectGuid guid)
@@ -59,14 +59,17 @@ void BSWScriptedInstance::DoCloseDoor(ObjectGuid guid)
     if (pGo)
         pGo->SetGoState(GO_STATE_READY);
     else
-        debug_log("BSW: DoCloseDoor attempt set data to object %u, but no this object", guid);
+        debug_log("BSW: DoCloseDoor attempt set data to object %u, but no this object", guid.GetCounter());
 }
 
 void BSWScriptedInstance::DoOpenDoor(uint32 entry)
 {
     EntryGuidMap::iterator find = m_mGoEntryGuidStore.find(entry);
     if (find != m_mGoEntryGuidStore.end())
-        DoOpenDoor(find->second);
+    {
+        ObjectGuid guid = find->second;
+        DoOpenDoor(guid);
+    }
     else
         debug_log("BSW: Script call DoOpenDoor (by Entry), but no gameobject of entry %u was created yet, or it was not stored by script for map %u.", entry, instance->GetId());
 }
@@ -75,7 +78,10 @@ void BSWScriptedInstance::DoCloseDoor(uint32 entry)
 {
     EntryGuidMap::iterator find = m_mGoEntryGuidStore.find(entry);
     if (find != m_mGoEntryGuidStore.end())
-        DoCloseDoor(find->second);
+    {
+        ObjectGuid guid = find->second;
+        DoCloseDoor(guid);
+    }
     else
         debug_log("BSW: Script call DoCloseDoor (by Entry), but no gameobject of entry %u was created yet, or it was not stored by script for map %u.", entry, instance->GetId());
 }
