@@ -33,8 +33,6 @@ class OutdoorPvP_ZoneSelector : public OutdoorPvP
 
         ~OutdoorPvP_ZoneSelector()
         {
-            for (ZoneScriptsSet::iterator itr = m_scriptsSet.begin(); itr != m_scriptsSet.end(); ++itr)
-                delete (*itr);
         }
 
         ZoneScriptsMap m_scriptsMap;

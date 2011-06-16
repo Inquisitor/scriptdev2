@@ -94,9 +94,6 @@ void FreeScriptLibrary()
 
     m_scripts.clear();
 
-    for (std::map<std::string, Script*>::iterator itr = m_scriptStorage.begin(); itr != m_scriptStorage.end(); ++itr)
-        delete itr->second;
-
     num_sc_scripts = 0;
     SD2Database.HaltDelayThread();
 }
