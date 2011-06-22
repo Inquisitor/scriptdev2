@@ -319,24 +319,24 @@ bool GossipSelect_npc_sa_vendor(Player* pPlayer, Creature* pCreature, uint32 uiS
 
 static float SpawnLocation[7][3]=
 {
-    {1468.12f, -225.7f, 30.8969f},
     {1394.07f, 72.3632f, 31.0541f},
+    {1468.12f, -225.7f, 30.8969f},
     {1216.12f, 47.7665f, 54.2785f},
     {1255.73f, -233.153f, 56.4357f},
     {1065.02f, -89.9522f, 81.0758f},
     {880.162f, -95.979f, 109.835f},
-    {880.68f, -120.799f, 109.835f},
+    {808.447f, -109.192f, 109.835f},
 };
  
 static float TeleLocation[7][3]=
 {
-    {1451.72f, -224.863f, 41.9564f},
     {1401.6f, 88.6693f, 41.1833f},
+    {1451.72f, -224.863f, 41.9564f},
     {1210.68f, 60.3558f, 64.7388f},
     {1245.03f, -226.439f, 66.7201f},
     {1062.83f, -87.1955f, 93.8061f},
     {808.447f, -109.192f, 109.835f},
-    {808.447f, -109.192f, 109.835f},
+    {880.68f, -120.799f, 109.835f},
 };
  
 bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
@@ -353,8 +353,49 @@ bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
                     (pGo->GetPositionY() == SpawnLocation[i][1]) &&
                     (pGo->GetPositionZ() == SpawnLocation[i][2]))
                     {
-                        pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i][0],TeleLocation[i][1],TeleLocation[i][2],0);
-                        return true;
+                        if(((BattleGroundSA*)bg)->GetGateStatus(i+1) != BG_SA_GO_GATES_DESTROY)
+                        {
+                            pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i][0],TeleLocation[i][1],TeleLocation[i][2],0);
+                            return true;
+                        }
+                        else if(i == 0 || i == 1)
+                        {
+                            if(i == 0)
+                                if(((BattleGroundSA*)bg)->GetGateStatus(2) != BG_SA_GO_GATES_DESTROY)
+                                    pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+1][0],TeleLocation[i+1][1],TeleLocation[i+1][2],0);
+                                else
+                                    pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+2][0],TeleLocation[i+2][1],TeleLocation[i+2][2],0);
+
+                            if(i == 1)
+                                if(((BattleGroundSA*)bg)->GetGateStatus(1) != BG_SA_GO_GATES_DESTROY)
+                                    pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i-1][0],TeleLocation[i-1][1],TeleLocation[i-1][2],0);
+                                else
+                                    pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+1][0],TeleLocation[i+1][1],TeleLocation[i+1][2],0);
+
+                            return true;
+                        }
+                        else if(i == 2 || i == 3)
+                        {
+                            if(i == 2)
+                                if(((BattleGroundSA*)bg)->GetGateStatus(4) != BG_SA_GO_GATES_DESTROY)
+                                    pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+1][0],TeleLocation[i+1][1],TeleLocation[i+1][2],0);
+                                else
+                                    pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+2][0],TeleLocation[i+2][1],TeleLocation[i+2][2],0);
+
+                            if(i == 3)
+                                if(((BattleGroundSA*)bg)->GetGateStatus(3) != BG_SA_GO_GATES_DESTROY)
+                                    pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i-1][0],TeleLocation[i-1][1],TeleLocation[i-1][2],0);
+                                else
+                                    pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+1][0],TeleLocation[i+1][1],TeleLocation[i+1][2],0);
+
+                            return true;
+                        }
+                        else if(i == 4 || i == 5)
+                        {
+                            pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+1][0],TeleLocation[i+1][1],TeleLocation[i+1][2],0);
+                            return true;
+                        }
+
                     }
                 }
             } else pPlayer->MonsterSay("You are not defender!",LANG_UNIVERSAL, pPlayer);
