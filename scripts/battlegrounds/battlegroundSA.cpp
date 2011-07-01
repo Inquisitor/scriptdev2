@@ -49,15 +49,29 @@ struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
 
     void Aggro(Unit* who){ m_creature->CombatStop(); }
 
-    void StartEvent(Player* pPlayer)
+    void EnterCombat(Unit *pEnemy)
+    {
+        if (!m_creature->isCharmed())
+            m_creature->CombatStop();
+    }
+
+    void StartEvent(Player* pPlayer, Creature* pCreature)
     {
         if (BattleGround *bg = pPlayer->GetBattleGround())
         {
             if (((BattleGroundSA*)bg)->GetDefender() == pPlayer->GetTeam() || bg->GetStatus() == STATUS_WAIT_JOIN)
                 return;
 
-            if (VehicleKit *vehicle = m_creature->GetVehicleKit())
-                pPlayer->EnterVehicle(vehicle);
+            if (VehicleKit *vehicle = pCreature->GetVehicleKit())
+            {
+                if (!pCreature->GetCharmerGuid().IsEmpty())
+                    pPlayer->EnterVehicle(vehicle);
+                else
+                {
+                    pPlayer->EnterVehicle(vehicle);
+                    pPlayer->CastSpell(pCreature, 60968, true);
+                }
+            }
         }
     }
 
@@ -116,7 +130,7 @@ CreatureAI* GetAI_npc_sa_demolisher(Creature* pCreature)
 bool GossipHello_npc_sa_demolisher(Player* pPlayer, Creature* pCreature)
 {
      pPlayer->CLOSE_GOSSIP_MENU();
-     ((npc_sa_demolisherAI*)pCreature->AI())->StartEvent(pPlayer);
+     ((npc_sa_demolisherAI*)pCreature->AI())->StartEvent(pPlayer, pCreature);
          return true;
 }
  
@@ -138,15 +152,23 @@ struct MANGOS_DLL_DECL npc_sa_cannonAI : public ScriptedAI
 
     void Aggro(Unit* who){ m_creature->CombatStop(); }
 
-    void StartEvent(Player* pPlayer)
+    void StartEvent(Player* pPlayer, Creature* pCreature)
     {
         if (BattleGround *bg = pPlayer->GetBattleGround())
         {
             if (bg->GetDefender() != pPlayer->GetTeam() || bg->GetStatus() == STATUS_WAIT_JOIN)
                 return;
 
-            if (VehicleKit *vehicle = m_creature->GetVehicleKit())
-                pPlayer->EnterVehicle(vehicle);
+            if (VehicleKit *vehicle = pCreature->GetVehicleKit())
+            {
+                if (!pCreature->GetCharmerGuid().IsEmpty())
+                    pPlayer->EnterVehicle(vehicle);
+                else
+                {
+                    pPlayer->EnterVehicle(vehicle);
+                    pPlayer->CastSpell(pCreature, 60968, true);
+                }
+            }
         }
     }
  
@@ -193,7 +215,7 @@ CreatureAI* GetAI_npc_sa_cannon(Creature* pCreature)
 bool GossipHello_npc_sa_cannon(Player* pPlayer, Creature* pCreature)
 {
      pPlayer->CLOSE_GOSSIP_MENU();
-     ((npc_sa_cannonAI*)pCreature->AI())->StartEvent(pPlayer);
+     ((npc_sa_cannonAI*)pCreature->AI())->StartEvent(pPlayer, pCreature);
          return true;
 }
  
