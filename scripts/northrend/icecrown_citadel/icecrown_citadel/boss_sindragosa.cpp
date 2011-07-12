@@ -87,6 +87,8 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
     bool first_beacon;
     Unit* marked[5];
     uint8 bombs;
+    uint32 m_uiBlisteringColdDelay;
+    uint32 m_uiFrostBeaconDelay;
 
     void Reset()
     {
@@ -98,6 +100,8 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
         bombs = 0;
         gripped = false;
         first_beacon = true;
+        m_uiBlisteringColdDelay = 3000;
+        m_uiFrostBeaconDelay = 7000;
         m_creature->SetRespawnDelay(7*DAY);
         m_creature->SetSpeedRate(MOVE_RUN, 1.0f);
         m_creature->SetSpeedRate(MOVE_WALK, 1.0f);
@@ -246,13 +250,28 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
                     {
                         doCast(SPELL_ICY_GRIP);
                         gripped = true;
+                        m_uiBlisteringColdDelay = 1200;
                     }
 
-                    if (gripped && !m_creature->IsNonMeleeSpellCasted(true,false,false))
+                    // delaying Blistering Cold
+                    if (gripped)
+                    {
+                        if (m_uiBlisteringColdDelay && m_uiBlisteringColdDelay > diff)
+                        {
+                            m_uiBlisteringColdDelay -= diff;
+                        }
+                        else
+                        {
+                            m_uiBlisteringColdDelay = 0;
+                        }
+                    }
+
+                    if (gripped && !m_uiBlisteringColdDelay && !m_creature->IsNonMeleeSpellCasted(true,false,false))
                     {
                         DoScriptText(-1631426,m_creature);
                         doCast(SPELL_BLISTERING_COLD);
                         gripped = false;
+                        m_uiBlisteringColdDelay = 1200;
                     }
 
                     if ((first_beacon || timedQuery(SPELL_FROST_BEACON, diff)) && m_creature->GetHealthPercent() < 85.0f)
@@ -271,6 +290,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
             case 1: 
                     DoScriptText(-1631425,m_creature);
                     IceMark();
+                    m_uiFrostBeaconDelay = 7000;
                     setStage(2);
                     MovementStarted = true;
                     SetCombatMovement(false);
@@ -282,11 +302,26 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
                     m_creature->HandleEmoteCommand(EMOTE_ONESHOT_FLY_SIT_GROUND_UP);
                 break;
             case 2:
+                    if (m_uiFrostBeaconDelay)
+                    {
+                        if (m_uiFrostBeaconDelay > diff)
+                        {
+                            m_uiFrostBeaconDelay -= diff;
+                        }
+                        else
+                        {
+                            m_uiFrostBeaconDelay = 0;
+                        }
+                    }
                     if (!MovementStarted) 
                     {
-                        setStage(3);
-                        m_creature->SetOrientation(3.1f);
-                        m_creature->SetUInt32Value(UNIT_NPC_EMOTESTATE, EMOTE_STATE_FLY_FALL);
+                        if (!m_uiFrostBeaconDelay)
+                        {
+                            m_uiFrostBeaconDelay = 7000;
+                            setStage(3);
+                            m_creature->SetOrientation(3.1f);
+                            m_creature->SetUInt32Value(UNIT_NPC_EMOTESTATE, EMOTE_STATE_FLY_FALL);
+                        }
                     };
                 break;
             case 3:
