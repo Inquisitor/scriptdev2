@@ -27,7 +27,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "ruby_sanctum.h"
 
-enum 
+enum
 {
     //SPELLS
     //All
@@ -55,7 +55,7 @@ enum
     SPELL_CORPOREALITY_40D                      = 74833, // Damage dealt reduced by 30% & Damage taken reduced by 50%
     SPELL_CORPOREALITY_60D                      = 74834, // Damage dealt reduced by 60% & Damage taken reduced by 100%
     SPELL_CORPOREALITY_80D                      = 74835, // Damage dealt reduced by 100% & Damage taken reduced by 200%
-    SPELL_CORPOREALITY_100D                     = 74836, // Damage dealt reduced by 200% & Damage taken reduced by 400% 
+    SPELL_CORPOREALITY_100D                     = 74836, // Damage dealt reduced by 200% & Damage taken reduced by 400%
     //METEOR STRIKE
     SPELL_METEOR                                = 74637, // Script Start (summon NPC_METEOR_STRIKE)
     SPELL_METEOR_IMPACT                         = 74641, // IMPACT ZONE FOR METEOR
@@ -130,7 +130,7 @@ struct MANGOS_DLL_DECL boss_halion_realAI : public BSWScriptedAI
             return;
         m_creature->SetRespawnDelay(7*DAY);
 
-        if (m_creature->isAlive()) 
+        if (m_creature->isAlive())
         {
             pInstance->SetData(TYPE_HALION, NOT_STARTED);
             pInstance->SetData(TYPE_HALION_EVENT, FAIL);
@@ -164,7 +164,7 @@ struct MANGOS_DLL_DECL boss_halion_realAI : public BSWScriptedAI
                 m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
                 m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
                 m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
-                DoScriptText(-1666100,m_creature);
+                DoScriptText(SAY_HALION_SPAWN,m_creature);
                 intro = true;
                 m_creature->SetActiveObjectState(true);
             }
@@ -206,7 +206,7 @@ struct MANGOS_DLL_DECL boss_halion_realAI : public BSWScriptedAI
             return;
         m_creature->SetActiveObjectState(false);
 
-        DoScriptText(-1666104,m_creature);
+        DoScriptText(SAY_HALION_DEATH,m_creature);
 
         if (Creature* pclone = pInstance->GetSingleCreatureFromStorage(NPC_HALION_TWILIGHT))
         {
@@ -243,10 +243,10 @@ struct MANGOS_DLL_DECL boss_halion_realAI : public BSWScriptedAI
         switch (urand(0,1))
         {
             case 0:
-                DoScriptText(-1631006,m_creature,pVictim);
+                DoScriptText(SAY_HALION_SLAY_1,m_creature,pVictim);
                 break;
             case 1:
-                DoScriptText(-1631007,m_creature,pVictim);
+                DoScriptText(SAY_HALION_SLAY_2,m_creature,pVictim);
                 break;
         };
     }
@@ -261,7 +261,7 @@ struct MANGOS_DLL_DECL boss_halion_realAI : public BSWScriptedAI
         m_creature->SetInCombatWithZone();
         pInstance->SetData(TYPE_HALION, IN_PROGRESS);
         pInstance->SetData(TYPE_HALION_BERSERK, HALION_BERSERK_TIMER);
-        DoScriptText(-1666101,m_creature);
+        DoScriptText(SAY_HALION_AGGRO,m_creature);
     }
 
     void MovementInform(uint32 type, uint32 id)
@@ -373,7 +373,7 @@ struct MANGOS_DLL_DECL boss_halion_realAI : public BSWScriptedAI
             case 1: // Switch to phase 2
                 m_creature->AttackStop();
                 m_creature->InterruptNonMeleeSpells(true);
-                DoScriptText(-1666108,m_creature);
+                DoScriptText(SAY_HALION_PHASE_2,m_creature);
                 pInstance->SetData(TYPE_HALION_EVENT, NOT_STARTED);
                 SetCombatMovement(false);
                 StartMovement(0);
@@ -446,7 +446,7 @@ struct MANGOS_DLL_DECL boss_halion_realAI : public BSWScriptedAI
 
             case 6: // Switch to phase 3
 //                doCast(SPELL_TWILIGHT_DIVISION);
-                DoScriptText(-1666109,m_creature);
+                DoScriptText(SAY_HALION_PHASE_3,m_creature);
                 pInstance->SetData(TYPE_HALION_EVENT, SPECIAL);
                 pInstance->SetData(TYPE_HALION_DMG_TAKEN_REAL, 0);
                 pInstance->SetData(TYPE_HALION_DMG_TAKEN_TWILIGHT, 0);
@@ -530,7 +530,7 @@ CreatureAI* GetAI_boss_halion_real(Creature* pCreature)
 
 struct MANGOS_DLL_DECL boss_halion_twilightAI : public BSWScriptedAI
 {
-    boss_halion_twilightAI(Creature* pCreature) : BSWScriptedAI(pCreature) 
+    boss_halion_twilightAI(Creature* pCreature) : BSWScriptedAI(pCreature)
     {
         pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
         Reset();
@@ -540,7 +540,7 @@ struct MANGOS_DLL_DECL boss_halion_twilightAI : public BSWScriptedAI
     uint8 stage;
     bool intro;
 
-    void Reset() 
+    void Reset()
     {
         if(!pInstance)
             return;
@@ -589,7 +589,7 @@ struct MANGOS_DLL_DECL boss_halion_twilightAI : public BSWScriptedAI
         ScriptedAI::EnterEvadeMode();
     }
 
-    void MoveInLineOfSight(Unit* pWho) 
+    void MoveInLineOfSight(Unit* pWho)
     {
         if (!pInstance) return;
 
@@ -618,7 +618,7 @@ struct MANGOS_DLL_DECL boss_halion_twilightAI : public BSWScriptedAI
     {
         if (!pInstance)
             return;
-        DoScriptText(-1666104,m_creature);
+        DoScriptText(SAY_HALION_DEATH,m_creature);
         doRemoveFromAll(SPELL_TWILIGHT_ENTER);
         if (Creature* pReal = pInstance->GetSingleCreatureFromStorage(NPC_HALION_REAL))
             if (!pReal->isAlive())
@@ -635,10 +635,10 @@ struct MANGOS_DLL_DECL boss_halion_twilightAI : public BSWScriptedAI
         switch (urand(0,1))
         {
             case 0:
-                DoScriptText(-1631006,m_creature,pVictim);
+                DoScriptText(SAY_HALION_SLAY_1,m_creature,pVictim);
                 break;
             case 1:
-                DoScriptText(-1631007,m_creature,pVictim);
+                DoScriptText(SAY_HALION_SLAY_2,m_creature,pVictim);
                 break;
         };
     }
@@ -712,7 +712,7 @@ struct MANGOS_DLL_DECL boss_halion_twilightAI : public BSWScriptedAI
 
             case 2:           //To two realms
                 pInstance->SetData(TYPE_HALION_EVENT, IN_PROGRESS);
-                DoScriptText(-1666109,m_creature);
+                DoScriptText(SAY_HALION_PHASE_3,m_creature);
                 m_creature->SummonGameobject(GO_HALION_PORTAL_3, SpawnLoc[0].x, SpawnLoc[0].y, SpawnLoc[0].z, 0, 0);
                 if (GameObject* pGoPortal = pInstance->GetSingleGameObjectFromStorage(GO_HALION_PORTAL_3))
                       pGoPortal->SetPhaseMask(32,true);
@@ -860,7 +860,7 @@ struct MANGOS_DLL_DECL mob_halion_flameAI : public BSWScriptedAI
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
         m_creature->SetDisplayId(11686);
         m_creature->SetRespawnDelay(7*DAY);
-        SetCombatMovement(false); 
+        SetCombatMovement(false);
         m_creature->SetInCombatWithZone();
     }
 
@@ -901,7 +901,7 @@ static HalionBuffLine Buff[]=
 
 struct MANGOS_DLL_DECL mob_halion_controlAI : public BSWScriptedAI
 {
-    mob_halion_controlAI(Creature* pCreature) : BSWScriptedAI(pCreature) 
+    mob_halion_controlAI(Creature* pCreature) : BSWScriptedAI(pCreature)
     {
         pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
         Reset();
@@ -941,7 +941,7 @@ struct MANGOS_DLL_DECL mob_halion_controlAI : public BSWScriptedAI
 
     void UpdateAI(const uint32 diff)
     {
-        if (!pInstance || pInstance->GetData(TYPE_HALION) != IN_PROGRESS) 
+        if (!pInstance || pInstance->GetData(TYPE_HALION) != IN_PROGRESS)
               m_creature->ForcedDespawn();
 
         if (!pInstance) return;
@@ -969,13 +969,13 @@ struct MANGOS_DLL_DECL mob_halion_controlAI : public BSWScriptedAI
                     pInstance->SetData(TYPE_HALION_EVENT, FAIL);
                     pInstance->SetData(TYPE_HALION, FAIL);
                     m_creature->ForcedDespawn();
-                } 
-                else 
+                }
+                else
                 {
                     m_detectplayers = false;
                 }
-            } 
-            else 
+            }
+            else
             {
                 m_detectplayers = true;
             }
@@ -1004,7 +1004,7 @@ struct MANGOS_DLL_DECL mob_halion_controlAI : public BSWScriptedAI
             {
                 buffnum = m_lastBuffNum - 1;
             }
-            else 
+            else
             {
                 if (m_diff>0)
                 {
@@ -1046,7 +1046,7 @@ struct MANGOS_DLL_DECL mob_halion_controlAI : public BSWScriptedAI
 
             if (!m_lastBuffTwilight || m_lastBuffTwilight != Buff[buffnum].twilight)
             {
-                if (m_lastBuffTwilight) 
+                if (m_lastBuffTwilight)
                 {
                     doRemove(m_lastBuffTwilight, pHalionTwilight);
                 }
@@ -1071,7 +1071,7 @@ CreatureAI* GetAI_mob_halion_control(Creature* pCreature)
 
 struct MANGOS_DLL_DECL mob_orb_rotation_focusAI : public ScriptedAI
 {
-    mob_orb_rotation_focusAI(Creature* pCreature) : ScriptedAI(pCreature) 
+    mob_orb_rotation_focusAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
         pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
         Reset();
@@ -1093,7 +1093,7 @@ struct MANGOS_DLL_DECL mob_orb_rotation_focusAI : public ScriptedAI
 //        m_creature->SetDisplayId(10045);
         m_creature->SetRespawnDelay(7*DAY);
         m_creature->SetPhaseMask(65535, true);
-        SetCombatMovement(false); 
+        SetCombatMovement(false);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
         m_direction = 0.0f;
@@ -1129,7 +1129,7 @@ struct MANGOS_DLL_DECL mob_orb_rotation_focusAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if (!pInstance || pInstance->GetData(TYPE_HALION) != IN_PROGRESS) 
+        if (!pInstance || pInstance->GetData(TYPE_HALION) != IN_PROGRESS)
               m_creature->ForcedDespawn();
 
         if (pInstance->GetData(DATA_ORB_S) == DONE && pInstance->GetData(DATA_ORB_N) == DONE)
@@ -1294,7 +1294,7 @@ struct MANGOS_DLL_DECL mob_halion_orbAI : public BSWScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if (!pInstance || pInstance->GetData(TYPE_HALION) != IN_PROGRESS) 
+        if (!pInstance || pInstance->GetData(TYPE_HALION) != IN_PROGRESS)
               m_creature->ForcedDespawn();
 
         if (!MovementStarted && pInstance->GetData(m_flag) == SPECIAL)
@@ -1326,12 +1326,12 @@ struct MANGOS_DLL_DECL mob_orb_carrierAI : public BSWScriptedAI
     {
 //        m_creature->SetDisplayId(10045);
         m_creature->SetRespawnDelay(7*DAY);
-        SetCombatMovement(false); 
+        SetCombatMovement(false);
         m_creature->SetPhaseMask(32, true);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
         MovementStarted = false;
-        m_creature->RemoveSplineFlag(SPLINEFLAG_WALKMODE);
+        m_creature->SetWalk(false);
         m_creature->SetSpeedRate(MOVE_RUN, 8.0f);
     }
 
@@ -1520,16 +1520,6 @@ bool GOHello_go_halion_portal_real(Player *player, GameObject* pGo)
 
 enum
 {
-    SAY_SPAWN                   = -1724024,
-    SAY_AGGRO                   = -1724025,
-    SAY_SLAY                    = -1724026,                 // There is an additonal sound entry related to SLAY: 17502
-    SAY_DEATH                   = -1724027,
-    SAY_BERSERK                 = -1724028,
-    SAY_FIREBALL                = -1724029,
-    SAY_SPHERES                 = -1724030,
-    SAY_PHASE_2                 = -1724031,
-    SAY_PHASE_3                 = -1724032,
-
     EMOTE_SPHERES               = -1724033,
     EMOTE_OUT_OF_TWILLIGHT      = -1724034,
     EMOTE_OUT_OF_PHYSICAL       = -1724035,
