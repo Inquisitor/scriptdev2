@@ -17,7 +17,47 @@ UPDATE `creature_template` SET `AIName` = '', `ScriptName` = 'generic_creature' 
 
 UPDATE `creature_template` SET `ScriptName` = 'npc_valkyr_battle_maiden' WHERE `entry` = '28534';
 
--- ----------------------------
+-- ------------------------
+-- QUEST::DAWN OF THE LIGHT
+-- ------------------------
+-- remove the four static uneeded spawn around chapel --  spawned during event not static plus they respawn during event
+DELETE FROM `creature` WHERE `id`=29174;
+
+-- remove static rayne--  spawned during event not static plus they respawn during event
+DELETE FROM `creature` WHERE `id`=29181;
+
+-- remove static rimblat--  spawned during event not static plus they respawn during event
+DELETE FROM `creature` WHERE `id`=29182;
+
+-- remove static krofax--  spawned during event not static plus they respawn during event
+DELETE FROM `creature` WHERE `id`=29176;
+
+-- remove static eligor--  spawned during event not static plus they respawn during event
+DELETE FROM `creature` WHERE `id`=29177;
+
+-- remove static tyrosus--  spawned during event not static plus they respawn during event
+DELETE FROM `creature` WHERE `id`=29178;
+
+-- remove static leon--  spawned during event not static plus they respawn during event
+DELETE FROM `creature` WHERE `id`=29179;
+
+-- remove stativ duke--  spawned during event not static plus they respawn during event
+DELETE FROM `creature` WHERE `id`=29180;
+
+UPDATE `creature_template` SET `AIName` = '', `ScriptName`='npc_highlord_darion_mograine' WHERE `entry`='29173';
+UPDATE `creature_template` SET `AIName` = '', `ScriptName`='npc_the_lich_king_tirion_dawn' WHERE `entry` in (29183,29175);
+UPDATE `creature_template` SET `AIName` = '', `ScriptName`='npc_minibosses_dawn_of_light' WHERE `entry` IN (29199,29204,29200);
+UPDATE `creature_template` SET `AIName` = '', `ScriptName`='mob_acherus_ghoul' WHERE `entry`='29219';
+UPDATE `creature_template` SET `AIName` = '', `ScriptName`='mob_warrior_of_the_frozen_wastes' WHERE `entry`='29206';
+
+DELETE FROM `spell_script_target` WHERE `entry` in (53658, 53679, 53701, 53705, 53706, 53677, 53685);
+INSERT INTO `spell_script_target` VALUES (53679, 1, 29183);
+INSERT INTO `spell_script_target` VALUES (53701, 1, 29175);
+INSERT INTO `spell_script_target` VALUES (53705, 1, 29183);
+INSERT INTO `spell_script_target` VALUES (53706, 1, 29183);
+INSERT INTO `spell_script_target` VALUES (53677, 1, 29227);
+INSERT INTO `spell_script_target` VALUES (53685, 1, 29175);
+
 -- Quest:: An End To All Things
 -- ----------------------------
 
@@ -103,17 +143,14 @@ REPLACE INTO `spell_script_target` (`entry`,`type`,`targetEntry`) VALUES (51859,
 DELETE FROM `creature_addon` WHERE `guid` IN (SELECT guid FROM `creature` WHERE `id` IN (28511,28525,28542,28543,28544));
 UPDATE `npc_spellclick_spells` SET `quest_start` = 0, `quest_start_active` = 0 WHERE `npc_entry` = 29501;
 
--- hack fix paired with core commit for spell support to when this is reverted core support needs fixed
-UPDATE `quest_template` SET `ReqSpellCast1` = 51858, `ReqSpellCast2` = 51858, `ReqSpellCast3` = 51858, `ReqSpellCast4` = 51858 WHERE `entry` = 12641;
+--- hack fix paired with core commit for spell support to when this is reverted core support needs fixed
+--UPDATE `quest_template` SET `ReqSpellCast1` = 51858, `ReqSpellCast2` = 51858, `ReqSpellCast3` = 51858, `ReqSpellCast4` = 51858 WHERE `entry` = 12641;
+UPDATE `quest_template` SET `ReqSpellCast1` = 0, `ReqSpellCast2` = 0, `ReqSpellCast3` = 0, `ReqSpellCast4` = 0 WHERE `entry` = 12641;
 
--- Eye of acherus YTDB DB Fixes 
-UPDATE `creature_template` SET `minlevel` = 55, `maxlevel` = 55, `mindmg` = 60, `maxdmg` = 80 WHERE `entry` = 28511;
 
--- Eye of acherus 
--- YTDB Orignal Data 
--- DELETE FROM `creature_template` WHERE (`entry`=28511);
--- INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid_1`, `modelid_2`, `modelid_3`, `modelid_4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `minhealth`, `maxhealth`, `minmana`, `maxmana`, `armor`, `faction_A`, `faction_H`, `npcflag`, `speed_walk`, `speed_run`, `scale`, `rank`, `mindmg`, `maxdmg`, `dmgschool`, `attackpower`, `dmg_multiplier`, `baseattacktime`, `rangeattacktime`, `unit_class`, `unit_flags`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `minrangedmg`, `maxrangedmg`, `rangedattackpower`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `resistance1`, `resistance2`, `resistance3`, `resistance4`, `resistance5`, `resistance6`, `spell1`, `spell2`, `spell3`, `spell4`, `PetSpellDataId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `InhabitType`, `unk16`, `unk17`, `RacialLeader`, `questItem1`, `questItem2`, `questItem3`, `questItem4`, `questItem5`, `questItem6`, `movementId`, `RegenHealth`, `equipment_id`, `trainer_id`, `vendor_id`, `mechanic_immune_mask`, `flags_extra`, `ScriptName`) VALUES (28511, 0, 0, 0, 0, 0, 26320, 25499, 0, 0, 'Eye of Acherus', '', '', 0, 80, 80, 2614, 2614, 0, 0, 9730, 35, 35, 0, 1, 1.14286, 1, 0, 420, 630, 0, 157, 1, 2000, 2000, 1, 0, 0, 0, 0, 0, 0, 0, 336, 504, 126, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 52694, 52006, 51859, 51904, 0, 0, 0, '', 0, 3, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'npc_eye_of_acherus');
 
+DELETE FROM `creature_template` WHERE (`entry`=28511);
+INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid_1`, `modelid_2`, `modelid_3`, `modelid_4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `minhealth`, `maxhealth`, `minmana`, `maxmana`, `armor`, `faction_A`, `faction_H`, `npcflag`, `speed_walk`, `speed_run`, `scale`, `rank`, `mindmg`, `maxdmg`, `dmgschool`, `attackpower`, `dmg_multiplier`, `baseattacktime`, `rangeattacktime`, `unit_class`, `unit_flags`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `minrangedmg`, `maxrangedmg`, `rangedattackpower`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `resistance1`, `resistance2`, `resistance3`, `resistance4`, `resistance5`, `resistance6`, `spell1`, `spell2`, `spell3`, `spell4`, `PetSpellDataId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `InhabitType`, `unk16`, `unk17`, `RacialLeader`, `questItem1`, `questItem2`, `questItem3`, `questItem4`, `questItem5`, `questItem6`, `movementId`, `RegenHealth`, `equipment_id`, `trainer_id`, `vendor_id`, `mechanic_immune_mask`, `flags_extra`, `ScriptName`) VALUES (28511, 0, 0, 0, 0, 0, 26320, 25499, 0, 0, 'Eye of Acherus', '', '', 0, 55, 55, 2614, 2614, 0, 0, 9730, 35, 35, 0, 1, 1.14286, 1, 0, 420, 630, 0, 157, 1, 2000, 2000, 1, 0, 0, 0, 0, 0, 0, 0, 336, 504, 126, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 52694, 52006, 51859, 51904, 0, 0, 0, '', 0, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 'npc_eye_of_acherus');
 -- -----------------------------------------------------------------------------
 -- Quest  Death's Changelle --
 -- -----------------------------------------------------------------------------
@@ -354,18 +391,3 @@ INSERT INTO `creature_ai_scripts` VALUES
 
 -- end of EventAI
 -- -----------------------------------------------------------------------------------------------------------------------------------------------------
-
--- quest 12801 -the light of dawn
-UPDATE `creature_template` SET `AIName` = '', `ScriptName`='npc_highlord_darion_mograine' WHERE `entry`='29173';
-UPDATE `creature_template` SET `AIName` = '', `ScriptName`='npc_the_lich_king_tirion_dawn' WHERE `entry` in (29183,29175);
-UPDATE `creature_template` SET `AIName` = '', `ScriptName`='npc_minibosses_dawn_of_light' WHERE `entry` IN (29199,29204,29200);
-UPDATE `creature_template` SET `AIName` = '', `ScriptName`='mob_acherus_ghoul' WHERE `entry`='29219';
-UPDATE `creature_template` SET `AIName` = '', `ScriptName`='mob_warrior_of_the_frozen_wastes' WHERE `entry`='29206';
-
-DELETE FROM `spell_script_target` WHERE `entry` in (53658, 53679, 53701, 53705, 53706, 53677, 53685);
-INSERT INTO `spell_script_target` VALUES (53679, 1, 29183);
-INSERT INTO `spell_script_target` VALUES (53701, 1, 29175);
-INSERT INTO `spell_script_target` VALUES (53705, 1, 29183);
-INSERT INTO `spell_script_target` VALUES (53706, 1, 29183);
-INSERT INTO `spell_script_target` VALUES (53677, 1, 29227);
-INSERT INTO `spell_script_target` VALUES (53685, 1, 29175);

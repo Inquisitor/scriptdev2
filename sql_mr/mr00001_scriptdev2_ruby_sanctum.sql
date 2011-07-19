@@ -1,5 +1,5 @@
 -- sound / text
-DELETE FROM `script_texts` WHERE `entry` BETWEEN -1666406 AND -1666000;
+DELETE FROM `script_texts` WHERE `entry` BETWEEN -1666405 AND -1666000;
 
 -- xerestrasza
 INSERT INTO `script_texts` (`entry`, `content_default`, `content_loc8`, `sound`, `type`, `language`, `emote`, `comment`) VALUES
