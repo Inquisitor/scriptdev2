@@ -92,7 +92,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) 
+        if(!pInstance)
             return;
 
         resetTimers();
@@ -119,7 +119,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch (urand(0,1)) 
+        switch (urand(0,1))
         {
             case 0:
                 DoScriptText(-1631421,m_creature,pVictim);
@@ -165,9 +165,9 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
         ScriptedAI::EnterEvadeMode();
     }
 
-    void Aggro(Unit *who) 
+    void Aggro(Unit *who)
     {
-        if(!pInstance) 
+        if(!pInstance)
             return;
 
         DoScriptText(-1631420,m_creature,who);
@@ -280,14 +280,14 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
                         setStage(1);
                     }
 
-                    if (m_creature->GetHealthPercent() < 35.0f) 
+                    if (m_creature->GetHealthPercent() < 35.0f)
                     {
                         doCast(SPELL_MYSTIC_BUFFET);
                         setStage(9);
                         DoScriptText(-1631429,m_creature);
                     }
                 break;
-            case 1: 
+            case 1:
                     DoScriptText(-1631425,m_creature);
                     IceMark();
                     m_uiFrostBeaconDelay = 7000;
@@ -313,7 +313,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
                             m_uiFrostBeaconDelay = 0;
                         }
                     }
-                    if (!MovementStarted) 
+                    if (!MovementStarted)
                     {
                         if (!m_uiFrostBeaconDelay)
                         {
@@ -328,7 +328,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
                     IceBlock();
                     setStage(4);
                 break;
-            case 4: 
+            case 4:
                     if (timedQuery(SPELL_FROST_BOMB, diff))
                     {
                         if (Unit* pTemp = doSelectRandomPlayerAtRange(300.0f))
@@ -354,7 +354,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public BSWScriptedAI
                     m_creature->HandleEmoteCommand(EMOTE_STATE_FLY_SIT_GROUND);
                 break;
             case 6:
-                    if (!MovementStarted) 
+                    if (!MovementStarted)
                     {
                         setStage(0);
                         SetCombatMovement(true);
@@ -462,7 +462,7 @@ struct MANGOS_DLL_DECL mob_ice_tombAI : public BSWScriptedAI
 
     void JustDied(Unit* Killer)
     {
-        if (Player* pVictim = m_creature->GetMap()->GetPlayer(victimGUID)) 
+        if (Player* pVictim = m_creature->GetMap()->GetPlayer(victimGUID))
             doRemove(SPELL_ICY_TOMB,pVictim);
     }
 
@@ -564,11 +564,11 @@ struct MANGOS_DLL_DECL mob_rimefangAI : public BSWScriptedAI
         m_creature->SetRespawnDelay(30*MINUTE);
     }
 
-    void MoveInLineOfSight(Unit* pWho) 
+    void MoveInLineOfSight(Unit* pWho)
     {
         if (!pInstance || !pWho) return;
 
-        if (pWho->GetTypeId() != TYPEID_PLAYER) 
+        if (pWho->GetTypeId() != TYPEID_PLAYER)
             return;
 
         if (!m_creature->isInCombat() && pWho->IsWithinDistInMap(m_creature, 60.0f))
@@ -589,7 +589,7 @@ struct MANGOS_DLL_DECL mob_rimefangAI : public BSWScriptedAI
                 pInstance->SetData(TYPE_SINDRAGOSA, FAIL);
     }
 
-    void Aggro(Unit *who) 
+    void Aggro(Unit *who)
     {
         if(!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE) pInstance->SetData(TYPE_SINDRAGOSA, IN_PROGRESS);
@@ -601,7 +601,7 @@ struct MANGOS_DLL_DECL mob_rimefangAI : public BSWScriptedAI
     void JustDied(Unit *killer)
     {
         if(!pInstance) return;
-        if (pInstance->GetData(TYPE_SINDRAGOSA) == DONE) 
+        if (pInstance->GetData(TYPE_SINDRAGOSA) == DONE)
             return;
         if (pBrother && !pBrother->isAlive())
         {
@@ -654,11 +654,11 @@ struct MANGOS_DLL_DECL mob_spinestalkerAI : public BSWScriptedAI
         m_creature->SetRespawnDelay(30*MINUTE);
     }
 
-    void MoveInLineOfSight(Unit* pWho) 
+    void MoveInLineOfSight(Unit* pWho)
     {
         if (!pInstance || !pWho) return;
 
-        if (pWho->GetTypeId() != TYPEID_PLAYER) 
+        if (pWho->GetTypeId() != TYPEID_PLAYER)
             return;
 
         if (!m_creature->isInCombat() && pWho->IsWithinDistInMap(m_creature, 60.0f))
@@ -675,11 +675,11 @@ struct MANGOS_DLL_DECL mob_spinestalkerAI : public BSWScriptedAI
     void JustReachedHome()
     {
         if (pInstance)
-            if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE) 
+            if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE)
                 pInstance->SetData(TYPE_SINDRAGOSA, FAIL);
     }
 
-    void Aggro(Unit *who) 
+    void Aggro(Unit *who)
     {
         if(!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE) pInstance->SetData(TYPE_SINDRAGOSA, IN_PROGRESS);
