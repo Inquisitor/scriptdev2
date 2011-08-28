@@ -192,6 +192,7 @@ DialogueHelper::DialogueHelper(DialogueEntry const* pDialogueArray) :
     m_pCurrentEntry(NULL),
     m_pCurrentEntryTwoSide(NULL),
     m_uiTimer(0),
+    m_bCanSimulate(false),
     m_bIsFirstSide(true)
 {}
 
@@ -207,6 +208,7 @@ DialogueHelper::DialogueHelper(DialogueEntryTwoSide const* pDialogueTwoSideArray
     m_pCurrentEntry(NULL),
     m_pCurrentEntryTwoSide(NULL),
     m_uiTimer(0),
+    m_bCanSimulate(false),
     m_bIsFirstSide(true)
 {}
 
@@ -284,13 +286,19 @@ void DialogueHelper::DoNextDialogueStep()
         m_uiTimer = m_pCurrentEntryTwoSide->uiTimer;
     }
 
-    // Get Speaker
-    Creature* pSpeaker = NULL;
-    if (m_pInstance && uiSpeakerEntry)
-        pSpeaker = m_pInstance->GetSingleCreatureFromStorage(uiSpeakerEntry);
+    // Simulate Case
+    if (m_bCanSimulate && m_pInstance && uiSpeakerEntry && iTextEntry < 0)
+        m_pInstance->DoOrSimulateScriptTextForThisInstance(iTextEntry, uiSpeakerEntry);
+    else
+    {
+        // Get Speaker
+        Creature* pSpeaker = NULL;
+        if (m_pInstance && uiSpeakerEntry)
+            pSpeaker = m_pInstance->GetSingleCreatureFromStorage(uiSpeakerEntry);
 
-    if (pSpeaker && iTextEntry  < 0)
-        DoScriptText(iTextEntry, pSpeaker);
+        if (pSpeaker && iTextEntry  < 0)
+            DoScriptText(iTextEntry, pSpeaker);
+    }
 
     JustDidDialogueStep(m_pDialogueArray ?  m_pCurrentEntry->iTextEntry : m_pCurrentEntryTwoSide->iTextEntry);
 
@@ -311,4 +319,21 @@ void DialogueHelper::DialogueUpdate(uint32 uiDiff)
         else
             m_uiTimer -= uiDiff;
     }
+}
+
+void ScriptedInstance::DestroyItemFromAllPlayers(uint32 uiItemId)
+{
+    Map::PlayerList const& lPlayers = instance->GetPlayers();
+
+    if (!lPlayers.isEmpty())
+    {
+        for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+        {
+            if (Player* pPlayer = itr->getSource())
+                if (pPlayer->GetItemCount(uiItemId,true) > 0)
+                    pPlayer->DestroyItemCount(uiItemId,pPlayer->GetItemCount(uiItemId),true);
+        }
+	}
+    else
+        error_log("SD2: DestroyItemFromAllPlayers attempt to remove item: %u but no players in map.", uiItemId);
 }

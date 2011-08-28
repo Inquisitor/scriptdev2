@@ -50,6 +50,9 @@ class MANGOS_DLL_DECL ScriptedInstance : public InstanceData
         // Get a Player from map
         Player* GetPlayerInMap(bool bOnlyAlive = false, bool bCanBeGamemaster = true);
 
+        // destroys an item from all players in this instance (encounters like Vashj, Najentus....) 
+        void DestroyItemFromAllPlayers(uint32 uiItemId);
+
         /// Wrapper for simulating map-wide text in this instance. It is expected that the Creature is stored in m_mNpcEntryGuidStore if loaded.
         void DoOrSimulateScriptTextForThisInstance(int32 iTextEntry, uint32 uiCreatureEntry)
         {
@@ -94,7 +97,7 @@ class DialogueHelper
         DialogueHelper(DialogueEntryTwoSide const* aDialogueTwoSide);
 
         /// Function that MUST be called
-        void InitializeDialogueHelper(ScriptedInstance* pInstance) { m_pInstance = pInstance; }
+        void InitializeDialogueHelper(ScriptedInstance* pInstance, bool bCanSimulateText = false) { m_pInstance = pInstance; m_bCanSimulate = bCanSimulateText; }
         /// Set if take first entries or second entries
         void SetDialogueSide(bool bIsFirstSide) { m_bIsFirstSide = bIsFirstSide; }
 
@@ -117,6 +120,7 @@ class DialogueHelper
 
         uint32 m_uiTimer;
         bool m_bIsFirstSide;
+        bool m_bCanSimulate;
 };
 
 #endif

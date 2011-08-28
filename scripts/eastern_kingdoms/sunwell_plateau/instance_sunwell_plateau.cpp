@@ -1,4 +1,5 @@
 /* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+ * Copyright (C) 2011 MangosR2_Scriptdev2
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -16,7 +17,7 @@
 
 /* ScriptData
 SDName: Instance_Sunwell_Plateau
-SD%Complete: 70%
+SD%Complete: 80%
 SDComment:
 SDCategory: Sunwell_Plateau
 EndScriptData */
@@ -62,8 +63,17 @@ void instance_sunwell_plateau::OnCreatureCreate(Creature* pCreature)
         case NPC_KALECGOS_DRAGON:
         case NPC_KALECGOS_HUMAN:
         case NPC_SATHROVARR:
+        case NPC_MADRIGOSA:    
+        case NPC_BRUTALLUS:
+        case NPC_FELMYST:
         case NPC_ALYTHESS:
         case NPC_SACROLASH:
+        case NPC_PORTAL_TARGET:
+        case NPC_MURU:
+        case NPC_KILJAEDEN:
+        case NPC_KILJAEDEN_CONTROLLER:
+        case NPC_ANVEENA:
+        case NPC_KALECGOS:
             m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
             break;
     }
@@ -74,9 +84,12 @@ void instance_sunwell_plateau::OnObjectCreate(GameObject* pGo)
     switch(pGo->GetEntry())
     {
         case GO_FORCEFIELD:
+            if (m_auiEncounter[TYPE_KALECGOS] == DONE)
+                pGo->SetGoState(GO_STATE_ACTIVE);   // maybe needs despawn
         case GO_BOSS_COLLISION_1:
         case GO_BOSS_COLLISION_2:
-        case GO_ICE_BARRIER:
+        case GO_ICE_BARRIER:      // spawned at madrigosa yell_ice_barrier
+              //  pGo->SetGoState(GO_STATE_ACTIVE);   // IceWall not working yet  but also not in use yet
             break;
         case GO_FIRE_BARRIER:
             if (m_auiEncounter[TYPE_KALECGOS] == DONE && m_auiEncounter[TYPE_BRUTALLUS] == DONE && m_auiEncounter[TYPE_FELMYST] == DONE)
@@ -280,6 +293,22 @@ InstanceData* GetInstanceData_instance_sunwell_plateau(Map* pMap)
     return new instance_sunwell_plateau(pMap);
 }
 
+bool AreaTrigger_at_sunwell_plateau(Player* pPlayer, AreaTriggerEntry const* pAt)
+{
+    if (pAt->id == AREATRIGGER_TWINS)
+    {
+        if (pPlayer->isGameMaster() || pPlayer->isDead())
+            return false;
+
+        instance_sunwell_plateau* pInstance = (instance_sunwell_plateau*)pPlayer->GetInstanceData();
+
+        if (pInstance && pInstance->GetData(TYPE_EREDAR_TWINS) == NOT_STARTED)
+            pInstance->SetData(TYPE_EREDAR_TWINS, SPECIAL);
+    }
+
+    return false;
+}
+
 void AddSC_instance_sunwell_plateau()
 {
     Script* pNewScript;
@@ -287,5 +316,10 @@ void AddSC_instance_sunwell_plateau()
     pNewScript = new Script;
     pNewScript->Name = "instance_sunwell_plateau";
     pNewScript->GetInstanceData = &GetInstanceData_instance_sunwell_plateau;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "at_sunwell_plateau";
+    pNewScript->pAreaTrigger = &AreaTrigger_at_sunwell_plateau;
     pNewScript->RegisterSelf();
 }

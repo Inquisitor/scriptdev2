@@ -1,7 +1,24 @@
+/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+   Copyright (C) 2011 MangosR2_ScriptDev2
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 #include "precompiled.h"
 #include "BattleGroundSA.h"
 #include "Vehicle.h"
- 
+
 #define Spell_Boom        52408
 
 struct MANGOS_DLL_DECL npc_sa_bombAI : public ScriptedAI
@@ -85,7 +102,7 @@ struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
         }
         return false;
     }
- 
+
     void UpdateAI(const uint32 diff)
     {
         if (!m_creature->isCharmed())
@@ -95,7 +112,7 @@ struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
 
             m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
 
-            if (!done)  // Get the BattleGround only once
+            if (!done)
             {
                 Map* pMap = m_creature->GetMap();
 
@@ -121,19 +138,19 @@ struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
         }
     }
 };
- 
+
 CreatureAI* GetAI_npc_sa_demolisher(Creature* pCreature)
 {
     return new npc_sa_demolisherAI(pCreature);
 }
- 
+
 bool GossipHello_npc_sa_demolisher(Player* pPlayer, Creature* pCreature)
 {
      pPlayer->CLOSE_GOSSIP_MENU();
      ((npc_sa_demolisherAI*)pCreature->AI())->StartEvent(pPlayer, pCreature);
          return true;
 }
- 
+
 struct MANGOS_DLL_DECL npc_sa_cannonAI : public ScriptedAI
 {
     npc_sa_cannonAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -171,7 +188,7 @@ struct MANGOS_DLL_DECL npc_sa_cannonAI : public ScriptedAI
             }
         }
     }
- 
+
     void UpdateAI(const uint32 diff)
     {
         if (m_creature->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE))
@@ -184,7 +201,7 @@ struct MANGOS_DLL_DECL npc_sa_cannonAI : public ScriptedAI
 
             m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
 
-            if (!done)  // Get the BattleGround only once
+            if (!done)
             {
                 Map* pMap = m_creature->GetMap();
 
@@ -206,19 +223,19 @@ struct MANGOS_DLL_DECL npc_sa_cannonAI : public ScriptedAI
         }
     }
 };
- 
+
 CreatureAI* GetAI_npc_sa_cannon(Creature* pCreature)
 {
     return new npc_sa_cannonAI(pCreature);
 }
- 
+
 bool GossipHello_npc_sa_cannon(Player* pPlayer, Creature* pCreature)
 {
      pPlayer->CLOSE_GOSSIP_MENU();
      ((npc_sa_cannonAI*)pCreature->AI())->StartEvent(pPlayer, pCreature);
          return true;
 }
- 
+
 #define GOSSIP_START_EVENT_1        "Start building the Demolisher."
 #define GOSSIP_START_EVENT_2        "You have nothing to do now!"
 #define GOSSIP_EVENT_STARTED        "Im working on it."
@@ -253,7 +270,7 @@ struct MANGOS_DLL_DECL npc_sa_vendorAI : public ScriptedAI
     void Reset()
     {
         for (uint8 i = 0; i < BG_SA_GRY_MAX; ++i)
-            build[i]=false; 
+            build[i]=false;
     }
     void StartEvent(Player* pPlayer, uint8 gyd)
     {
@@ -273,27 +290,30 @@ struct MANGOS_DLL_DECL npc_sa_vendorAI : public ScriptedAI
                 m_creature->SummonCreature(NPC_DEMILISHER,SummonLocations[gydId][0],SummonLocations[gydId][1],SummonLocations[gydId][2],SummonLocations[gydId][3], TEMPSUMMON_DEAD_DESPAWN, 0);
                 m_creature->MonsterSay(SA_MESSAGE_8,LANG_UNIVERSAL,0);
                 build[gydId]=false;
-            }else build_time -= diff;
- 
-            switch(build_time/2)
+            }
+            else build_time -= diff;
+
+            switch (build_time/2)
             {
-                case 15000: m_creature->MonsterSay(SA_MESSAGE_2,LANG_UNIVERSAL,0); break;
-                case 7500: m_creature->MonsterSay(SA_MESSAGE_5,LANG_UNIVERSAL,0); break;
+                case 15000: m_creature->MonsterSay(SA_MESSAGE_2,LANG_UNIVERSAL,0);
+                    break;
+                case 7500: m_creature->MonsterSay(SA_MESSAGE_5,LANG_UNIVERSAL,0);
+                    break;
             }
         }
     }
 };
- 
+
 CreatureAI* GetAI_npc_sa_vendor(Creature* pCreature)
 {
     return new npc_sa_vendorAI(pCreature);
 }
- 
+
 bool GossipHello_npc_sa_vendor(Player* pPlayer, Creature* pCreature)
 {
     uint8 gyd = NULL;
     if (pCreature->GetEntry() == 29260)
-        gyd = 0;    
+        gyd = 0;
     if (pCreature->GetEntry() == 29262)
         gyd = 1;
     if (!build[gyd])
@@ -313,7 +333,7 @@ bool GossipHello_npc_sa_vendor(Player* pPlayer, Creature* pCreature)
         pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_START_EVENT_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
 
     pPlayer->SEND_GOSSIP_MENU(pPlayer->GetGossipTextId(pCreature), pCreature->GetGUID());
-    
+
     return true;
 }
 
@@ -349,7 +369,7 @@ static float SpawnLocation[7][3]=
     {880.162f, -95.979f, 109.835f},
     {808.447f, -109.192f, 109.835f},
 };
- 
+
 static float TeleLocation[7][3]=
 {
     {1401.6f, 88.6693f, 41.1833f},
@@ -360,7 +380,7 @@ static float TeleLocation[7][3]=
     {808.447f, -109.192f, 109.835f},
     {880.68f, -120.799f, 109.835f},
 };
- 
+
 bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
 {
     if (pPlayer->GetMapId() == 607)
@@ -371,7 +391,7 @@ bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
             {
                 for (uint32 i=0; i<7; ++i)
                 {
-                    if ((pGo->GetPositionX() == SpawnLocation[i][0]) && 
+                    if ((pGo->GetPositionX() == SpawnLocation[i][0]) &&
                     (pGo->GetPositionY() == SpawnLocation[i][1]) &&
                     (pGo->GetPositionZ() == SpawnLocation[i][2]))
                     {
@@ -398,13 +418,13 @@ bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
                         }
                         else if(i == 2 || i == 3)
                         {
-                            if(i == 2)
+                            if (i == 2)
                                 if(((BattleGroundSA*)bg)->GetGateStatus(4) != BG_SA_GO_GATES_DESTROY)
                                     pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+1][0],TeleLocation[i+1][1],TeleLocation[i+1][2],0);
                                 else
                                     pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+2][0],TeleLocation[i+2][1],TeleLocation[i+2][2],0);
 
-                            if(i == 3)
+                            if (i == 3)
                                 if(((BattleGroundSA*)bg)->GetGateStatus(3) != BG_SA_GO_GATES_DESTROY)
                                     pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i-1][0],TeleLocation[i-1][1],TeleLocation[i-1][2],0);
                                 else
@@ -412,7 +432,7 @@ bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
 
                             return true;
                         }
-                        else if(i == 4 || i == 5)
+                        else if (i == 4 || i == 5)
                         {
                             pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+1][0],TeleLocation[i+1][1],TeleLocation[i+1][2],0);
                             return true;
@@ -420,7 +440,8 @@ bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
 
                     }
                 }
-            } else pPlayer->MonsterSay("You are not defender!",LANG_UNIVERSAL, pPlayer);
+            } else
+                pPlayer->MonsterSay("You are not defender!",LANG_UNIVERSAL, pPlayer);
         }
     }
     return false;
@@ -444,7 +465,7 @@ bool GOHello_go_sa_bomb(Player* pPlayer, GameObject* pGo)
     }
     return true;
 }
- 
+
 void AddSC_battlegroundSA()
 {
     Script *pNewScript;

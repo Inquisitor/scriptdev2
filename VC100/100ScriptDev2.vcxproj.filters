@@ -336,7 +336,7 @@
     <ClCompile Include="..\scripts\battlegrounds\battleground.cpp">
       <Filter>scripts\battlegrounds</Filter>
     </ClCompile>
-	<ClCompile Include="..\scripts\battlegrounds\battlegroundSA.cpp">
+    <ClCompile Include="..\scripts\battlegrounds\battlegroundSA.cpp">
       <Filter>scripts\battlegrounds</Filter>
     </ClCompile>
     <ClCompile Include="..\scripts\custom\npc_arena_honor.cpp">

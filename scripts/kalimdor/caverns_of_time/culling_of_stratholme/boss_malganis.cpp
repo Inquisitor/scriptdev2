@@ -46,7 +46,8 @@ enum
     SPELL_MIND_BLAST_H                     = 58850,
     SPELL_SLEEP_N                          = 52721,
     SPELL_SLEEP_H                          = 58849,
-    SPELL_VAMPIRE                          = 52723
+    SPELL_VAMPIRE                          = 52723,
+    SPELL_ACHIEV_CHECK                     = 58630
 };
 
 struct MANGOS_DLL_DECL boss_malganisAI : public ScriptedAI
@@ -117,6 +118,7 @@ struct MANGOS_DLL_DECL boss_malganisAI : public ScriptedAI
       m_creature->CombatStop(true);
       m_creature->LoadCreatureAddon();
 
+      m_creature->SetLootRecipient(NULL);
       if(m_pInstance->GetData(TYPE_PHASE) > 9)
       {
         KillCreditMalganis();
@@ -125,9 +127,8 @@ struct MANGOS_DLL_DECL boss_malganisAI : public ScriptedAI
            m_creature->SetInCombatWith(pArthas);
       }
       else
-         m_creature->RemoveFromWorld();
+         m_creature->ForcedDespawn();
 
-      m_creature->SetLootRecipient(NULL);
     }
 
    void Aggro(Unit* who)
@@ -220,6 +221,7 @@ struct MANGOS_DLL_DECL boss_malganisAI : public ScriptedAI
    { 
       m_pInstance->SetData(TYPE_PHASE, 10);
       m_pInstance->SetData(TYPE_MALGANIS, DONE);
+      DoCastSpellIfCan(m_creature, SPELL_ACHIEV_CHECK, CAST_TRIGGERED);
       EnterEvadeMode();
    }
 
