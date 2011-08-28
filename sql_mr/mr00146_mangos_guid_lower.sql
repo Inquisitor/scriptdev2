@@ -1,4 +1,4 @@
-DELETE FROM `creature` WHERE `id` in (27915, 26499, 26497, 26528, 27891, 27892, 32273, 28439);
+DELETE FROM `creature` WHERE `id` IN (27915, 26499, 26497, 26528, 27891, 27892, 32273, 28439);
 INSERT INTO `creature` (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`modelid`,`equipment_id`,`position_x`,`position_y`,`position_z`,`orientation`,`spawntimesecs`,`spawndist`,`currentwaypoint`,`curhealth`,`curmana`,`DeathState`,`MovementType`) VALUES
 (600000, 27915, 595, 3, 1, 0, 0, 1812.49, 1284.81, 142.248, 4.03364, 300, 0, 0, 17010, 0, 0, 0),
 (600001, 26499, 595, 3, 1, 0, 1613, 1920.87, 1287.12, 142.935, 6.25562, 43200, 0, 0, 44100, 7988, 0, 0),
@@ -44,8 +44,8 @@ INSERT INTO `gameobject` (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`position_x`
 (600016, 300209, 571, 1, 1, 4150.45, -390.681, 120.723, 3.66602, 0, 0, 0.965819, -0.259218, -300, 0, 1),
 (600017, 300209, 571, 1, 1, 4126.18, -391.728, 119.142, 5.33813, 0, 0, 0.455137, -0.890421, -300, 0, 1);
 
-DELETE FROM creature where id=28537;
-INSERT INTO creature VALUES
+DELETE FROM creature WHERE id=28537;
+INSERT INTO creature (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`modelid`,`equipment_id`,`position_x`,`position_y`,`position_z`,`orientation`,`spawntimesecs`,`spawndist`,`currentwaypoint`,`curhealth`,`curmana`,`DeathState`,`MovementType`) VALUES
 (600018,28537,571,1,1,0,0,5550.404,5768.214,-78.02,1.278,300,0,0,0,0,0,0);
 
 DELETE FROM `creature` WHERE `id`=25092;

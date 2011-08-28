@@ -234,13 +234,13 @@ WHERE entry=28566;
 DELETE FROM `gameobject` WHERE guid = '200000';
 INSERT INTO `gameobject` VALUES ('200000','190643','571','3','1','5545.45','5767.53','-77.8042','5.39307','0','0','0.959937','0.280215','-25','0','1');
 
-DELETE FROM creature where id=28537;
-INSERT INTO creature VALUES
+DELETE FROM creature WHERE id=28537;
+INSERT INTO creature (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`modelid`,`equipment_id`,`position_x`,`position_y`,`position_z`,`orientation`,`spawntimesecs`,`spawndist`,`currentwaypoint`,`curhealth`,`curmana`,`DeathState`,`MovementType`) VALUES
 (600018,28537,571,1,1,0,0,5550.404,5768.214,-78.02,1.278,300,0,0,0,0,0,0);
 UPDATE `creature_template` SET `minhealth` = 0, `maxhealth` = 1 WHERE `entry` = 28537;
 
-DELETE from spell_script_target WHERE entry in(51932,51931,51933);
-INSERT into spell_script_target VALUES
+DELETE FROM spell_script_target WHERE entry IN(51932,51931,51933);
+INSERT INTO spell_script_target VALUES
 (51932,1,28537),
 (51931,1,28537),
 (51933,1,28537);
