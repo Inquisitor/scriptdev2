@@ -23,6 +23,7 @@ EndScriptData */
 
 #include "precompiled.h"
 #include "Vehicle.h"
+#include "AchievementMgr.h"
 
 // **** Script Info ****
 // Spiritguides in battlegrounds resurrecting many players at once
@@ -134,6 +135,20 @@ struct MANGOS_DLL_DECL npc_battleground_vehicleAI : public ScriptedAI
         {
             if (VehicleKit *vehicle = pCreature->GetVehicleKit())
             {
+                //for achievements
+                if (pCreature->GetEntry() == 34793)
+                    pPlayer->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BE_SPELL_TARGET, 68362);
+                if (pCreature->GetEntry() == 34775)
+                    pPlayer->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BE_SPELL_TARGET, 68365);
+                if (pCreature->GetEntry() == 34776 && pPlayer->GetTeam() == ALLIANCE)
+                    pPlayer->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BE_SPELL_TARGET, 68364);
+                if (pCreature->GetEntry() == 35069 && pPlayer->GetTeam() == HORDE)
+                    pPlayer->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BE_SPELL_TARGET, 68364);
+                if (pCreature->GetEntry() == 34802 && pPlayer->GetTeam() == ALLIANCE)
+                    pPlayer->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BE_SPELL_TARGET, 68363);
+                if (pCreature->GetEntry() == 35273 && pPlayer->GetTeam() == HORDE)
+                    pPlayer->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BE_SPELL_TARGET, 68363);
+
                 if (!pCreature->GetCharmerGuid().IsEmpty())
                     pPlayer->EnterVehicle(vehicle);
                 else

@@ -19,7 +19,9 @@
 #include "BattleGroundSA.h"
 #include "Vehicle.h"
 
-#define Spell_Boom        52408
+#define Spell_Boom         52408
+#define Spell_Boom1        66676
+#define Spell_Boom2        66672
 
 struct MANGOS_DLL_DECL npc_sa_bombAI : public ScriptedAI
 {
@@ -46,6 +48,60 @@ struct MANGOS_DLL_DECL npc_sa_bombAI : public ScriptedAI
 CreatureAI* GetAI_npc_sa_bomb(Creature* pCreature)
 {
     return new npc_sa_bombAI (pCreature);
+}
+
+struct MANGOS_DLL_DECL npc_ic_bombAI : public ScriptedAI
+{
+    npc_ic_bombAI(Creature* pCreature) : ScriptedAI(pCreature) { SetCombatMovement(false); Reset(); }
+    uint32 event_bomb;
+    float fx, fy, fz;
+    void Reset() { m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE); event_bomb = 10000; }
+    void Aggro(Unit* who){}
+    void JustDied(Unit* Killer){ m_creature->ForcedDespawn(); }
+    void KilledUnit(Unit *victim){}
+    void UpdateAI(const uint32 diff)
+    {
+        if (event_bomb < diff)
+        {
+            m_creature->GetPosition(fx, fy, fz);
+            m_creature->CastSpell(m_creature, 34602, true);
+            m_creature->CastSpell(m_creature, 71495, true);
+            m_creature->CastSpell(fx, fy, fz, Spell_Boom1, true, 0, 0, m_creature->GetCharmerGuid());
+            m_creature->ForcedDespawn();
+        } else event_bomb -= diff;
+    }
+};
+
+CreatureAI* GetAI_npc_ic_bomb(Creature* pCreature)
+{
+    return new npc_ic_bombAI (pCreature);
+}
+
+struct MANGOS_DLL_DECL npc_ic_huge_bombAI : public ScriptedAI
+{
+    npc_ic_huge_bombAI(Creature* pCreature) : ScriptedAI(pCreature) { SetCombatMovement(false); Reset(); }
+    uint32 event_bomb;
+    float fx, fy, fz;
+    void Reset() { m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE); event_bomb = 10000; }
+    void Aggro(Unit* who){}
+    void JustDied(Unit* Killer){ m_creature->ForcedDespawn(); }
+    void KilledUnit(Unit *victim){}
+    void UpdateAI(const uint32 diff)
+    {
+        if (event_bomb < diff)
+        {
+            m_creature->GetPosition(fx, fy, fz);
+            m_creature->CastSpell(m_creature, 34602, true);
+            m_creature->CastSpell(m_creature, 71495, true);
+            m_creature->CastSpell(fx, fy, fz, Spell_Boom2, true, 0, 0, m_creature->GetCharmerGuid());
+            m_creature->ForcedDespawn();
+        } else event_bomb -= diff;
+    }
+};
+
+CreatureAI* GetAI_npc_ic_huge_bomb(Creature* pCreature)
+{
+    return new npc_ic_huge_bombAI (pCreature);
 }
 
 struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
@@ -473,6 +529,16 @@ void AddSC_battlegroundSA()
     pNewScript = new Script;
     pNewScript->Name="npc_sa_bomb";
     pNewScript->GetAI = &GetAI_npc_sa_bomb;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name="npc_ic_bomb";
+    pNewScript->GetAI = &GetAI_npc_ic_bomb;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name="npc_ic_huge_bomb";
+    pNewScript->GetAI = &GetAI_npc_ic_huge_bomb;
     pNewScript->RegisterSelf();
 
     pNewScript = new Script;
