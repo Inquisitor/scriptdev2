@@ -92,7 +92,7 @@ INSERT INTO `script_texts` (`entry`,`content_loc8`, `content_default`, `sound`, 
 ('-1631308','Йих!','...','16687','6','0','0','Princes say'),
 ('-1631309','Э-эх!','...','16688','6','0','0','Princes say'),
 ('-1631310','До-хо!','...','16689','6','0','0','Princes say'),
-('-1631311','Восстаньте, братья, и уничтожьте наших врагов!','<need translate>','16796','6','0','0','Lanathel resurrect Princes'),
+('-1631311','Восстаньте, братья, и уничтожьте наших врагов!','Arise, brothers, and destroy our enemies!','16796','6','0','0','Lanathel resurrect Princes'),
 
 -- Blood Queen Lana'thel
 ('-1631321','Это было неразумное решение!','You have made an... unwise... decision.','16782','6','0','0','Lanathel Aggro'),
@@ -108,10 +108,6 @@ INSERT INTO `script_texts` (`entry`,`content_loc8`, `content_default`, `sound`, 
 ('-1631331','Какая жалость...','Such a pity!','16792','6','0','0','Lanathel Slay 02'),
 ('-1631332','Сейчас все кончится!','THIS! ENDS! NOW!','16793','6','0','0','Lanathel Berserk'),
 ('-1631333','Но... Мы ведь так хорошо ладили...','But... we were getting along... so well...','16794','6','0','0','Lanathel Death'),
-('-1631334','Восстаньте братья! И уничтожьте наших врагов!','Rise up brothers! And destroy our enemies!','16796','6','0','0','Lanathel Empower'),
-('-1631335','Ха-х!','Ha!','16797','6','0','0','Lanathel say'),
-('-1631338','Ах-ха...','Oo...','16798','6','0','0','Lanathel say'),
-('-1631339','Ых...','Oh...','16799','6','0','0','Lanathel say'),
 
 -- Valithria Dreamwalker
 ('-1631401','Герои! Вы должны мне помочь! Мои силы на исходе... Залечите мои раны...','Heroes, lend me your aid! I... I cannot hold them off much longer! You must heal my wounds!','17064','6','0','0','Valithria Aggro'),
@@ -179,11 +175,11 @@ INSERT INTO `script_texts` (`entry`,`content_loc8`, `content_default`, `sound`, 
 ('-1631561','Поднимитесь, воины света!','Rise up, champions of the Light!','17398','6','0','0',' SAY'),
 
 -- Adds
-('-1631590','Р-р-р-рота, подъем!','<need translate>','0','6','0','0','custom message'),
-('-1631591','Хилы, не спать!','<need translate>','0','6','0','0','custom message'),
-('-1631592','ДД поднажали!','<need translate>','0','6','0','0','custom message'),
-('-1631593','Лидер, гони лентяев из рейда! А то еще час возиться будете!','<need translate>','0','6','0','0','custom message'),
-('-1631594','Ну вот вы и прикончили Артаса. Теперь будем ждать Катаклизм.','<need translate>','0','6','0','0','custom message');
+('-1631590','Р-р-р-рота, подъем!','P-rr-company, the rise of','0','6','0','0','custom message'),
+('-1631591','Хилы, не спать!','Heals, do not sleep','0','6','0','0','custom message'),
+('-1631592','ДД поднажали!','DD put pressure','0','6','0','0','custom message'),
+('-1631593','Лидер, гони лентяев из рейда! А то еще час возиться будете!','Leader, get lazy from a raid! And then another hour to tinker will','0','6','0','0','custom message'),
+('-1631594','Ну вот вы и прикончили Артаса. Теперь будем ждать Катаклизм.','Well, you finished off Arthas. Now we wait for the cataclysm','0','6','0','0','custom message');
 
 -- Gossips
 DELETE FROM `gossip_texts` WHERE `entry` BETWEEN -3631608 AND -3631600;
@@ -456,7 +452,6 @@ INSERT INTO `boss_spell_table` (`entry`, `spellID_N10`, `spellID_N25`, `spellID_
 (37973, 70952, 0, 0, 0, 30000, 0, 0, 0, 30000, 0, 0, 0, 0, 0, 0, 1, 0, 0),
 (37973, 70981, 0, 0, 0, 30000, 0, 0, 0, 30000, 0, 0, 0, 0, 0, 0, 1, 0, 0),
 (37973, 70982, 0, 0, 0, 30000, 0, 0, 0, 30000, 0, 0, 0, 0, 0, 0, 1, 0, 0),
-(37973, 71598, 0, 0, 0, 30000, 0, 0, 0, 30000, 0, 0, 0, 0, 0, 0, 1, 0, 0),
 (37973, 70983, 0, 0, 0, 1000, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 1, 0, 0),
 (37973, 47008, 0, 0, 0, 600000, 0, 0, 0, 600000, 0, 0, 0, 0, 0, 0, 1, 0, 0);
 
@@ -464,7 +459,6 @@ INSERT INTO `boss_spell_table` (`entry`, `spellID_N10`, `spellID_N25`, `spellID_
 DELETE FROM `boss_spell_table` WHERE `entry` = 37970;
 INSERT INTO `boss_spell_table` (`entry`, `spellID_N10`, `spellID_N25`, `spellID_H10`, `spellID_H25`, `timerMin_N10`, `timerMin_N25`, `timerMin_H10`, `timerMin_H25`, `timerMax_N10`, `timerMax_N25`, `timerMax_H10`, `timerMax_H25`, `locData_x`, `locData_y`, `locData_z`, `CastType`, `isVisualEffect`, `isBugged`) VALUES
 (37970, 72053, 0, 0, 0, 10000, 0, 0, 0, 25000, 0, 0, 0, 0, 0, 0, 4, 0, 0),
-(37970, 71598, 0, 0, 0, 30000, 0, 0, 0, 30000, 0, 0, 0, 0, 0, 0, 1, 0, 0),
 (37970, 38459, 0, 0, 0, 10000, 0, 0, 0, 25000, 0, 0, 0, 0, 0, 0, 11, 0, 0),
 (37970, 72037, 0, 0, 0, 10000, 0, 0, 0, 25000, 0, 0, 0, 0, 0, 0, 1, 0, 0),
 (37970, 38422, 0, 0, 0, 10000, 0, 0, 0, 25000, 0, 0, 0, 0, 0, 0, 11, 0, 0),
@@ -480,7 +474,6 @@ INSERT INTO `boss_spell_table` (`entry`, `spellID_N10`, `spellID_N25`, `spellID_
 DELETE FROM `boss_spell_table` WHERE `entry` = 37972;
 INSERT INTO `boss_spell_table` (`entry`, `spellID_N10`, `spellID_N25`, `spellID_H10`, `spellID_H25`, `timerMin_N10`, `timerMin_N25`, `timerMin_H10`, `timerMin_H25`, `timerMax_N10`, `timerMax_N25`, `timerMax_H10`, `timerMax_H25`, `locData_x`, `locData_y`, `locData_z`, `CastType`, `isVisualEffect`, `isBugged`) VALUES
 (37972, 71405, 0, 0, 0, 5000, 0, 0, 0, 8000, 0, 0, 0, 0, 0, 0, 3, 0, 0),
-(37972, 71598, 0, 0, 0, 30000, 0, 0, 0, 30000, 0, 0, 0, 0, 0, 0, 1, 0, 0),
 (37972, 71815, 0, 0, 0, 10000, 0, 0, 0, 15000, 0, 0, 0, 0, 0, 0, 3, 0, 0),
 (37972, 71943, 0, 0, 0, 10000, 0, 0, 0, 25000, 0, 0, 0, 0, 0, 0, 1, 0, 0),
 (37972, 71822, 0, 0, 0, 10000, 0, 0, 0, 25000, 0, 0, 0, 0, 0, 0, 4, 0, 0),
