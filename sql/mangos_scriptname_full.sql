@@ -509,7 +509,6 @@ UPDATE creature_template SET ScriptName='npc_threshwackonator' WHERE entry=6669;
 UPDATE creature_template SET ScriptName='boss_mr_smite' WHERE entry=646;
 UPDATE instance_template SET ScriptName='instance_deadmines' WHERE map=36;
 UPDATE gameobject_template SET ScriptName='go_defias_cannon' WHERE entry=16398;
-UPDATE gameobject_template SET ScriptName='go_door_lever_dm' WHERE entry=101833;
 
 /* DEADWIND PASS */
 
@@ -817,6 +816,8 @@ UPDATE creature_template SET ScriptName='npc_bunthen_plainswind' WHERE entry=117
 UPDATE creature_template SET ScriptName='npc_clintar_dw_spirit' WHERE entry=22916;
 UPDATE creature_template SET ScriptName='npc_great_bear_spirit' WHERE entry=11956;
 UPDATE creature_template SET ScriptName='npc_silva_filnaveth' WHERE entry=11800;
+UPDATE creature_template SET ScriptName='npc_keeper_remulos' WHERE entry=11832;
+UPDATE creature_template SET ScriptName='boss_eranikus' WHERE entry=15491;
 
 /* MULGORE */
 UPDATE creature_template SET ScriptName='npc_kyle_the_frenzied' WHERE entry=23616;
@@ -998,7 +999,6 @@ UPDATE gameobject_template SET ScriptName='go_crystal_prison' WHERE entry=185126
 
 /* SHATTRATH */
 UPDATE creature_template SET ScriptName='npc_dirty_larry' WHERE entry=19720;
-UPDATE creature_template SET ScriptName='npc_ishanah' WHERE entry=18538;
 UPDATE creature_template SET ScriptName='npc_khadgar' WHERE entry=18166;
 UPDATE creature_template SET ScriptName='npc_khadgars_servant' WHERE entry=19685;
 UPDATE creature_template SET ScriptName='npc_raliq_the_drunk' WHERE entry=18585;
@@ -1242,6 +1242,8 @@ UPDATE creature_template SET ScriptName='npc_brann_hos' WHERE entry=28070;
 /* ULDUAR */
 UPDATE instance_template SET ScriptName='instance_ulduar' WHERE map=603;
 UPDATE creature_template SET ScriptName='boss_general_vezax' WHERE entry=33271;
+UPDATE creature_template SET ScriptName='boss_auriaya' WHERE entry=33515;
+UPDATE creature_template SET ScriptName='boss_feral_defender' WHERE entry=34035;
 DELETE FROM scripted_event_id WHERE id=9735;
 INSERT INTO scripted_event_id VALUES
 (9735,'event_spell_saronite_barrier');
@@ -1313,6 +1315,8 @@ UPDATE creature_template SET ScriptName='npc_mikhail' WHERE entry=4963;
 UPDATE creature_template SET ScriptName='npc_lorax' WHERE entry=10918;
 UPDATE creature_template SET ScriptName='npc_rivern_frostwind' WHERE entry=10618;
 UPDATE creature_template SET ScriptName='npc_witch_doctor_mauari' WHERE entry=10307;
+UPDATE creature_template SET ScriptName='npc_ranshalla' WHERE entry=10300;
+UPDATE gameobject_template SET ScriptName='go_elune_fire' WHERE entry IN (177417, 177404);
 
 /* ZANGARMARSH */
 DELETE FROM scripted_event_id WHERE id=11225;

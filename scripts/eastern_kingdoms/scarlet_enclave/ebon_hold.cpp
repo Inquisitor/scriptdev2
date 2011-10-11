@@ -1029,7 +1029,6 @@ struct MANGOS_DLL_DECL npc_unworthy_initiateAI : public ScriptedAI
         if (m_creature->getFaction() != m_uiNormFaction)
             m_creature->setFaction(m_uiNormFaction);
 
-        m_myAnchorGuid.Clear();
         m_uiAnchorCheckTimer = 5000;
         m_uiPhase = PHASE_INACTIVE_OR_COMBAT;
         m_uiPhaseTimer = 7500;
@@ -1042,6 +1041,12 @@ struct MANGOS_DLL_DECL npc_unworthy_initiateAI : public ScriptedAI
     void JustReachedHome()
     {
         SetAnchor();
+
+        if (Creature* pAnchor = GetAnchor())
+        {
+            if (npc_unworthy_initiate_anchorAI* pAnchorAI = dynamic_cast<npc_unworthy_initiate_anchorAI*>(pAnchor->AI()))
+                pAnchorAI->ResetPrison();
+        }
     }
 
     void JustRespawned()
@@ -1397,6 +1402,7 @@ struct MANGOS_DLL_DECL npc_eye_of_acherusAI : public ScriptedAI
                 m_creature->CastSpell(m_creature, SPELL_EYE_VISUAL, true);
                 //m_creature->CastSpell(m_creature, SPELL_EYE_FL_BOOST_FLY, true);
                 //m_creature->SetLevitate(true);   // will be uncommented if any troubles with flying inhabit 4
+                m_creature->SetWalk(false);
                 m_creature->SetSpeedRate(MOVE_RUN, 5.0f);
                 DoScriptText(TEXT_EYE_LAUNCHED, m_creature);
                 m_creature->GetMotionMaster()->MovePoint(0,1750.8276f, -5873.788f, 147.2266f);
@@ -3974,37 +3980,42 @@ struct MANGOS_DLL_DECL npc_crusade_persuadedAI : public ScriptedAI
        }
    }
 
-   void UpdateAI(const uint32 diff)
-   {
-       if (m_uiSpeech_counter >= 1 && m_uiSpeech_counter <= 6)
+    void UpdateAI(const uint32 diff)
+    {
+        if (m_uiSpeech_counter >= 1 && m_uiSpeech_counter <= 6)
+        {
            if (m_uiSpeech_timer < diff)
            {
-               m_creature->CombatStop(true);
-               m_creature->StopMoving();
-               Unit* pPlayer = m_creature->GetMap()->GetPlayer(m_playerGUID);
-
-              switch(m_uiSpeech_counter)
-               {
-                   case 1: DoScriptText(SAY_PERSUADED1, m_creature); m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
-                   case 2: DoScriptText(SAY_PERSUADED2, m_creature); m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
-                   case 3: DoScriptText(SAY_PERSUADED3, m_creature); m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
-                   case 4: DoScriptText(SAY_PERSUADED4, m_creature); m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
-                   case 5: DoScriptText(SAY_PERSUADED5, pPlayer);    m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
-                   case 6:
-                       DoScriptText(SAY_PERSUADED6, m_creature);
-                       m_creature->setFaction(m_uiCrusade_faction);
-                       m_uiSpeech_timer = 0;
-                       m_uiCrusade_faction = 0;
-                       m_uiSpeech_counter++;
-                       AttackStart(pPlayer);
-                       if(((Player*)pPlayer)->GetQuestStatus(QUEST_HOW_TO_WIN_FRIENDS) == QUEST_STATUS_INCOMPLETE)
-                           ((Player*)pPlayer)->AreaExploredOrEventHappens(QUEST_HOW_TO_WIN_FRIENDS);
-                       break;
-               }
-            }else m_uiSpeech_timer -= diff;
-       else
-           if (m_creature->GetEntry() == NPC_PREACHER)
-           {
+                m_creature->CombatStop(true);
+                m_creature->StopMoving();
+                if (Unit* pPlayer = m_creature->GetMap()->GetPlayer(m_playerGUID))
+                {
+                    switch(m_uiSpeech_counter)
+                    {
+                        case 1: DoScriptText(SAY_PERSUADED1, m_creature); m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
+                        case 2: DoScriptText(SAY_PERSUADED2, m_creature); m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
+                        case 3: DoScriptText(SAY_PERSUADED3, m_creature); m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
+                        case 4: DoScriptText(SAY_PERSUADED4, m_creature); m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
+                        case 5: DoScriptText(SAY_PERSUADED5, pPlayer);    m_uiSpeech_timer = 8000; m_uiSpeech_counter++; break;
+                        case 6:
+                            DoScriptText(SAY_PERSUADED6, m_creature);
+                            m_creature->setFaction(m_uiCrusade_faction);
+                            m_uiSpeech_timer = 0;
+                            m_uiCrusade_faction = 0;
+                            m_uiSpeech_counter++;
+                            AttackStart(pPlayer);
+                            if(((Player*)pPlayer)->GetQuestStatus(QUEST_HOW_TO_WIN_FRIENDS) == QUEST_STATUS_INCOMPLETE)
+                                ((Player*)pPlayer)->AreaExploredOrEventHappens(QUEST_HOW_TO_WIN_FRIENDS);
+                            break;
+                    }
+                }
+            }
+            else
+                m_uiSpeech_timer -= diff;
+        }
+        else
+            if (m_creature->GetEntry() == NPC_PREACHER)
+            {
                if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
                    return;
 

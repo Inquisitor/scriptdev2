@@ -3,7 +3,7 @@
 --
 
 DELETE FROM sd2_db_version;
-INSERT INTO sd2_db_version (version) VALUES ('ScriptDev2 (for MaNGOS 11720+) ');
+INSERT INTO sd2_db_version (version) VALUES ('ScriptDev2 (for MaNGOS 11812+) ');
 
 --
 -- Below contains data for table `script_texts` mainly used in C++ parts.
@@ -719,7 +719,80 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1000666,'I can sense the SHADOW on your hearts. There can be no rest for the wicked!',0,1,0,0,'lethon SAY_LETHON_AGGRO'),
 (-1000667,'Your wicked souls shall feed my power!',0,1,0,0,'lethon SAY_LETHON_SHADE'),
 
-(-1000668,'%s releases the last of its energies into the nearby runestone, successfully reactivating it.',0,2,0,0,'infused crystal SAY_DEFENSE_FINISH');
+(-1000668,'%s releases the last of its energies into the nearby runestone, successfully reactivating it.',0,2,0,0,'infused crystal SAY_DEFENSE_FINISH'),
+
+(-1000669,'We will locate the origin of the Nightmare through the fragments you collected, $N. From there, we will pull Eranikus through a rift in the Dream. Steel yourself, $C. We are inviting the embodiment of the Nightmare into our world.',0,0,0,0,'remulos SAY_REMULOS_INTRO_1'),
+(-1000670,'To Nighthaven! Keep your army close, champion. ',0,0,0,0,'remulos SAY_REMULOS_INTRO_2'),
+(-1000671,'The rift will be opened there, above the Lake Elun\'ara. Prepare yourself, $N. Eranikus entry into our world will be wrought with chaos and strife.',0,0,0,0,'remulos SAY_REMULOS_INTRO_3'),
+(-1000672,'He will stop at nothing to get to Malfurion\'s physical manifistation. That must not happen... We must keep the beast occupied long enough for Tyrande to arrive.',0,0,0,0,'remulos SAY_REMULOS_INTRO_4'),
+(-1000673,'Defend Nightaven, hero...',0,0,0,0,'remulos SAY_REMULOS_INTRO_5'),
+(-1000674,'%s has entered our world',0,3,0,0,'eranikus EMOTE_SUMMON_ERANIKUS'),
+(-1000675,'Pitful predictable mortals... You know not what you have done! The master\'s will fulfilled. The Moonglade shall be destroyed and Malfurion along with it!',0,1,0,0,'eranikus SAY_ERANIKUS_SPAWN'),
+(-1000676,'Fiend! Face the might of Cenarius!',0,1,0,1,'remulos SAY_REMULOS_TAUNT_1'),
+(-1000677,'%s lets loose a sinister laugh.',0,2,0,0,'eranikus EMOTE_ERANIKUS_LAUGH'),
+(-1000678,'You are certanly not your father, insect. Should it interest me, I would crush you with but a swipe of my claws. Turn Shan\'do Stormrage over to me and your pitiful life will be spared along with the lives of your people.',0,1,0,0,'eranikus SAY_ERANIKUS_TAUNT_2'),
+(-1000679,'Who is the predictable one, beast? Surely you did not think that we would summon you on top of Malfurion? Your redemption comes, Eranikus. You will be cleansed of this madness - this corruption.',0,1,0,1,'remulos SAY_REMULOS_TAUNT_3'),
+(-1000680,'My redemption? You are bold, little one. My redemption comes by the will of my god.',0,1,0,0,'eranikus SAY_ERANIKUS_TAUNT_4'),
+(-1000681,'%s roars furiously.',0,2,0,0,'eranikus EMOTE_ERANIKUS_ATTACK'),
+(-1000682,'Hurry, $N! We must find protective cover!',0,0,0,0,'remulos SAY_REMULOS_DEFEND_1'),
+(-1000683,'Please, champion, protect our people.',0,0,0,1,'remulos SAY_REMULOS_DEFEND_2'),
+(-1000684,'Rise, servants of the Nightmare! Rise and destroy this world! Let there be no survivors...',0,1,0,0,'eranikus SAY_ERANIKUS_SHADOWS'),
+(-1000685,'We will battle these fiends, together! Nighthaven\'s Defenders are also among us. They will fight to the death if asked. Now, quickly, we must drive these aberations back to the Nightmare. Destroy them all!',0,0,0,1,'remulos SAY_REMULOS_DEFEND_3'),
+(-1000686,'Where is your savior? How long can you hold out against my attacks?',0,1,0,0,'eranikus SAY_ERANIKUS_ATTACK_1'),
+(-1000687,'Defeated my minions? Then face me, mortals!',0,1,0,0,'eranikus SAY_ERANIKUS_ATTACK_2'),
+(-1000688,'Remulos, look how easy they fall before me? You can stop this, fool. Turn the druid over to me and it will all be over...',0,1,0,0,'eranikus SAY_ERANIKUS_ATTACK_3'),
+(-1000689,'Elune, hear my prayers. Grant us serenity! Watch over our fallen...',0,1,0,0,'tyrande SAY_TYRANDE_APPEAR'),
+(-1000690,'Tend to the injuries of the wounded, sisters!',0,0,0,0,'tyrande SAY_TYRANDE_HEAL'),
+(-1000691,'Seek absolution, Eranikus. All will be forgiven...',0,1,0,0,'tyrande SAY_TYRANDE_FORGIVEN_1'),
+(-1000692,'You will be forgiven, Eranikus. Elune will always love you. Break free of the bonds that command you!',0,1,0,0,'tyrande SAY_TYRANDE_FORGIVEN_2'),
+(-1000693,'The grasp of the Old Gods is unmoving. He is consumed by their dark thoughts... I... I... I cannot... cannot channel much longer... Elune aide me.',0,0,0,0,'tyrande SAY_TYRANDE_FORGIVEN_3'),
+(-1000694,'IT BURNS! THE PAIN.. SEARING...',0,1,0,0,'eranikus SAY_ERANIKUS_DEFEAT_1'),
+(-1000695,'WHY? Why did this happen to... to me? Where were you Tyrande? Where were you when I fell from the grace of Elune?',0,1,0,0,'eranikus SAY_ERANIKUS_DEFEAT_2'),
+(-1000696,'I... I feel... I feel the touch of Elune upon my being once more... She smiles upon me... Yes... I...', 0,1,0,0,'eranikus SAY_ERANIKUS_DEFEAT_3'),
+(-1000697,'%s is wholly consumed by the Light of Elune. Tranquility sets in over the Moonglade',0,2,0,0,'eranikus EMOTE_ERANIKUS_REDEEM'),
+(-1000698,'%s falls to one knee.',0,2,0,0,'tyrande EMOTE_TYRANDE_KNEEL'),
+(-1000699,'Praise be to Elune... Eranikus is redeemed.',0,1,0,0,'tyrande SAY_TYRANDE_REDEEMED'),
+(-1000700,'For so long, I was lost... The Nightmare\'s corruption had consumed me... And now, you... all of you.. you have saved me. Released me from its grasp.',0,0,0,0,'eranikus SAY_REDEEMED_1'),
+(-1000701,'But... Malfurion, Cenarius, Ysera... They still fight. They need me. I must return to the Dream at once.', 0,0,0,0,'eranikus SAY_REDEEMED_2'),
+(-1000702,'My lady, I am unworthy of your prayer. Truly, you are an angel of light. Please, assist me in returning to the barrow den so that I may return to the Dream. I like Malfurion, also have a love awaiting me... I must return to her... to protect her...', 0,0,0,0,'eranikus SAY_REDEEMED_3'),
+(-1000703,'And heroes... I hold that which you seek. May it once more see the evil dissolved. Remulos, see to it that our champion receives the shard of the Green Flight.',0,0,0,0,'eranikus SAY_REDEEMED_4'),
+(-1000704,'It will be done, Eranikus. Be well, ancient one.',0,0,0,0,'remulos SAY_REMULOS_OUTRO_1'),
+(-1000705,'Let us leave Nighthave, hero. Seek me out at the grove.',0,0,0,0,'remulos SAY_REMULOS_OUTRO_2'),
+(-1000706,'Your world shall suffer an unmerciful end. The Nightmare comes for you!',0,0,0,0,'eranikus SAY_ERANIKUS_KILL'),
+
+(-1000707,'This blue light... It\'s strange. What do you think it means?',0,0,0,0,'Ranshalla SAY_ENTER_OWL_THICKET'),
+(-1000708,'We\'ve found it!',0,0,0,0,'Ranshalla SAY_REACH_TORCH_1'),
+(-1000709,'Please, light this while I am channeling',0,0,0,0,'Ranshalla SAY_REACH_TORCH_2'),
+(-1000710,'This is the place. Let\'s light it.',0,0,0,0,'Ranshalla SAY_REACH_TORCH_3'),
+(-1000711,'Let\'s find the next one.',0,0,0,0,'Ranshalla SAY_AFTER_TORCH_1'),
+(-1000712,'We must continue on now.',0,0,0,0,'Ranshalla SAY_AFTER_TORCH_2'),
+(-1000713,'It is time for the final step; we must activate the altar.',0,0,0,0,'Ranshalla SAY_REACH_ALTAR_1'),
+(-1000714,'I will read the words carved into the stone, and you must find a way to light it.',0,0,0,0,'Ranshalla SAY_REACH_ALTAR_2'),
+(-1000715,'The altar is glowing! We have done it!',0,0,0,0,'Ranshalla SAY_RANSHALLA_ALTAR_1'),
+(-1000716,'What is happening? Look!',0,0,0,0,'Ranshalla SAY_RANSHALLA_ALTAR_2'),
+(-1000717,'It has been many years...',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_3'),
+(-1000718,'Who has disturbed the altar of the goddess?',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_4'),
+(-1000719,'Please, priestesses, forgive us for our intrusion. We do not wish any harm here.',0,0,0,0,'Ranshalla SAY_RANSHALLA_ALTAR_5'),
+(-1000720,'We only wish to know why the wildkin guard this area...',0,0,0,0,'Ranshalla SAY_RANSHALLA_ALTAR_6'),
+(-1000721,'Enu thora\'serador. This is a sacred place.',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_7'),
+(-1000722,'We will show you...',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_8'),
+(-1000723,'Look above you; thara dormil dorah...',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_9'),
+(-1000724,'This gem once allowed direct communication with Elune, herself.',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_10'),
+(-1000725,'Through the gem, Elune channeled her infinite wisdom...',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_11'),
+(-1000726,'Realizing that the gem needed to be protected, we turned to the goddess herself.',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_12'),
+(-1000727,'Soon after, we began to have visions of a creature... A creature with the feathers of an owl, but the will and might of a bear...',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_13'),
+(-1000728,'It was on that day that the wildkin were given to us. Fierce guardians, the goddess assigned the wildkin to protect all of her sacred places.',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_14'),
+(-1000729,'Anu\'dorini Talah, Ru shallora enudoril.',0,0,0,0,'Voice of Elune SAY_VOICE_ALTAR_15'),
+(-1000730,'But now, many years later, the wildkin have grown more feral, and without the guidance of the goddess, they are confused...',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_16'),
+(-1000731,'Without a purpose, they wander... But many find their way back to the sacred areas that they once were sworn to protect.',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_17'),
+(-1000732,'Wildkin are inherently magical; this power was bestowed upon them by the goddess.',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_18'),
+(-1000733,'Know that wherever you might find them in the world, they are protecting something of importance, as they were entrusted to do so long ago.',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_19'),
+(-1000734,'Please, remember what we have shown you...',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_20'),
+(-1000735,'Farewell.',0,0,0,0,'Priestess of Elune SAY_PRIESTESS_ALTAR_21'),
+(-1000736,'Thank you for you help, $n. I wish you well in your adventures.',0,0,0,0,'Ranshalla SAY_QUEST_END_1'),
+(-1000737,'I want to stay here and reflect on what we have seen. Please see Erelas and tell him what we have learned.',0,0,0,0,'Ranshalla SAY_QUEST_END_2'),
+(-1000738,'%s begins chanting a strange spell...',0,2,0,0,'Ranshalla EMOTE_CHANT_SPELL'),
+(-1000739,'Remember, I need your help to properly channel. I will ask you to aid me several times in our path, so please be ready.',0,0,0,0,'Ranshalla SAY_QUEST_START');
 
 -- -1 033 000 SHADOWFANG KEEP
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -752,15 +825,15 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 
 -- -1 036 000 DEADMINES
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
-(-1036000,'You there, check out that noise.',5775,1,7,0,'smite INST_SAY_ALARM1'),
-(-1036001,'We\'re under attack! A vast, ye swabs! Repel the invaders!',5777,1,7,0,'smite INST_SAY_ALARM2'),
+(-1036000,'You there, check out that noise.',5775,6,7,0,'smite INST_SAY_ALARM1'),
+(-1036001,'We\'re under attack! A vast, ye swabs! Repel the invaders!',5777,6,7,0,'smite INST_SAY_ALARM2'),
 (-1036002,'You land lubbers are tougher than I thought! I\'ll have to improvise!',5778,0,0,21,'smite SAY_PHASE_2'),
 (-1036003,'D\'ah! Now you\'re making me angry!',5779,0,0,15,'smite SAY_PHASE_3');
 
 -- -1 043 000 WAILING CAVERNS
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
 (-1043000,'At last! Naralex can be awakened! Come aid me, brave adventurers!',0,6,0,0,'Disciple of Naralex - SAY_INTRO'),
-(-1043001,'I must make the nescessary preparations before the awakening ritual can begin. You must protect me!',0,0,0,0,'SAY_PREPARE'),
+(-1043001,'I must make the necessary preparations before the awakening ritual can begin. You must protect me!',0,0,0,0,'SAY_PREPARE'),
 (-1043002,'These caverns were once a temple of promise for regrowth in the Barrens. Now, they are the halls of nightmares.',0,0,0,0,'Disciple of Naralex - SAY_FIRST_CORNER'),
 (-1043003,'Come. We must continue. There is much to be done before we can pull Naralex from his nightmare.',0,0,0,0,'Disciple of Naralex - SAY_CONTINUE'),
 (-1043004,'Within this circle of fire I must cast the spell to banish the spirits of the slain Fanglords.',0,0,0,0,'Disciple of Naralex - SAY_CIRCLE_BANISH'),
@@ -2350,7 +2423,12 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 
 (-1568079,'Suit yourself. At least five of you must assist me if we\'re to get inside. Follow me.',0,1,0,0,'harrison SAY_START'),
 (-1568080,'According to my calculations, if enough of us bang the gong at once the seal on these doors will break and we can enter.',0,1,0,0,'harrison SAY_AT_GONG'),
-(-1568081,'I\'ve researched this site extensively and I won\'t allow any dim-witted treasure hunters to swoop in and steal what belongs to in a museum. I\'ll lead this charge.',0,1,0,0,'harrison SAY_OPEN_ENTRANCE');
+(-1568081,'I\'ve researched this site extensively and I won\'t allow any dim-witted treasure hunters to swoop in and steal what belongs to in a museum. I\'ll lead this charge.',0,1,0,0,'harrison SAY_OPEN_ENTRANCE'),
+
+(-1568082,'%s absorbs the essence of the bear spirit!',0,2,0,0,'zuljin EMOTE_BEAR_SPIRIT'),
+(-1568083,'%s absorbs the essence of the eagle spirit!',0,2,0,0,'zuljin EMOTE_EAGLE_SPIRIT'),
+(-1568084,'%s absorbs the essence of the lynx spirit!',0,2,0,0,'zuljin EMOTE_LYNX_SPIRIT'),
+(-1568085,'%s absorbs the essence of the dragonhawk spirit!',0,2,0,0,'zuljin EMOTE_DRAGONHAWK_SPIRIT');
 
 -- -1 574 000 UTGARDE KEEP
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -3102,7 +3180,7 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1604028,'Even the mighty... can fall.',14439,1,0,0,'galdarah SAY_DEATH'),
 
 (-1604029,'%s transforms into a Mammoth!',14724,2,0,0,'moorabi EMOTE_TRANSFORMED'),
-(-1604030,'%N is impaled!',0,3,0,0,'EMOTE_IMPALED');
+(-1604030,'$N is impaled!',0,3,0,0,'EMOTE_IMPALED');
 
 
 -- -1 608 000 VIOLET HOLD
@@ -6041,5 +6119,74 @@ INSERT INTO script_waypoint VALUES
 (8516, 23,2558.75, 969.243, 50.7353, 0, ''),
 (8516, 24,2575.60, 950.138, 52.8460, 0, ''),
 (8516, 25,2575.60, 950.138, 52.8460, 0, '');
+
+DELETE FROM script_waypoint WHERE entry=11832;
+INSERT INTO script_waypoint VALUES
+(11832, 0, 7848.385645, -2216.356670, 470.888333, 15000, 'SAY_REMULOS_INTRO_1'),
+(11832, 1, 7848.385645, -2216.356670, 470.888333, 5000, 'SAY_REMULOS_INTRO_2'),
+(11832, 2, 7829.785645, -2244.836670, 463.853333, 0, ''),
+(11832, 3, 7819.010742, -2304.344238, 455.956726, 0, ''),
+(11832, 4, 7931.099121, -2314.350830, 473.054047, 0, ''),
+(11832, 5, 7943.553223, -2324.688721, 477.676819, 0, ''),
+(11832, 6, 7952.017578, -2351.135010, 485.234924, 0, ''),
+(11832, 7, 7963.672852, -2412.990967, 488.953369, 0, ''),
+(11832, 8, 7975.178223, -2551.602051, 490.079926, 0, ''),
+(11832, 9, 7948.046875, -2570.828613, 489.750732, 0, ''),
+(11832, 10, 7947.161133, -2583.396729, 490.066284, 0, ''),
+(11832, 11, 7951.086426, -2596.215088, 489.831268, 0, ''),
+(11832, 12, 7948.267090, -2610.062988, 492.340424, 0, ''),
+(11832, 13, 7928.521973, -2625.954346, 492.447540, 0, 'escort paused - SAY_REMULOS_INTRO_3'),
+(11832, 14, 7948.267090, -2610.062988, 492.340424, 0, ''),
+(11832, 15, 7952.318848, -2594.118408, 490.070374, 0, ''),
+(11832, 16, 7913.988770, -2567.002686, 488.330566, 0, ''),
+(11832, 17, 7835.454102, -2571.099121, 489.289246, 0, 'escort paused - SAY_REMULOS_DEFEND_2'),
+(11832, 18, 7897.283691, -2560.652344, 487.461304, 0, 'escort paused');
+
+DELETE FROM script_waypoint WHERE entry=10300;
+INSERT INTO script_waypoint VALUES
+(10300, 1, 5728.81, -4801.15, 778.18, 0, ''),
+(10300, 2, 5730.22, -4818.34, 777.11, 0, ''),
+(10300, 3, 5728.12, -4835.76, 778.15, 1000, 'SAY_ENTER_OWL_THICKET'),
+(10300, 4, 5718.85, -4865.62, 787.56, 0, ''),
+(10300, 5, 5697.13, -4909.12, 801.53, 0, ''),
+(10300, 6, 5684.20, -4913.75, 801.60, 0, ''),
+(10300, 7, 5674.67, -4915.78, 802.13, 0, ''),
+(10300, 8, 5665.61, -4919.22, 804.85, 0, ''),
+(10300, 9, 5638.22, -4897.58, 804.97, 0, ''),
+(10300, 10, 5632.67, -4892.05, 805.44, 0, 'Cavern 1 - EMOTE_CHANT_SPELL'),
+(10300, 11, 5664.58, -4921.84, 804.91, 0, ''),
+(10300, 12, 5684.21, -4943.81, 802.80, 0, ''),
+(10300, 13, 5724.92, -4983.69, 808.25, 0, ''),
+(10300, 14, 5753.39, -4990.73, 809.84, 0, ''),
+(10300, 15, 5765.62, -4994.89, 809.42, 0, 'Cavern 2 - EMOTE_CHANT_SPELL'),
+(10300, 16, 5724.94, -4983.58, 808.29, 0, ''),
+(10300, 17, 5699.61, -4989.82, 808.03, 0, ''),
+(10300, 18, 5686.80, -5012.17, 807.27, 0, ''),
+(10300, 19, 5691.43, -5037.43, 807.73, 0, ''),
+(10300, 20, 5694.24, -5054.64, 808.85, 0, 'Cavern 3 - EMOTE_CHANT_SPELL'),
+(10300, 21, 5686.88, -5012.18, 807.23, 0, ''),
+(10300, 22, 5664.94, -5001.12, 807.78, 0, ''),
+(10300, 23, 5647.12, -5002.84, 807.54, 0, ''),
+(10300, 24, 5629.23, -5014.88, 807.94, 0, ''),
+(10300, 25, 5611.26, -5025.62, 808.36, 0, 'Cavern 4 - EMOTE_CHANT_SPELL'),
+(10300, 26, 5647.13, -5002.85, 807.57, 0, ''),
+(10300, 27, 5641.12, -4973.22, 809.39, 0, ''),
+(10300, 28, 5622.97, -4953.58, 811.12, 0, ''),
+(10300, 29, 5601.52, -4939.49, 820.77, 0, ''),
+(10300, 30, 5571.87, -4936.22, 831.35, 0, ''),
+(10300, 31, 5543.23, -4933.67, 838.33, 0, ''),
+(10300, 32, 5520.86, -4942.05, 843.02, 0, ''),
+(10300, 33, 5509.15, -4946.31, 849.36, 0, ''),
+(10300, 34, 5498.45, -4950.08, 849.98, 0, ''),
+(10300, 35, 5485.78, -4963.40, 850.43, 0, ''),
+(10300, 36, 5467.92, -4980.67, 851.89, 0, 'Cavern 5 - EMOTE_CHANT_SPELL'),
+(10300, 37, 5498.68, -4950.45, 849.96, 0, ''),
+(10300, 38, 5518.68, -4921.94, 844.65, 0, ''),
+(10300, 39, 5517.66, -4920.82, 845.12, 0, 'SAY_REACH_ALTAR_1'),
+(10300, 40, 5518.38, -4913.47, 845.57, 0, ''),
+(10300, 41, 5511.31, -4913.82, 847.17, 5000, 'light the spotlights'),
+(10300, 42, 5511.31, -4913.82, 847.17, 0, 'start altar cinematic - SAY_RANSHALLA_ALTAR_2'),
+(10300, 43, 5510.36, -4921.17, 846.33, 0, ''),
+(10300, 44, 5517.66, -4920.82, 845.12, 0, 'escort paused');
 
 -- EOF
