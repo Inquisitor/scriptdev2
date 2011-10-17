@@ -188,17 +188,17 @@ bool GossipHello_npc_battleground_vehicle(Player* pPlayer, Creature* pCreature)
 
 void AddSC_battleground()
 {
-    Script* newscript;
+    Script* pNewScript;
 
-    newscript = new Script;
-    newscript->Name = "npc_spirit_guide";
-    newscript->GetAI = &GetAI_npc_spirit_guide;
-    newscript->pGossipHello = &GossipHello_npc_spirit_guide;
-    newscript->RegisterSelf();
+    pNewScript = new Script;
+    pNewScript->Name = "npc_spirit_guide";
+    pNewScript->GetAI = &GetAI_npc_spirit_guide;
+    pNewScript->pGossipHello = &GossipHello_npc_spirit_guide;
+    pNewScript->RegisterSelf();
 
-    newscript = new Script;
-    newscript->Name = "npc_battleground_vehicle";
-    newscript->GetAI = &GetAI_npc_battleground_vehicle;
-    newscript->pGossipHello = &GossipHello_npc_battleground_vehicle;
-    newscript->RegisterSelf();
+    pNewScript = new Script;
+    pNewScript->Name = "npc_battleground_vehicle";
+    pNewScript->GetAI = &GetAI_npc_battleground_vehicle;
+    pNewScript->pGossipHello = &GossipHello_npc_battleground_vehicle;
+    pNewScript->RegisterSelf();
 }
