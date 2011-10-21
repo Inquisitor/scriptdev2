@@ -1362,14 +1362,14 @@ struct MANGOS_DLL_DECL npc_eye_of_acherusAI : public ScriptedAI
     {
     }
 
-    void MoveInLineOfSight(Unit *)
+    void MoveInLineOfSight(Unit* pWho)
     {
     }
 
-    void JustDied(Unit *)
+    void JustDied(Unit* pKiller)
     {
-        if (Unit* charmer = m_creature->GetCharmer())
-            charmer->RemoveAurasDueToSpell(SPELL_EYE_CONTROL);
+        if (Unit* pCharmer = m_creature->GetCharmer())
+            pCharmer->RemoveAurasDueToSpell(SPELL_EYE_CONTROL);
     }
 
     void MovementInform(uint32 uiType, uint32 uiPointId)
@@ -1382,12 +1382,12 @@ struct MANGOS_DLL_DECL npc_eye_of_acherusAI : public ScriptedAI
         m_creature->CastSpell(m_creature, SPELL_EYE_FL_BOOST_FLY, true);
     }
 
-    void AttackedBy(Unit * attacker)
+    void AttackedBy(Unit* pAttacker)
     {
         // called on remove SPELL_AURA_MOD_POSSESS
-        if (!m_creature->isCharmed() && attacker->GetTypeId() == TYPEID_PLAYER)
+        if (!m_creature->isCharmed() && pAttacker->GetTypeId() == TYPEID_PLAYER)
         {
-            attacker->RemoveAurasDueToSpell(SPELL_EYE_CONTROL);
+            pAttacker->RemoveAurasDueToSpell(SPELL_EYE_CONTROL);
 //            m_creature->ForcedDespawn();
         }
     }
@@ -1624,16 +1624,6 @@ void UpdateWorldState(Map *map, uint32 id, uint32 state)
 
 enum mograine
 {
-/*#ifdef LESS_LAG
-    ENCOUNTER_DK_NUMBER               = 5,  // how many player queue to start the quest , or -
-    ENCOUNTER_DK_TIMER                = 10, // *every 5 minutes. These have to be done in instance data
-    ENCOUNTER_DEFENDER_NUMBER         = 10, // how many of defender
-    ENCOUNTER_EARTHSHATTER_NUMBER     = 10, // how many of earthshatter
-    ENCOUNTER_ABOMINATION_NUMBER      = 2,  // how many of abomination
-    ENCOUNTER_BEHEMOTH_NUMBER         = 1,  // how many of behemoth
-    ENCOUNTER_GHOUL_NUMBER            = 5, // how many of ghoul
-    ENCOUNTER_WARRIOR_NUMBER          = 1,  // how many of warrior
-#else*/
     ENCOUNTER_DK_NUMBER               = 5,  // how many player queue to start the quest , or -
     ENCOUNTER_DK_TIMER                = 10, // *every 5 minutes. These have to be done in instance data
     ENCOUNTER_DEFENDER_NUMBER         = 20, // how many of defender
@@ -1642,7 +1632,6 @@ enum mograine
     ENCOUNTER_BEHEMOTH_NUMBER         = 2,  // how many of behemoth
     ENCOUNTER_GHOUL_NUMBER            = 10, // how many of ghoul
     ENCOUNTER_WARRIOR_NUMBER          = 2,  // how many of warrior
-//#endif
 
     ENCOUNTER_TOTAL_DAWN              = 300,  // Total number
     ENCOUNTER_TOTAL_SCOURGE           = 10000,

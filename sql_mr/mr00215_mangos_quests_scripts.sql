@@ -37,10 +37,12 @@ UPDATE `creature_template` SET `npcflag`=1, `scriptname`='npc_toc_announcer' WHE
 UPDATE `creature_template` SET `pickpocketloot` = 0 WHERE `entry` = 37444;
 UPDATE `creature_template` SET `pickpocketloot` = 0 WHERE `entry` = 31818;
 UPDATE `creature_template` SET `pickpocketloot` = 0 WHERE `entry` = 37283;
+UPDATE `creature_template` SET `AIName` = 'EventAI', `ScriptName` = '' WHERE `entry` = 20159;
+
 
 DELETE FROM `gameobject` WHERE `id`=190643;
 INSERT INTO `gameobject` (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`position_x`,`position_y`,`position_z`,`orientation`,`rotation0`,`rotation1`,`rotation2`,`rotation3`,`spawntimesecs`,`animprogress`,`state`) VALUES
-(200000, 190643, 571, 1, 1, 5545.45, 5767.53, -77.8042, 5.39307, 0, 0, 0.959937, 0.280215, -25, 0, 1),
+(310000, 190643, 571, 1, 1, 5545.45, 5767.53, -77.8042, 5.39307, 0, 0, 0.959937, 0.280215, -25, 0, 1),
 (47391, 190643, 571, 1, 1, 5547.61, 5767.75, -78.0231, 4.08966, 0, 0, 0.889734, -0.456479, -120, 100, 1);
 
 -- EAI Text clean up for quests/sd2
@@ -49,10 +51,49 @@ DELETE FROM `creature_ai_texts` WHERE (`entry`='-555') OR (`entry`='-556') OR (`
 DELETE FROM `creature_ai_texts` WHERE (`entry`='-696') OR (`entry`='-697');
 DELETE FROM `creature_ai_texts` WHERE (`entry`='-312491') OR (`entry`='-312492') OR (`entry`='-312493');
 
+-- Official Sd2 Clean up
+DELETE FROM scripted_event_id WHERE id = 9735;
 
 -- ----------------------------------------------------------------
 -- Start of Quest and related data and fixes ----------------------
 -- ----------------------------------------------------------------
+
+-- ------------
+-- Quest 13663
+-- ------------
+
+UPDATE `creature_template` SET `AIName` = '', `ScriptName` = 'npc_black_knights_gryphon' WHERE `entry` = 33519;
+UPDATE creature_template SET vehicle_id = 402 WHERE entry = 33519; -- vehicle_id can be 88 107 108 112 143 etc.
+UPDATE creature_template SET KillCredit1 = 33341 WHERE entry = 33229;
+UPDATE creature_template SET KillCredit1 = 38595 WHERE entry = 33448;
+
+UPDATE `creature_template` SET `modelid_2` = 28652 WHERE `entry` = 33513;
+UPDATE `creature_template` SET `modelid_2` = 28652 WHERE `entry` = 33519;
+
+-- ------------------
+-- Quests 13665, 13745, 13750, 13756, 13761, 13767, 13772, 13777, 13782, 13787
+-- ------------------
+
+DELETE FROM creature_ai_texts WHERE entry = -335621;
+DELETE FROM creature_ai_scripts WHERE creature_id IN (33285,33306,33382,33383,33384,33558,33559,33561,33562,33564);
+UPDATE gossip_scripts SET datalong2 = 0 WHERE command = 22 AND id IN (10469,10468,10470,10472,10473,10466,10464,10471,10465,10467);
+UPDATE `creature_template` SET `gossip_menu_id` = 10470 WHERE `entry` = 33382;
+UPDATE creature_template SET unit_flags = 0, AIName = '', ScriptName = 'npc_valiant' WHERE entry IN (33285,33306,33382,33383,33384,33558,33559,33561,33562,33564);
+UPDATE creature_template SET spell1 = 63010, spell2 = 64342 WHERE entry IN (33217,33316,33317,33318,33319,33320,33321,33322,33323,33324);
+UPDATE creature_template SET spell3 = 0,spell4 = 0,spell5 = 0,spell6 = 0 WHERE entry IN (33217,33316,33317,33318,33319,33320,33321,33322,33323,33324);
+DELETE FROM creature_spell WHERE guid IN (33217,33316,33317,33318,33319,33320,33321,33322,33323,33324);
+
+-- ------------------
+-- Quest 12065/12066
+-- ------------------
+-- Just a side note i dont think the mobs are correctly spawned/Placed around this area need to research or get someone to screen shot in live
+
+-- Added Quest credit
+UPDATE `creature_template` SET `AIName` = 'EventAI', `ScriptName` = '' WHERE `entry` = '26773';
+DELETE FROM `creature_ai_scripts` WHERE (`id`='2677351');
+INSERT INTO `creature_ai_scripts` VALUES ('2677351', '26773', '8', '0', '100', '1', '50546', '-1', '1000', '1000', '11', '47390', '6', '6', '33', '26773', '6', '0', '0', '0', '0', '0', 'ytdb/R2');
+-- npc 26773 -- not selectable -- kill bunny credit
+UPDATE `creature_template` SET `unit_flags` = 33554688 WHERE `entry` = 26773;
 
 -- ------------------
 -- Quest 12860/12927-
@@ -237,7 +278,7 @@ ScriptName='npc_tipsy_mcmanus'
 WHERE entry=28566;
 
 DELETE FROM `gameobject` WHERE guid = '200000';
-INSERT INTO `gameobject` VALUES ('200000','190643','571','3','1','5545.45','5767.53','-77.8042','5.39307','0','0','0.959937','0.280215','-25','0','1');
+INSERT INTO `gameobject` VALUES ('200000','190643','571','1','1','5545.45','5767.53','-77.8042','5.39307','0','0','0.959937','0.280215','-25','0','1');
 
 DELETE FROM creature WHERE id=28537;
 INSERT INTO creature (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`modelid`,`equipment_id`,`position_x`,`position_y`,`position_z`,`orientation`,`spawntimesecs`,`spawndist`,`currentwaypoint`,`curhealth`,`curmana`,`DeathState`,`MovementType`) VALUES

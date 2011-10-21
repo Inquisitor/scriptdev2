@@ -17,7 +17,8 @@
 /* ScriptData
 SDName: Icecrown
 SD%Complete: 100
-SDComment: Vendor support: 34885 Quest Support: 14107
+SDComment: Vendor support: 34885
+Quest Support: 13663, 13665, 13745, 13750, 13756, 13761, 13767, 13772, 13777, 13782, 13787, 14107
 SDCategory: Icecrown
 EndScriptData */
 
@@ -25,9 +26,63 @@ EndScriptData */
 npc_dame_evniki_kapsalis
 npc_scourge_conventor
 npc_fallen_hero_spirit
+npc_valiant
+npc_black_knights_gryphon
 EndContentData */
 
 #include "precompiled.h"
+#include "escort_ai.h"
+#include "TemporarySummon.h"
+
+/*#####
+## npc_black_knights_gryphon
+#####*/
+ 
+struct MANGOS_DLL_DECL npc_black_knights_gryphonAI : public npc_escortAI
+{
+    npc_black_knights_gryphonAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
+ 
+    void Reset() { }
+ 
+    void SpellHit(Unit* pCaster, const SpellEntry* pSpell)
+    {
+        if (Player* pPlayer = m_creature->GetMap()->GetPlayer(((TemporarySummon*)m_creature)->GetSummonerGuid()))
+            pPlayer->KilledMonsterCredit(m_creature->GetEntry(), m_creature->GetObjectGuid());
+ 
+        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+        m_creature->SetSpeedRate(MOVE_RUN, 3.0f);
+        Start(true, ((Player*)pCaster));
+    }
+ 
+    void WaypointReached(uint32 uiPointId)
+    {
+        switch(uiPointId)
+        {
+            case 0:
+                SetRun();
+                break;
+            case 10:
+                m_creature->SetLevitate(true);
+                m_creature->SetSpeedRate(MOVE_RUN, 6.0f);
+                break;
+            case 15:
+                //if (Player* pPlayer = GetPlayerForEscort())
+                    //hack to prevent Player's death
+                  //  pPlayer->CastSpell(pPlayer, 64505, true);
+                    break;
+            case 16:
+                m_creature->ForcedDespawn(2000);
+                return;
+            default:
+                break;
+        }
+    }
+};
+ 
+CreatureAI* GetAI_npc_black_knights_gryphon(Creature* pCreature)
+{
+    return new npc_black_knights_gryphonAI(pCreature);
+}
 
 /*######
 ## npc_dame_evniki_kapsalis
@@ -206,10 +261,70 @@ CreatureAI* GetAI_npc_fallen_hero_spirit(Creature* pCreature)
     return new npc_fallen_hero_spiritAI(pCreature);
 }
 
+/*#####
+## npc_valiant
+#####*/
+
+enum
+{
+    SAY_DEFEATED          = -1667788,
+    SPELL_VCHARGE         = 63010,
+    SPELL_VSHIELDBREAKER  = 65147,
+
+    SPELL_MOUNTED_MELEE_VICTORY = 62724,
+};
+
+struct MANGOS_DLL_DECL npc_valiantAI : public ScriptedAI
+{
+    npc_valiantAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
+
+    //uint32 m_uiVCHARGE_Timer;
+    //uint32 m_uiVSHIELDBREAKER_Timer;
+
+    void Reset()
+    {
+       //m_uiVCHARGE_Timer          = 2000;  need correct timers
+       //m_uiVSHIELDBREAKER_Timer   = 5000;  need correct timers
+    }
+
+    void DamageTaken(Unit* pDoneBy, uint32 &uiDamage)
+    {
+        if (uiDamage > m_creature->GetHealth())
+        {
+            uiDamage = 5;
+
+            if (Unit* pPlayer = pDoneBy->GetCharmerOrOwnerPlayerOrPlayerItself())
+                pPlayer->CastSpell(pPlayer, SPELL_MOUNTED_MELEE_VICTORY, true);
+
+            DoScriptText(SAY_DEFEATED, m_creature);
+            EnterEvadeMode();
+        }
+    }
+
+    void UpdateAI(const uint32 uiDiff)
+    {
+        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            return;
+       /* {    STILL HAVE ATTACK SPELLS TO DO
+        }*/
+
+        DoMeleeAttackIfReady();
+    }
+};
+
+CreatureAI* GetAI_npc_valiant(Creature* pCreature)
+{
+    return new npc_valiantAI(pCreature);
+}
 
 void AddSC_icecrown()
 {
     Script* pNewScript;
+	
+    pNewScript = new Script;
+    pNewScript->Name = "npc_black_knights_gryphon";
+    pNewScript->GetAI = &GetAI_npc_black_knights_gryphon;
+    pNewScript->RegisterSelf();
 
     pNewScript = new Script;
     pNewScript->Name = "npc_dame_evniki_kapsalis";
@@ -225,5 +340,10 @@ void AddSC_icecrown()
     pNewScript = new Script;
     pNewScript->Name = "npc_fallen_hero_spirit";
     pNewScript->GetAI = &GetAI_npc_fallen_hero_spirit;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "npc_valiant";
+    pNewScript->GetAI = &GetAI_npc_valiant;
     pNewScript->RegisterSelf();
 }
