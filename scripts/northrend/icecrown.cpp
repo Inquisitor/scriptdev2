@@ -26,7 +26,8 @@ EndScriptData */
 npc_dame_evniki_kapsalis
 npc_scourge_conventor
 npc_fallen_hero_spirit
-npc_valiant
+npc_valiants
+npc_champions
 npc_black_knights_gryphon
 EndContentData */
 
@@ -262,7 +263,7 @@ CreatureAI* GetAI_npc_fallen_hero_spirit(Creature* pCreature)
 }
 
 /*#####
-## npc_valiant
+## npc_valiants
 #####*/
 
 enum
@@ -274,9 +275,9 @@ enum
     SPELL_MOUNTED_MELEE_VICTORY = 62724,
 };
 
-struct MANGOS_DLL_DECL npc_valiantAI : public ScriptedAI
+struct MANGOS_DLL_DECL npc_valiantsAI : public ScriptedAI
 {
-    npc_valiantAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
+   npc_valiantsAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
     //uint32 m_uiVCHARGE_Timer;
     //uint32 m_uiVSHIELDBREAKER_Timer;
@@ -312,9 +313,62 @@ struct MANGOS_DLL_DECL npc_valiantAI : public ScriptedAI
     }
 };
 
-CreatureAI* GetAI_npc_valiant(Creature* pCreature)
+CreatureAI* GetAI_npc_valiants(Creature* pCreature)
 {
-    return new npc_valiantAI(pCreature);
+    return new npc_valiantsAI(pCreature);
+}
+
+/*#####
+## npc_champions
+#####*/
+
+enum
+{
+    // spells are defined above
+    SPELL_CHAMP_MOUNTED_MELEE_VICTORY = 63596,
+};
+
+struct MANGOS_DLL_DECL npc_championsAI : public ScriptedAI
+{
+   npc_championsAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
+
+    //uint32 m_uiVCHARGE_Timer;
+    //uint32 m_uiVSHIELDBREAKER_Timer;
+
+    void Reset()
+    {
+       //m_uiVCHARGE_Timer          = 2000;  need correct timers
+       //m_uiVSHIELDBREAKER_Timer   = 5000;  need correct timers
+    }
+
+    void DamageTaken(Unit* pDoneBy, uint32 &uiDamage)
+    {
+        if (uiDamage > m_creature->GetHealth())
+        {
+            uiDamage = 5;
+
+            if (Unit* pPlayer = pDoneBy->GetCharmerOrOwnerPlayerOrPlayerItself())
+                pPlayer->CastSpell(pPlayer, SPELL_CHAMP_MOUNTED_MELEE_VICTORY, true);
+
+            DoScriptText(SAY_DEFEATED, m_creature);
+            EnterEvadeMode();
+        }
+    }
+
+    void UpdateAI(const uint32 uiDiff)
+    {
+        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            return;
+       /* {    STILL HAVE ATTACK SPELLS TO DO
+        }*/
+
+        DoMeleeAttackIfReady();
+    }
+};
+
+CreatureAI* GetAI_npc_champions(Creature* pCreature)
+{
+    return new npc_championsAI(pCreature);
 }
 
 void AddSC_icecrown()
@@ -343,7 +397,12 @@ void AddSC_icecrown()
     pNewScript->RegisterSelf();
 
     pNewScript = new Script;
-    pNewScript->Name = "npc_valiant";
-    pNewScript->GetAI = &GetAI_npc_valiant;
+    pNewScript->Name = "npc_valiants";
+    pNewScript->GetAI = &GetAI_npc_valiants;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "npc_champions";
+    pNewScript->GetAI = &GetAI_npc_champions;
     pNewScript->RegisterSelf();
 }
