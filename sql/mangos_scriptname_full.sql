@@ -589,7 +589,6 @@ UPDATE creature_template SET ScriptName='npc_screecher_spirit' WHERE entry=8612;
 UPDATE creature_template SET ScriptName='npc_blood_knight_dawnstar' WHERE entry=17832;
 UPDATE creature_template SET ScriptName='npc_budd_nedreck' WHERE entry=23559;
 UPDATE creature_template SET ScriptName='npc_ranger_lilatha' WHERE entry=16295;
-UPDATE creature_template SET ScriptName='npc_rathis_tomber' WHERE entry=16224;
 
 /* GNOMEREGAN */
 UPDATE creature_template SET ScriptName='boss_thermaplugg' WHERE entry=7800;
@@ -883,7 +882,6 @@ UPDATE instance_template SET ScriptName='instance_onyxias_lair' WHERE map=249;
 UPDATE creature_template SET ScriptName='boss_onyxia' WHERE entry=10184;
 
 /* ORGRIMMAR */
-UPDATE creature_template SET ScriptName='npc_neeru_fireblade' WHERE entry=3216;
 UPDATE creature_template SET ScriptName='npc_shenthul' WHERE entry=3401;
 UPDATE creature_template SET ScriptName='npc_thrall_warchief' WHERE entry=4949;
 
@@ -1110,6 +1108,8 @@ UPDATE creature_template SET ScriptName='npc_millhouse_manastorm' WHERE entry=20
 UPDATE instance_template SET ScriptName='instance_the_eye' WHERE map=550;
 /* The Eye Trash Mobs */
 UPDATE creature_template SET ScriptName='mob_crystalcore_devastator' WHERE entry=20040;
+/* Al'ar event */
+UPDATE creature_template SET ScriptName='boss_alar' WHERE entry=19514;
 /* Void Reaver event */
 UPDATE creature_template SET ScriptName='boss_void_reaver' WHERE entry=19516;
 /* Astromancer event */
