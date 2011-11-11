@@ -109,6 +109,7 @@ struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
                     m_creature->setFaction(bg->GetVehicleFaction(VEHICLE_SA_DEMOLISHER));
                     factionSet = true;
                 }
+
                 if (mustDespawn(bg))
                     m_creature->ForcedDespawn();
             }
