@@ -154,7 +154,7 @@ struct MANGOS_DLL_DECL npc_battleground_vehicleAI : public ScriptedAI
                 else
                 {
                     pPlayer->EnterVehicle(vehicle);
-                    pPlayer->CastSpell(pCreature, 60968, true);
+                    //pPlayer->CastSpell(pCreature, 60968, true);
                 }
             }
         }

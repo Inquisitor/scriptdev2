@@ -19,91 +19,6 @@
 #include "BattleGroundSA.h"
 #include "Vehicle.h"
 
-#define Spell_Boom         52408
-#define Spell_Boom1        66676
-#define Spell_Boom2        66672
-
-struct MANGOS_DLL_DECL npc_sa_bombAI : public ScriptedAI
-{
-    npc_sa_bombAI(Creature* pCreature) : ScriptedAI(pCreature) { SetCombatMovement(false); Reset(); }
-    uint32 event_bomb;
-    float fx, fy, fz;
-    void Reset() { m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE); event_bomb = 10000; }
-    void Aggro(Unit* who){}
-    void JustDied(Unit* Killer){ m_creature->ForcedDespawn(); }
-    void KilledUnit(Unit *victim){}
-    void UpdateAI(const uint32 diff)
-    {
-        if (event_bomb < diff)
-        {
-            m_creature->GetPosition(fx, fy, fz);
-            m_creature->CastSpell(m_creature, 34602, true);
-            m_creature->CastSpell(m_creature, 71495, true);
-            m_creature->CastSpell(fx, fy, fz, Spell_Boom, true, 0, 0, m_creature->GetCharmerGuid());
-            m_creature->ForcedDespawn();
-        } else event_bomb -= diff;
-    }
-};
- 
-CreatureAI* GetAI_npc_sa_bomb(Creature* pCreature)
-{
-    return new npc_sa_bombAI (pCreature);
-}
-
-struct MANGOS_DLL_DECL npc_ic_bombAI : public ScriptedAI
-{
-    npc_ic_bombAI(Creature* pCreature) : ScriptedAI(pCreature) { SetCombatMovement(false); Reset(); }
-    uint32 event_bomb;
-    float fx, fy, fz;
-    void Reset() { m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE); event_bomb = 10000; }
-    void Aggro(Unit* who){}
-    void JustDied(Unit* Killer){ m_creature->ForcedDespawn(); }
-    void KilledUnit(Unit *victim){}
-    void UpdateAI(const uint32 diff)
-    {
-        if (event_bomb < diff)
-        {
-            m_creature->GetPosition(fx, fy, fz);
-            m_creature->CastSpell(m_creature, 34602, true);
-            m_creature->CastSpell(m_creature, 71495, true);
-            m_creature->CastSpell(fx, fy, fz, Spell_Boom1, true, 0, 0, m_creature->GetCharmerGuid());
-            m_creature->ForcedDespawn();
-        } else event_bomb -= diff;
-    }
-};
-
-CreatureAI* GetAI_npc_ic_bomb(Creature* pCreature)
-{
-    return new npc_ic_bombAI (pCreature);
-}
-
-struct MANGOS_DLL_DECL npc_ic_huge_bombAI : public ScriptedAI
-{
-    npc_ic_huge_bombAI(Creature* pCreature) : ScriptedAI(pCreature) { SetCombatMovement(false); Reset(); }
-    uint32 event_bomb;
-    float fx, fy, fz;
-    void Reset() { m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE); event_bomb = 10000; }
-    void Aggro(Unit* who){}
-    void JustDied(Unit* Killer){ m_creature->ForcedDespawn(); }
-    void KilledUnit(Unit *victim){}
-    void UpdateAI(const uint32 diff)
-    {
-        if (event_bomb < diff)
-        {
-            m_creature->GetPosition(fx, fy, fz);
-            m_creature->CastSpell(m_creature, 34602, true);
-            m_creature->CastSpell(m_creature, 71495, true);
-            m_creature->CastSpell(fx, fy, fz, Spell_Boom2, true, 0, 0, m_creature->GetCharmerGuid());
-            m_creature->ForcedDespawn();
-        } else event_bomb -= diff;
-    }
-};
-
-CreatureAI* GetAI_npc_ic_huge_bomb(Creature* pCreature)
-{
-    return new npc_ic_huge_bombAI (pCreature);
-}
-
 struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
 {
     npc_sa_demolisherAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -115,9 +30,11 @@ struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
     void Reset()
     {
         done = false;
+        factionSet = false;
     }
 
     bool done;
+    bool factionSet;
     BattleGround *bg;
 
     void Aggro(Unit* who){ m_creature->CombatStop(); }
@@ -142,7 +59,7 @@ struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
                 else
                 {
                     pPlayer->EnterVehicle(vehicle);
-                    pPlayer->CastSpell(pCreature, 60968, true);
+                    //pPlayer->CastSpell(pCreature, 60968, true);
                 }
             }
         }
@@ -150,7 +67,7 @@ struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
 
     bool mustDespawn(BattleGround *bg)
     {
-        if (bg->GetStatus() == STATUS_WAIT_JOIN && ((BattleGroundSA*)bg)->GetDefender() == ALLIANCE)
+        if (bg->GetStatus() == STATUS_WAIT_JOIN)
         {
             float x = m_creature->GetPositionX();
             if (x < 1400.0f)
@@ -187,7 +104,11 @@ struct MANGOS_DLL_DECL npc_sa_demolisherAI : public ScriptedAI
 
             if (bg)
             {
-                m_creature->setFaction(bg->GetVehicleFaction(VEHICLE_SA_DEMOLISHER));
+                if (factionSet == false)
+                {
+                    m_creature->setFaction(bg->GetVehicleFaction(VEHICLE_SA_DEMOLISHER));
+                    factionSet = true;
+                }
                 if (mustDespawn(bg))
                     m_creature->ForcedDespawn();
             }
@@ -218,9 +139,11 @@ struct MANGOS_DLL_DECL npc_sa_cannonAI : public ScriptedAI
     void Reset()
     {
         done = false;
+        factionSet = false;
     }
 
     bool done;
+    bool factionSet;
     BattleGround *bg;
 
     void Aggro(Unit* who){ m_creature->CombatStop(); }
@@ -239,7 +162,7 @@ struct MANGOS_DLL_DECL npc_sa_cannonAI : public ScriptedAI
                 else
                 {
                     pPlayer->EnterVehicle(vehicle);
-                    pPlayer->CastSpell(pCreature, 60968, true);
+                    //pPlayer->CastSpell(pCreature, 60968, true);
                 }
             }
         }
@@ -274,8 +197,11 @@ struct MANGOS_DLL_DECL npc_sa_cannonAI : public ScriptedAI
                 }
             }
 
-            if (bg)
+            if ((bg) && (factionSet == false))
+            {
                 m_creature->setFaction(bg->GetVehicleFaction(VEHICLE_SA_CANNON));
+                factionSet = true;
+            }
         }
     }
 };
@@ -422,8 +348,8 @@ static float SpawnLocation[7][3]=
     {1216.12f, 47.7665f, 54.2785f},
     {1255.73f, -233.153f, 56.4357f},
     {1065.02f, -89.9522f, 81.0758f},
-    {880.162f, -95.979f, 109.835f},
-    {808.447f, -109.192f, 109.835f},
+    {868.162f, -120.979f, 109.835f},
+    {880.447f, -95.979f, 109.835f},
 };
 
 static float TeleLocation[7][3]=
@@ -433,8 +359,8 @@ static float TeleLocation[7][3]=
     {1210.68f, 60.3558f, 64.7388f},
     {1245.03f, -226.439f, 66.7201f},
     {1062.83f, -87.1955f, 93.8061f},
+    {880.447f, -95.979f, 109.835f},
     {808.447f, -109.192f, 109.835f},
-    {880.68f, -120.799f, 109.835f},
 };
 
 bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
@@ -488,9 +414,14 @@ bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
 
                             return true;
                         }
-                        else if (i == 4 || i == 5)
+                        else if (i == 4)
                         {
                             pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+1][0],TeleLocation[i+1][1],TeleLocation[i+1][2],0);
+                            return true;
+                        }
+                        else if (i == 5 || i == 6)
+                        {
+                            pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i][0],TeleLocation[i][1],TeleLocation[i][2],0);
                             return true;
                         }
 
@@ -525,21 +456,6 @@ bool GOHello_go_sa_bomb(Player* pPlayer, GameObject* pGo)
 void AddSC_battlegroundSA()
 {
     Script *pNewScript;
-
-    pNewScript = new Script;
-    pNewScript->Name="npc_sa_bomb";
-    pNewScript->GetAI = &GetAI_npc_sa_bomb;
-    pNewScript->RegisterSelf();
-
-    pNewScript = new Script;
-    pNewScript->Name="npc_ic_bomb";
-    pNewScript->GetAI = &GetAI_npc_ic_bomb;
-    pNewScript->RegisterSelf();
-
-    pNewScript = new Script;
-    pNewScript->Name="npc_ic_huge_bomb";
-    pNewScript->GetAI = &GetAI_npc_ic_huge_bomb;
-    pNewScript->RegisterSelf();
 
     pNewScript = new Script;
     pNewScript->Name = "npc_sa_demolisher";
