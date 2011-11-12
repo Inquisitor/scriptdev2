@@ -58,6 +58,36 @@ DELETE FROM scripted_event_id WHERE id = 9735;
 -- Start of Quest and related data and fixes ----------------------
 -- ----------------------------------------------------------------
 
+
+-- -------------
+-- Quest 11560 -
+-- -------------
+UPDATE `gameobject_template` SET `ScriptName` = "", `data2` = 11560 WHERE `entry` = 187373;
+UPDATE `creature_template` SET `ScriptName` = "npc_tadpole" WHERE `entry` = 25201;
+UPDATE `creature` SET `MovementType` = 0 WHERE `id` = 25201;
+DELETE FROM `scripted_event_id` WHERE `id` = 11560;
+INSERT INTO `scripted_event_id` (`id`,`ScriptName`) VALUES (11560,"go_tadpole_cage"); 
+
+-- --------------
+-- Quest 12240  -
+-- --------------
+
+UPDATE `creature_template` SET `modelid_1` = 17612 WHERE `entry` = 27353;
+DELETE FROM `creature` WHERE `id`=27238;
+UPDATE `creature_template` SET `armor` = 7618, `faction_A` = 67, `faction_H` = 67 WHERE `entry` = 27238;
+
+
+-- -------------
+-- Quest 14104 -
+-- -------------
+DELETE FROM `event_scripts` WHERE `id` = 22030;
+INSERT INTO `event_scripts` (`id`,`delay`,`command`,`datalong`,`datalong2`,`x`,`y`,`z`,`o`,`comments`) VALUES (22030,3,10,35012,300000,10006.4,650.6,10.34,4.542,"");
+
+DELETE FROM `creature_equip_template` WHERE (`entry`=110000);
+INSERT INTO `creature_equip_template` (`entry`, `equipentry1`, `equipentry2`, `equipentry3`) VALUES (110000, 34816, 34816, 0);
+
+UPDATE `creature_template` SET `equipment_id` = 110000 WHERE `entry` = 35012;
+
 -- ------------
 -- quest 9164 -
 -- ------------
@@ -657,20 +687,26 @@ INSERT INTO `creature` (`guid`,`id`,`map`,`spawnMask`,`phaseMask`,`modelid`,`equ
 -- -------------------------------------------------
 
 -- Azaloth (21506)
--- UPDATE `creature_template` SET `AIName` = 'EventAI', `ScriptName` = '' WHERE `entry` = 21506;
--- UPDATE `creature_template` SET `modelid_2` = 17287 WHERE `entry` = 21506; -- this isnt correct display yet
 
--- DELETE FROM creature_ai_scripts WHERE creature_id=21506;
--- INSERT INTO creature_ai_scripts VALUES
--- (2150601,21506,8,0,100,1,37834,-1,0,0,1,-21506,0,0,21,6,0,0,16,21892,37834,6,'Azaloth  - Yell and Start Combat Movements'),
--- (2150602,21506,3,0,100,0,0,0,0,0,0,28,0,37833,0,0,0,0,0,0,0,0,'Azaloth  - Yell and Start Combat Movements'),
--- (2150603,21506,0,0,100,1,4000,4000,8000,8000,11,40504,1,0,0,0,0,0,0,0,0,0,'Azaloth - Cast Cleave'),
--- (2150604,21506,0,0,100,1,3000,3000,17000,17000,11,11443,1,1,0,0,0,0,0,0,0,0,'Azaloth Cast Cripple'),
--- (2150605,21506,0,0,100,1,10000,12000,33000,33000,11,38741,4,3,0,0,0,0,0,0,0,0,'Azaloth - Cast Rain of Fire'),
--- (2150606,21506,0,0,100,1,6000,6000,14000,14000,11,38750,1,3,0,0,0,0,0,0,0,0,'Azaloth - Cast War Stomp');
+-- TODO ( really tired right now)
+-- still need to make him attack and make the circle of casters around him being channeled a dumby spell -> only visual stuff is missing
 
--- DELETE FROM creature_ai_texts WHERE entry=-21506;
--- INSERT INTO creature_ai_texts (entry,content_default,type,comment) VALUES
--- (-21506,'Illidan\s lapdogs! You will pay for my imprisonment with your lives!',1,'Azaloth yell1');
+UPDATE `creature_template` SET `AIName` = 'EventAI', `ScriptName` = '' WHERE `entry` = 21506;
+UPDATE `creature_template` SET `modelid_2` = 17287 WHERE `entry` = 21506; -- this isnt correct display yet
 
--- not finished with this
+DELETE FROM creature_ai_scripts WHERE creature_id=21506;
+INSERT INTO creature_ai_scripts VALUES
+(2150601, 21506, 8, 0, 100, 1, 37834, -1, 0, 0, 1, -21506, 0, 0, 28, 0, 37833, 0, 33, 21892, 6, 0, 'Azaloth  - Yell and Start Combat Movements -R2'),
+(2150602,21506,0,0,100,1,4000,4000,8000,8000,11,40504,1,0,0,0,0,0,0,0,0,0,'Azaloth - Cast Cleave-R2'),
+(2150603,21506,0,0,100,1,3000,3000,17000,17000,11,11443,1,1,0,0,0,0,0,0,0,0,'Azaloth Cast Cripple-R2'),
+(2150604,21506,0,0,100,1,10000,12000,33000,33000,11,38741,4,3,0,0,0,0,0,0,0,0,'Azaloth - Cast Rain of Fire-R2'),
+(2150605,21506,0,0,100,1,6000,6000,14000,14000,11,38750,1,3,0,0,0,0,0,0,0,0,'Azaloth - Cast War Stomp-R2');
+
+
+DELETE FROM creature_ai_texts WHERE entry=-21506;
+INSERT INTO creature_ai_texts (entry,content_default,type,comment) VALUES
+(-21506,'Illidan\s lapdogs! You will pay for my imprisonment with your lives!',1,'Azaloth yell1');
+
+DELETE FROM `creature_template_addon` WHERE (`entry`=21506);
+INSERT INTO `creature_template_addon` (`entry`, `mount`, `bytes1`, `b2_0_sheath`, `b2_1_pvp_state`, `emote`, `moveflags`, `auras`) VALUES (21506, 0, 0, 0, 0, 0, 0, '');
+

@@ -34,30 +34,8 @@ struct MANGOS_DLL_DECL instance_culling_of_stratholme : public ScriptedInstance
     uint32 m_uiHeroicTimer;
     uint32 m_uiLastTimer;
 
-    uint64 m_uiChromi01GUID;
-    uint64 m_uiChromi02GUID;
-    uint64 m_uiMikeGUID;
-    uint64 m_uiMalCoricsGUID;
-    uint64 m_uiGrianStoneGUID;
-    uint64 m_uiJamesGUID;
-    uint64 m_uiFrasCiabiGUID;
-    uint64 m_uiForrestenGUID;
-    uint64 m_uiRogerGUID;
-    uint64 m_uiMoriganGUID;
-    uint64 m_uiPerelliGUID;
-    uint64 m_uiJenaGUID;
-    uint64 m_uiMarthaGUID;
-    uint64 m_uiMalcolmGUID;
-    uint64 m_uiDogGUID;
-    uint64 m_uiBartlebyGUID;
-    uint64 m_uiArthasGUID;
-    uint64 m_uiUtherGUID;
-    uint64 m_uiJainaGUID;
-    uint64 m_uiSalrammGUID;
     uint64 m_uiMalganisGUID;
-    uint64 m_uiCorruptorGUID;
-
-    uint64 m_uiShkafGateGUID;
+    uint64 m_uiSalrammGUID;
     uint64 m_uiMalGate1GUID;
     uint64 m_uiMalGate2GUID;
     uint64 m_uiMalChestGUID;
@@ -82,28 +60,7 @@ struct MANGOS_DLL_DECL instance_culling_of_stratholme : public ScriptedInstance
        DoUpdateWorldState(WORLD_STATE_COS_TIME_ON, 0);
 
        m_uiCratesCount = 0;
-       m_uiMikeGUID = 0;
-       m_uiChromi01GUID = 0;
-       m_uiChromi02GUID = 0;
-       m_uiMalCoricsGUID = 0;
-       m_uiGrianStoneGUID = 0;
-       m_uiJamesGUID = 0;
-       m_uiFrasCiabiGUID = 0;
-       m_uiForrestenGUID = 0;
-       m_uiRogerGUID = 0;
-       m_uiMoriganGUID = 0;
-       m_uiPerelliGUID = 0;
-       m_uiJenaGUID = 0;
-       m_uiMarthaGUID = 0;
-       m_uiMalcolmGUID = 0;
-       m_uiDogGUID = 0;
-       m_uiBartlebyGUID = 0;
-       m_uiArthasGUID = 0;
-       m_uiUtherGUID = 0;
-       m_uiJainaGUID = 0;
-       m_uiShkafGateGUID = 0;
        m_uiSalrammGUID = 0;
-       m_uiCorruptorGUID = 0;
        m_uiMalganisGUID = 0;
        m_uiMalGate1GUID = 0;
        m_uiMalGate2GUID = 0;
@@ -177,17 +134,17 @@ struct MANGOS_DLL_DECL instance_culling_of_stratholme : public ScriptedInstance
        if (PlayerList.isEmpty())
            return;
 
-       if (Creature* pChromi = instance->GetCreature(m_uiChromi01GUID))
+       if (Creature* pChromi = GetSingleCreatureFromStorage(NPC_CHROMI01))
        {
            for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
            {
                 pChromi->MonsterWhisper("Good work with crates! Come to me in front of Stratholme for your next assignment!", i->getSource(), false);
-                i->getSource()->KilledMonsterCredit(30996, pChromi->GetObjectGuid());
+                i->getSource()->KilledMonsterCredit(NPC_CRATE_KC_BUNNY, pChromi->GetObjectGuid());
                 i->getSource()->DestroyItemCount(ITEM_ARCANE_DISRUPTOR, 1, true);
             }
             pChromi->SetVisibility(VISIBILITY_OFF);
         }
-        if (Creature* pChromi2 = instance->GetCreature(m_uiChromi02GUID))
+        if (Creature* pChromi2 = GetSingleCreatureFromStorage(NPC_CHROMI02))
             pChromi2->SetVisibility(VISIBILITY_ON);
     }
 
@@ -223,8 +180,8 @@ struct MANGOS_DLL_DECL instance_culling_of_stratholme : public ScriptedInstance
                 m_auiEncounter[5] = uiData;
                 if(uiData == IN_PROGRESS)
                 {
-                  if(Creature* Corruptor = instance->GetCreature(m_uiCorruptorGUID))
-                     Corruptor->SetPhaseMask(1, true);
+                  if (Creature* pCorruptor = GetSingleCreatureFromStorage(NPC_INFINITE_CORRUPTOR))
+                      pCorruptor->SetPhaseMask(1, true);
                   DoUpdateWorldState(WORLD_STATE_COS_TIME_ON, 1);
                   DoUpdateWorldState(WORLD_STATE_COS_TIME_COUNT, 25);  
                 } 
@@ -236,7 +193,7 @@ struct MANGOS_DLL_DECL instance_culling_of_stratholme : public ScriptedInstance
                     DoRespawnGameObject(m_uiMalChestGUID, 30*MINUTE);
                     if (GameObject* pGo = instance->GetGameObject(m_uiMalChestGUID))
                         pGo->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND);
-                    if (Creature* pChromi2 = instance->GetCreature(m_uiChromi02GUID))
+                    if (Creature* pChromi2 = GetSingleCreatureFromStorage(NPC_CHROMI02))
                         pChromi2->SetVisibility(VISIBILITY_OFF);
                     if (GameObject* pGo = instance->GetGameObject(m_uiExitGUID))
                         pGo->SetGoState(GO_STATE_ACTIVE);
@@ -288,8 +245,8 @@ struct MANGOS_DLL_DECL instance_culling_of_stratholme : public ScriptedInstance
          {
              m_auiEncounter[5] = FAIL;
              DoUpdateWorldState(WORLD_STATE_COS_TIME_ON, 0);
-             if(Creature* Corruptor = instance->GetCreature(m_uiCorruptorGUID))
-               Corruptor->SetPhaseMask(0, true);
+             if (Creature* pCorruptor = GetSingleCreatureFromStorage(NPC_INFINITE_CORRUPTOR))
+               pCorruptor->SetPhaseMask(0, true);
 
          }else m_uiHeroicTimer -= uiDiff;
 
