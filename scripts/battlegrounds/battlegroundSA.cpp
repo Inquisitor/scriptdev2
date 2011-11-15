@@ -420,7 +420,7 @@ bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
                             pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i+1][0],TeleLocation[i+1][1],TeleLocation[i+1][2],0);
                             return true;
                         }
-                        else if (i == 5 || i == 6)
+                        else if (i == 5 || i == 6 || i == 7)
                         {
                             pPlayer->TeleportTo(bg->GetMapId(),TeleLocation[i][0],TeleLocation[i][1],TeleLocation[i][2],0);
                             return true;
