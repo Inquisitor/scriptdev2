@@ -237,7 +237,6 @@ struct MANGOS_DLL_DECL boss_taldaram_iccAI : public BSWScriptedAI
     Creature* pBrother2;
     bool invocated;
     uint8 ballscount;
-   // uint32 m_health;
 
     void Reset()
     {
@@ -401,7 +400,6 @@ struct MANGOS_DLL_DECL boss_keleseth_iccAI : public BSWScriptedAI
     Creature* pBrother1;
     Creature* pBrother2;
     bool invocated;
-    //uint32 m_health;
 
     void Reset()
     {
