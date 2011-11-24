@@ -80,7 +80,6 @@ struct MANGOS_DLL_DECL boss_valanar_iccAI : public BSWScriptedAI
     Creature* pBrother1;
     Creature* pBrother2;
     bool invocated;
-    uint32 m_health;
 
     void Reset()
     {
@@ -88,7 +87,7 @@ struct MANGOS_DLL_DECL boss_valanar_iccAI : public BSWScriptedAI
             return;
         resetTimers();
         invocated = false;
-        m_health = m_creature->GetMaxHealth();
+        m_pInstance->SetData(DATA_BLOOD_COUNCIL_HP, m_creature->GetMaxHealth());
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
     }
 
@@ -154,7 +153,7 @@ struct MANGOS_DLL_DECL boss_valanar_iccAI : public BSWScriptedAI
         if (pBrother2) pBrother2->SetInCombatWithZone();
 
         invocated = false;
-        m_health = m_creature->GetMaxHealth();
+        m_pInstance->SetData(DATA_BLOOD_COUNCIL_HP, m_creature->GetMaxHealth());
         m_creature->SetHealth(1);
 
         m_pInstance->SetData(TYPE_BLOOD_COUNCIL, IN_PROGRESS);
@@ -187,7 +186,7 @@ struct MANGOS_DLL_DECL boss_valanar_iccAI : public BSWScriptedAI
             if (!invocated)
             {
                 DoScriptText(-1631307,m_creature);
-                m_creature->SetHealth(m_health);
+                m_creature->SetHealth(m_pInstance->GetData(DATA_BLOOD_COUNCIL_HP));
                 invocated = true;
             }
             if (timedQuery(SPELL_INVOCATION_OF_BLOOD_V, uiDiff))
@@ -196,7 +195,7 @@ struct MANGOS_DLL_DECL boss_valanar_iccAI : public BSWScriptedAI
                 {
                     doRemove(SPELL_INVOCATION_OF_BLOOD_V);
                     invocated = false;
-                    m_health = m_creature->GetHealth();
+                    m_pInstance->SetData(DATA_BLOOD_COUNCIL_HP, m_creature->GetHealth());
                     m_creature->SetHealth(1);
                 }
             }
@@ -238,7 +237,7 @@ struct MANGOS_DLL_DECL boss_taldaram_iccAI : public BSWScriptedAI
     Creature* pBrother2;
     bool invocated;
     uint8 ballscount;
-    uint32 m_health;
+   // uint32 m_health;
 
     void Reset()
     {
@@ -247,7 +246,7 @@ struct MANGOS_DLL_DECL boss_taldaram_iccAI : public BSWScriptedAI
         resetTimers();
         invocated = false;
         ballscount = 0;
-        m_health = m_creature->GetMaxHealth();
+        m_pInstance->SetData(DATA_BLOOD_COUNCIL_HP, m_creature->GetMaxHealth());
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
     }
 
@@ -308,7 +307,6 @@ struct MANGOS_DLL_DECL boss_taldaram_iccAI : public BSWScriptedAI
         if (!hasAura(SPELL_INVOCATION_OF_BLOOD_T))
         {
             invocated = false;
-            m_health = m_creature->GetMaxHealth();
             m_creature->SetHealth(1);
         }
         else
@@ -343,7 +341,7 @@ struct MANGOS_DLL_DECL boss_taldaram_iccAI : public BSWScriptedAI
             if (!invocated)
             {
                 DoScriptText(-1631307,m_creature);
-                m_creature->SetHealth(m_health);
+                m_creature->SetHealth(m_pInstance->GetData(DATA_BLOOD_COUNCIL_HP));
                 invocated = true;
             }
             if (timedQuery(SPELL_INVOCATION_OF_BLOOD_T, uiDiff))
@@ -352,7 +350,7 @@ struct MANGOS_DLL_DECL boss_taldaram_iccAI : public BSWScriptedAI
                 {
                     doRemove(SPELL_INVOCATION_OF_BLOOD_T);
                     invocated = false;
-                    m_health = m_creature->GetHealth();
+                    m_pInstance->SetData(DATA_BLOOD_COUNCIL_HP, m_creature->GetHealth());
                     m_creature->SetHealth(1);
                 }
             }
@@ -403,7 +401,7 @@ struct MANGOS_DLL_DECL boss_keleseth_iccAI : public BSWScriptedAI
     Creature* pBrother1;
     Creature* pBrother2;
     bool invocated;
-    uint32 m_health;
+    //uint32 m_health;
 
     void Reset()
     {
@@ -411,7 +409,7 @@ struct MANGOS_DLL_DECL boss_keleseth_iccAI : public BSWScriptedAI
             return;
         resetTimers();
         invocated = false;
-        m_health = m_creature->GetMaxHealth();
+        m_pInstance->SetData(DATA_BLOOD_COUNCIL_HP, m_creature->GetMaxHealth());
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
     }
 
@@ -472,7 +470,6 @@ struct MANGOS_DLL_DECL boss_keleseth_iccAI : public BSWScriptedAI
         if (!hasAura(SPELL_INVOCATION_OF_BLOOD_K))
         {
             invocated = false;
-            m_health = m_creature->GetMaxHealth();
             m_creature->SetHealth(1);
         }
         else
@@ -508,7 +505,7 @@ struct MANGOS_DLL_DECL boss_keleseth_iccAI : public BSWScriptedAI
             if (!invocated)
             {
                 DoScriptText(-1631307,m_creature);
-                m_creature->SetHealth(m_health);
+                m_creature->SetHealth(m_pInstance->GetData(DATA_BLOOD_COUNCIL_HP));
                 invocated = true;
             };
 
@@ -518,7 +515,7 @@ struct MANGOS_DLL_DECL boss_keleseth_iccAI : public BSWScriptedAI
                 {
                     doRemove(SPELL_INVOCATION_OF_BLOOD_K);
                     invocated = false;
-                    m_health = m_creature->GetHealth();
+                    m_pInstance->SetData(DATA_BLOOD_COUNCIL_HP, m_creature->GetHealth());
                     m_creature->SetHealth(1);
                 }
             }

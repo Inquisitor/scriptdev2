@@ -451,6 +451,9 @@ static Locations SpawnLoc[]=
              case DATA_BLOOD_INVOCATION:         m_uiCouncilInvocation = uiData;
                                                  uiData = NOT_STARTED;
                                                  break;
+             case DATA_BLOOD_COUNCIL_HP:         m_uiCouncilHP = uiData;
+                                                 uiData = NOT_STARTED;
+                                                 break;
              case DATA_DIRECTION:                m_uiDirection = uiData;
                                                  uiData = NOT_STARTED;
                                                  break;
@@ -500,6 +503,7 @@ static Locations SpawnLoc[]=
 
              case DATA_DIRECTION:     return m_uiDirection;
              case DATA_BLOOD_INVOCATION:         return m_uiCouncilInvocation;
+             case DATA_BLOOD_COUNCIL_HP:         return m_uiCouncilHP;
              case TYPE_STINKY:        return m_uiStinkystate;
              case TYPE_PRECIOUS:      return m_uiPreciousstate;
              case TYPE_EVENT:         return m_auiEvent;

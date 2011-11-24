@@ -153,6 +153,7 @@ enum
     MAP_NUM                     = 631,
     DATA_DIRECTION              = 1001,
     DATA_BLOOD_INVOCATION       = 1002,
+    DATA_BLOOD_COUNCIL_HP       = 1003,
     DESPAWN_TIME                = 300000,
     SPELL_SHADOWS_EDGE          = 71168,
 
@@ -190,6 +191,7 @@ private:
     uint32 m_auiEncounter[MAX_ENCOUNTERS+1];
 
     uint32 m_uiCouncilInvocation;
+    uint32 m_uiCouncilHP;
 
     uint32 m_auiEvent;
     uint32 m_auiEventTimer;
