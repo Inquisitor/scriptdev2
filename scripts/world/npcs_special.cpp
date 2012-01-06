@@ -36,9 +36,7 @@ npc_garments_of_quests   80%    NPC's related to all Garments of-quests 5621, 56
 npc_injured_patient     100%    patients for triage-quests (6622 and 6624)
 npc_doctor              100%    Gustaf Vanhowzen and Gregory Victor, quest 6622 and 6624 (Triage)
 npc_innkeeper            25%    ScriptName not assigned. Innkeepers in general.
-npc_lunaclaw_spirit     100%    Appears at two different locations, quest 6001/6002
 npc_mount_vendor        100%    Regular mount vendors all over the world. Display gossip if player doesn't meet the requirements to buy
-npc_rogue_trainer        80%    Scripted trainers, so they are able to offer item 17126 for class quest 6681
 npc_sayge               100%    Darkmoon event fortune teller, buff player based on answers given
 npc_tabard_vendor        50%    allow recovering quest related tabards, achievement related ones need core support
 npc_locksmith            75%    list of keys needs to be confirmed
@@ -608,12 +606,13 @@ struct MANGOS_DLL_DECL npc_injured_patientAI : public ScriptedAI
     void UpdateAI(const uint32 diff)
     {
         //lower HP on every world tick makes it a useful counter, not officlone though
-        if (m_creature->isAlive() && m_creature->GetHealth() > 6)
+        uint32 uiHPLose = uint32(0.05f * diff);
+        if (m_creature->isAlive() && m_creature->GetHealth() > 1 + uiHPLose)
         {
-            m_creature->SetHealth(uint32(m_creature->GetHealth()-5));
+            m_creature->SetHealth(m_creature->GetHealth() - uiHPLose);
         }
 
-        if (m_creature->isAlive() && m_creature->GetHealth() <= 6)
+        if (m_creature->isAlive() && m_creature->GetHealth() <= 1 + uiHPLose)
         {
             m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IN_COMBAT);
             m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
@@ -1103,40 +1102,6 @@ bool GossipSelect_npc_innkeeper(Player* pPlayer, Creature* pCreature, uint32 uiS
 }
 
 /*######
-## npc_lunaclaw_spirit
-######*/
-
-enum
-{
-    QUEST_BODY_HEART_A      = 6001,
-    QUEST_BODY_HEART_H      = 6002,
-
-    TEXT_ID_DEFAULT         = 4714,
-    TEXT_ID_PROGRESS        = 4715
-};
-
-#define GOSSIP_ITEM_GRANT   "You have thought well, spirit. I ask you to grant me the strength of your body and the strength of your heart."
-
-bool GossipHello_npc_lunaclaw_spirit(Player* pPlayer, Creature* pCreature)
-{
-    if (pPlayer->GetQuestStatus(QUEST_BODY_HEART_A) == QUEST_STATUS_INCOMPLETE || pPlayer->GetQuestStatus(QUEST_BODY_HEART_H) == QUEST_STATUS_INCOMPLETE)
-        pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_GRANT, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
-
-    pPlayer->SEND_GOSSIP_MENU(TEXT_ID_DEFAULT, pCreature->GetObjectGuid());
-    return true;
-}
-
-bool GossipSelect_npc_lunaclaw_spirit(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
-{
-    if (uiAction == GOSSIP_ACTION_INFO_DEF+1)
-    {
-        pPlayer->SEND_GOSSIP_MENU(TEXT_ID_PROGRESS, pCreature->GetObjectGuid());
-        pPlayer->AreaExploredOrEventHappens((pPlayer->GetTeam() == ALLIANCE) ? QUEST_BODY_HEART_A : QUEST_BODY_HEART_H);
-    }
-    return true;
-}
-
-/*######
 ## npc_mount_vendor
 ######*/
 
@@ -1222,36 +1187,6 @@ bool GossipSelect_npc_mount_vendor(Player* pPlayer, Creature* pCreature, uint32 
         pPlayer->SEND_VENDORLIST(pCreature->GetObjectGuid());
 
     return true;
-}
-
-/*######
-## npc_rogue_trainer
-######*/
-
-bool GossipHello_npc_rogue_trainer(Player* pPlayer, Creature* pCreature)
-{
-   if (pPlayer->getClass() != CLASS_ROGUE) return false;
-
-   if (pPlayer->getLevel() >= 24 && !pPlayer->HasItemCount(17126,1) && !pPlayer->GetQuestRewardStatus(6681))
-        if (pCreature->isQuestGiver())
-        {
-            pPlayer->PrepareGossipMenu(pCreature,50195);
-            pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "<Take the letter>", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF);
-            pPlayer->SEND_GOSSIP_MENU(5996, pCreature->GetObjectGuid());
-            return true;
-        }
-    return false;
-}
-
-bool GossipSelect_npc_rogue_trainer(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
-{
-    if (uiAction == GOSSIP_ACTION_INFO_DEF)
-    {
-        pPlayer->CastSpell(pPlayer,21100,false);
-        pPlayer->CLOSE_GOSSIP_MENU();
-        return true;
-    } 
-    else return false;
 }
 
 /*######
@@ -2297,7 +2232,7 @@ CreatureAI* GetAI_npc_eye_of_kilrogg(Creature* pCreature)
 }
 
 /*########
-# npc_horseman_fire_bunnyAI
+# npc_fire_bunny
 #########*/
 
 enum
@@ -2369,7 +2304,7 @@ CreatureAI* GetAI_npc_horseman_fire_bunny(Creature* pCreature)
 };
 
 /*########
-npc_shade_of_horseman
+# npc_shade of horseman
 #########*/
 
 struct MANGOS_DLL_DECL npc_shade_of_horsemanAI : public ScriptedAI
@@ -2396,7 +2331,7 @@ struct MANGOS_DLL_DECL npc_shade_of_horsemanAI : public ScriptedAI
         m_uiEventTimer = 2.5*MINUTE*IN_MILLISECONDS;
 
         m_uiConflagrationTimer = 30000;
-        m_uiConflagrationProcTimer = 1500;
+        m_uiConflagrationProcTimer = 2000;
 
         DoCastSpellIfCan(m_creature, SPELL_HORSEMAN_MOUNT);
         DoCastSpellIfCan(m_creature, SPELL_HORSMAN_SHADE_VIS);
@@ -2468,7 +2403,7 @@ struct MANGOS_DLL_DECL npc_shade_of_horsemanAI : public ScriptedAI
             bIsConflagrating = !bIsConflagrating;
             m_creature->GetMotionMaster()->MovementExpired();
             m_creature->GetMotionMaster()->MoveTargetedHome();
-            m_uiConflagrationProcTimer = 1500;
+            m_uiConflagrationProcTimer = 2000;
             m_uiConflagrationTimer = bIsConflagrating ? 10000 : 30000;
             if (bIsConflagrating)
                 DoScriptText(YELL_CONFLAGRATION, m_creature);
@@ -2479,7 +2414,7 @@ struct MANGOS_DLL_DECL npc_shade_of_horsemanAI : public ScriptedAI
         if (bIsConflagrating)
             if (m_uiConflagrationProcTimer < uiDiff)
             {
-                m_uiConflagrationProcTimer = 1500;
+                m_uiConflagrationProcTimer = 2000;
                 if (lFireBunnies.empty())
                 {
                     std::list<Creature*> tempFireBunnies;
@@ -2503,15 +2438,12 @@ struct MANGOS_DLL_DECL npc_shade_of_horsemanAI : public ScriptedAI
                     if (Creature* pFireBunny = m_creature->GetMap()->GetCreature(*itr))
                         if (!pFireBunny->HasAura(SPELL_FLAMES_LARGE))
                         {
-                            if (m_creature->GetDistance(pFireBunny) > 25.0f)
+                            if (DoCastSpellIfCan(pFireBunny, SPELL_CONFLAGRATE) != CAST_OK)
                             {
                                 float x,y,z;
                                 pFireBunny->GetPosition(x,y,z);
-                                m_creature->GetMotionMaster()->MovePoint(0, x, y, z+20);
-                            }
-                            else
-                            {
-                                DoCastSpellIfCan(pFireBunny, SPELL_CONFLAGRATE, CAST_TRIGGERED);
+                                pFireBunny->GetClosePoint(x,y,z,0,5,0);
+                                m_creature->GetMotionMaster()->MovePoint(0, x,y,z+15);
                                 break;
                             }
                         }
@@ -2636,21 +2568,9 @@ void AddSC_npcs_special()
     pNewScript->RegisterSelf(false);                         // script and error report disabled, but script can be used for custom needs, adding ScriptName
 
     pNewScript = new Script;
-    pNewScript->Name = "npc_lunaclaw_spirit";
-    pNewScript->pGossipHello =  &GossipHello_npc_lunaclaw_spirit;
-    pNewScript->pGossipSelect = &GossipSelect_npc_lunaclaw_spirit;
-    pNewScript->RegisterSelf();
-
-    pNewScript = new Script;
     pNewScript->Name = "npc_mount_vendor";
     pNewScript->pGossipHello =  &GossipHello_npc_mount_vendor;
     pNewScript->pGossipSelect = &GossipSelect_npc_mount_vendor;
-    pNewScript->RegisterSelf();
-
-    pNewScript = new Script;
-    pNewScript->Name = "npc_rogue_trainer";
-    pNewScript->pGossipHello =  &GossipHello_npc_rogue_trainer;
-    pNewScript->pGossipSelect = &GossipSelect_npc_rogue_trainer;
     pNewScript->RegisterSelf();
 
     pNewScript = new Script;

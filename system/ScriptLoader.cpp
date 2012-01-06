@@ -7,20 +7,11 @@
 // battlegrounds
 extern void AddSC_battleground();
 extern void AddSC_battlegroundSA();
+extern void AddSC_battlegroundIC();
 
 // custom
 extern void AddSC_mob_teleguy();
 extern void AddSC_npc_arena_honor();
-
-// OutdoorPvP zone scripts
-extern void AddSC_outdoor_pvp_eastern_plaguelands();
-extern void AddSC_outdoor_pvp_silithus();
-
-// OutdoorPvP
-extern void AddSC_outdoor_pvp_eastern_kingdoms();
-extern void AddSC_outdoor_pvp_kalimdor();
-extern void AddSC_outdoor_pvp_northrend();
-extern void AddSC_outdoor_pvp_outland();
 
 // examples
 extern void AddSC_example_creature();
@@ -245,11 +236,13 @@ extern void AddSC_boss_ptheradras();
 extern void AddSC_boss_onyxia();                            // onyxias_lair
 extern void AddSC_instance_onyxias_lair();
 extern void AddSC_boss_amnennar_the_coldbringer();          // razorfen_downs
+extern void AddSC_boss_tuten_kash();
 extern void AddSC_razorfen_downs();
 extern void AddSC_instance_razorfen_kraul();                // razorfen_kraul
 extern void AddSC_razorfen_kraul();
 extern void AddSC_boss_ayamiss();                           // ruins_of_ahnqiraj
 extern void AddSC_boss_kurinnaxx();
+extern void AddSC_boss_ossirian();
 extern void AddSC_boss_moam();
 extern void AddSC_ruins_of_ahnqiraj();
 extern void AddSC_instance_ruins_of_ahnqiraj();
@@ -542,16 +535,11 @@ void AddScripts()
     // battlegrounds
     AddSC_battleground();
     AddSC_battlegroundSA();
+    AddSC_battlegroundIC();
 
     // custom
     AddSC_mob_teleguy();
     AddSC_npc_arena_honor();
-    AddSC_outdoor_pvp_eastern_plaguelands();                // OutdoorPvP zone scripts. Must be _before_ map scripts call!
-    AddSC_outdoor_pvp_silithus();
-    AddSC_outdoor_pvp_eastern_kingdoms();                   // OutdoorPvP
-    AddSC_outdoor_pvp_kalimdor();
-    AddSC_outdoor_pvp_northrend();
-    AddSC_outdoor_pvp_outland();
 
     // examples
     AddSC_example_creature();
@@ -775,11 +763,13 @@ void AddScripts()
     AddSC_boss_onyxia();                                    // onyxias_lair
     AddSC_instance_onyxias_lair();
     AddSC_boss_amnennar_the_coldbringer();                  // razorfen_downs
+    AddSC_boss_tuten_kash();
     AddSC_razorfen_downs();
     AddSC_instance_razorfen_kraul();                        // razorfen_kraul
     AddSC_razorfen_kraul();
     AddSC_boss_ayamiss();                                   // ruins_of_ahnqiraj
     AddSC_boss_kurinnaxx();
+    AddSC_boss_ossirian();
     AddSC_boss_moam();
     AddSC_ruins_of_ahnqiraj();
     AddSC_instance_ruins_of_ahnqiraj();

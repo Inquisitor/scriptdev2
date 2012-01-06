@@ -15,6 +15,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+/* ScriptData
+SDName: Battleground_SA
+SD%Complete: %?
+SDComment: Battleground Strand of Ancients
+SDCategory: Battleground_SA
+EndScriptData */
+
 #include "precompiled.h"
 #include "BattleGroundSA.h"
 #include "Vehicle.h"
@@ -153,7 +160,7 @@ struct MANGOS_DLL_DECL npc_sa_cannonAI : public ScriptedAI
     {
         if (BattleGround *bg = pPlayer->GetBattleGround())
         {
-            if (bg->GetDefender() != pPlayer->GetTeam() || bg->GetStatus() == STATUS_WAIT_JOIN)
+            if (bg->GetDefender() != pPlayer->GetTeam())
                 return;
 
             if (VehicleKit *vehicle = pCreature->GetVehicleKit())
@@ -435,25 +442,6 @@ bool GOHello_go_sa_def_portal(Player* pPlayer, GameObject* pGo)
     return false;
 }
 
-bool GOHello_go_sa_bomb(Player* pPlayer, GameObject* pGo)
-{
-    if (!pPlayer || !pGo)
-        return false;
-
-    if (pPlayer->GetMapId() == 607)
-    {
-        if (BattleGround *bg = pPlayer->GetBattleGround())
-        {
-            if (pPlayer->GetTeam() != bg->GetDefender())
-            {
-                pPlayer->CastSpell(pPlayer, 52415, false);
-                pGo->Delete();
-            }
-        }
-    }
-    return true;
-}
-
 void AddSC_battlegroundSA()
 {
     Script *pNewScript;
@@ -480,10 +468,5 @@ void AddSC_battlegroundSA()
     pNewScript = new Script;
     pNewScript->Name = "go_sa_def_portal";
     pNewScript->pGOUse = &GOHello_go_sa_def_portal;
-    pNewScript->RegisterSelf();
-
-    pNewScript = new Script;
-    pNewScript->Name="go_sa_bomb";
-    pNewScript->pGOUse = &GOHello_go_sa_bomb;
     pNewScript->RegisterSelf();
 }
