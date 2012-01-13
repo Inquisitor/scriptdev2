@@ -416,12 +416,12 @@
 					RelativePath="..\scripts\battlegrounds\battleground.cpp"
 					>
 				</File>
-                                <File
-					RelativePath="..\scripts\battlegrounds\battlegroundSA.cpp"
+				<File
+					RelativePath="..\scripts\battlegrounds\battlegroundIC.cpp"
 					>
 				</File>
-                                <File
-					RelativePath="..\scripts\battlegrounds\battlegroundIC.cpp"
+				<File
+					RelativePath="..\scripts\battlegrounds\battlegroundSA.cpp"
 					>
 				</File>
 			</Filter>
@@ -432,7 +432,7 @@
 					RelativePath="..\scripts\custom\npc_arena_honor.cpp"
 					>
 				</File>
- 				<File
+				<File
 					RelativePath="..\scripts\custom\teleguy.cpp"
 					>
 				</File>
@@ -712,10 +712,10 @@
 					Name="deadmines"
 					>
 					<File
-                      RelativePath="..\scripts\eastern_kingdoms\deadmines\boss_mr_smite.cpp"
-                      >
-                    </File>
-                    <File
+						RelativePath="..\scripts\eastern_kingdoms\deadmines\boss_mr_smite.cpp"
+						>
+					</File>
+					<File
 						RelativePath="..\scripts\eastern_kingdoms\deadmines\deadmines.cpp"
 						>
 					</File>
@@ -2278,10 +2278,6 @@
 							RelativePath="..\scripts\northrend\ulduar\ulduar\ulduar.h"
 							>
 						</File>
-						<File
-							RelativePath="..\scripts\northrend\ulduar\ulduar\ulduar_teleport.cpp"
-							>
-						</File>
 					</Filter>
 				</Filter>
 				<Filter
@@ -3138,14 +3134,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\sc_utility.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\sc_utility.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\sc_gossip.h"
 				>
 			</File>
@@ -3163,6 +3151,14 @@
 			</File>
 			<File
 				RelativePath="..\include\sc_instance.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\sc_utility.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\sc_utility.h"
 				>
 			</File>
 		</Filter>
