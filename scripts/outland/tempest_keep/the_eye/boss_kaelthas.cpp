@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -1264,24 +1264,9 @@ struct MANGOS_DLL_DECL boss_grand_astromancer_capernianAI : public advisorbase_a
         //m_uiArcaneExplosion_Timer
         if (m_uiArcaneExplosion_Timer < uiDiff)
         {
-            bool m_bInMeleeRange = false;
-            Unit* pTarget = NULL;
-            ThreatList const& tList = m_creature->getThreatManager().getThreatList();
-            for (ThreatList::const_iterator i = tList.begin();i != tList.end(); ++i)
-            {
-                Unit* pUnit = m_creature->GetMap()->GetUnit((*i)->getUnitGuid());
-
-                //if in melee range
-                if (pUnit && m_creature->CanReachWithMeleeAttack(pUnit))
-                {
-                    m_bInMeleeRange = true;
-                    pTarget = pUnit;
-                    break;
-                }
-            }
-
-            if (m_bInMeleeRange)
-                DoCastSpellIfCan(pTarget, SPELL_ARCANE_EXPLOSION);
+            // if enemy is in melee range
+            if (m_creature->SelectAttackingTarget(ATTACKING_TARGET_TOPAGGRO, 0, uint32(0), SELECT_FLAG_IN_MELEE_RANGE))
+                DoCastSpellIfCan(m_creature, SPELL_ARCANE_EXPLOSION);
 
             m_uiArcaneExplosion_Timer = urand(4000, 6000);
         }

@@ -835,7 +835,11 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1000777,'These three again?',0,0,0,0,'Feero Ironhand SAY_FINAL_AMBUSH_START'),
 (-1000778,'Not quite so sure of yourself without the Purifier, hm?',0,0,0,0,'Balizar the Umbrage SAY_BALIZAR_FINAL_AMBUSH'),
 (-1000779,'I\'ll finish you off for good this time!',0,0,0,0,'Feero Ironhand SAY_FINAL_AMBUSH_ATTACK'),
-(-1000780,'Well done! I should be fine on my own from here. Remember to talk to Delgren when you return to Maestra\'s Post in Ashenvale.',0,0,0,0,'Feero Ironhand SAY_QUEST_END');
+(-1000780,'Well done! I should be fine on my own from here. Remember to talk to Delgren when you return to Maestra\'s Post in Ashenvale.',0,0,0,0,'Feero Ironhand SAY_QUEST_END'),
+
+(-1000781,'I knew Lurielle would send help! Thank you, friend, and give Lurielle my thanks as well!',0,0,0,0,'Chill Nymph SAY_FREE_1'),
+(-1000782,'Where am I? What happend to me? You... you freed me?',0,0,0,0,'Chill Nymph SAY_FREE_2'),
+(-1000783,'Thank you. I thought I would die without seeing my sisters again!',0,0,0,0,'Chill Nymph SAY_FREE_3');
 
 -- -1 033 000 SHADOWFANG KEEP
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -2607,7 +2611,7 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1580017,'Puny lizard! Death is the only answer you\'ll find here!',12458,1,0,0,'brutallus YELL_INTRO'),
 (-1580018,'Grah! Your magic is weak!',12459,1,0,0,'brutallus YELL_INTRO_BREAK_ICE'),
 (-1580019,'I will crush you!',12460,1,0,0,'brutallus YELL_INTRO_CHARGE'),
-(-1580020,'That was fun.',12461,1,0,0,'brutallus YELL_INTRO_KILL_MADRIGOSA'),
+(-1580020,'That was fun, but I still await a true challenge!',12461,1,0,0,'brutallus YELL_INTRO_KILL_MADRIGOSA'),
 (-1580021,'Come, try your luck!',12462,1,0,0,'brutallus YELL_INTRO_TAUNT'),
 (-1580022,'Ahh! More lambs to the slaughter!',12463,1,0,0,'brutallus YELL_AGGRO'),
 (-1580023,'Perish, insect!',12464,1,0,0,'brutallus YELL_KILL1'),
@@ -2674,19 +2678,32 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1580079,'Aggghh! The powers of the Sunwell... turn... against me! What have you done? What have you done???',12510,1,0,0,'kiljaeden SAY_PHASE_5'),
 (-1580080,'You are not alone. The Blue Dragonflight shall help you vanquish the Deceiver.',12438,1,0,0,'kalecgos SAY_KALECGOS_INTRO'),
 (-1580081,'Anveena, you must awaken, this world needs you!',12445,1,0,0,'kalecgos SAY_KALECGOS_AWAKE_1'),
-(-1580082,'I serve only the Master now.',12511,1,0,0,'anveena SAY_ANVEENA_IMPRISONED'),
+(-1580082,'I serve only the Master now.',12511,0,0,0,'anveena SAY_ANVEENA_IMPRISONED'),
 (-1580083,'You must let go! You must become what you were always meant to be! The time is now, Anveena!',12446,1,0,0,'kalecgos SAY_KALECGOS_AWAKE_2'),
-(-1580084,'But I\'m... lost. I cannot find my way back.',12512,1,0,0,'anveena SAY_ANVEENA_LOST'),
+(-1580084,'But I\'m... lost. I cannot find my way back.',12512,0,0,0,'anveena SAY_ANVEENA_LOST'),
 (-1580085,'Anveena, I love you! Focus on my voice, come back for me now! Only you can cleanse the Sunwell!',12447,1,0,0,'kalecgos SAY_KALECGOS_AWAKE_4'),
-(-1580086,'Kalec... Kalec?',12513,1,0,0,'anveena SAY_ANVEENA_AWAKE'),
+(-1580086,'Kalec... Kalec?',12513,0,0,0,'anveena SAY_ANVEENA_AWAKE'),
 (-1580087,'Yes, Anveena! Let fate embrace you now!',12448,1,0,0,'kalecgos SAY_KALECGOS_AWAKE_5'),
-(-1580088,'The nightmare is over, the spell is broken! Goodbye, Kalec, my love!',12514,1,0,0,'anveena SAY_ANVEENA_SACRIFICE'),
-(-1580089,'Goodbye, Anveena, my love. Few will remember your name, yet this day you change the course of destiny. What was once corrupt is now pure. Heroes, do not let her sacrifice be in vain.',12450,1,0,0,'kalecgos SAY_KALECGOS_GOODBYE'),
+(-1580088,'The nightmare is over, the spell is broken! Goodbye, Kalec, my love!',12514,0,0,0,'anveena SAY_ANVEENA_SACRIFICE'),
+(-1580089,'Goodbye, Anveena, my love. Few will remember your name, yet this day you change the course of destiny. What was once corrupt is now pure. Heroes, do not let her sacrifice be in vain.',12450,0,0,0,'kalecgos SAY_KALECGOS_GOODBYE'),
 (-1580090,'Strike now, heroes, while he is weakened! Vanquish the Deceiver!',12449,1,0,0,'kalecgos SAY_KALECGOS_ENCOURAGE'),
 (-1580091,'I will channel my power into the orbs, be ready!',12440,1,0,0,'kalecgos SAY_KALECGOS_ORB_1'),
 (-1580092,'I have empowered another orb! Use it quickly!',12441,1,0,0,'kalecgos SAY_KALECGOS_ORB_2'),
 (-1580093,'Another orb is ready! Make haste!',12442,1,0,0,'kalecgos SAY_KALECGOS_ORB_3'),
-(-1580094,'I have channeled all I can! The power is in your hands!',12443,1,0,0,'kalecgos SAY_KALECGOS_ORB_4');
+(-1580094,'I have channeled all I can! The power is in your hands!',12443,1,0,0,'kalecgos SAY_KALECGOS_ORB_4'),
+
+(-1580095,'Mortal heroes - your victory here today was foretold long ago. My brother\'s anguished cry of defeat will echo across the universe - bringing renewed hope to all those who still stand against the Burning Crusade.',12515,0,0,1,'velen SAY_OUTRO_1'),
+(-1580096,'As the Legion\'s final defeat draws ever-nearer, stand proud in the knowledge that you have saved worlds without number from the flame.',12516,0,0,1,'velen SAY_OUTRO_2'),
+(-1580097,'Just as this day marks an ending, so too does it herald a new beginning...',12517,0,0,1,'velen SAY_OUTRO_3'),
+(-1580098,'The creature Entropius, whom you were forced to destroy, was once the noble naaru, M\'uru. In life, M\'uru channeled vast energies of LIGHT and HOPE. For a time, a misguided few sought to steal those energies...',12518,0,0,1,'velen SAY_OUTRO_4'),
+(-1580099,'Our arrogance was unpardonable. We damned one of the most noble beings of all. We may never atone for this sin.',12524,0,0,1,'liadrin SAY_OUTRO_5'),
+(-1580100,'Than fortunate it is, that I have reclaimed the noble naaru\'s spark from where it fell! Where faith dwells, hope is never lost, young blood elf.',12519,0,0,1,'velen SAY_OUTRO_6'),
+(-1580101,'Can it be ?',12525,0,0,1,'liadrin SAY_OUTRO_7'),
+(-1580102,'Gaz now, mortals - upon the HEART OF M\'URU! Umblemished. Bathed by the light of Creation - just as it was at the Dawn.',12520,0,0,1,'velen SAY_OUTRO_8'),
+(-1580103,'In time, the light and hope held within - will rebirth more than this mere fount of power... Mayhap, they will rebirth the soul of a nation.',12521,0,0,1,'velen SAY_OUTRO_9'),
+(-1580104,'Blessed ancestors! I feel it... so much love... so much grace... there are... no words... impossible to describe...',12526,0,0,1,'liadrin SAY_OUTRO_10'),
+(-1580105,'Salvation, young one. It waits for us all.',12522,0,0,1,'velen SAY_OUTRO_11'),
+(-1580106,'Farewell...!',12523,0,0,1,'velen SAY_OUTRO_12');
 
 -- -1 585 000 MAGISTER'S TERRACE
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -3611,7 +3628,7 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1631103,'Such wondrous power! The Darkfallen Orb has made me INVINCIBLE!',16727,1,0,0,'keleseth SAY_KELESETH_INVOCATION'),
 (-1631104,'Blood will flow!',16728,1,0,0,'keleseth SAY_KELESETH_SPECIAL'),
 (-1631105,'Were you ever a threat?',16723,1,0,0,'keleseth SAY_KELESETH_SLAY_1'),
-(-1631106,'Truth is found in death.',16724,1,0,0,'keleseth SAY_SKELESETH_SLAY_2'),
+(-1631106,'Truth is found in death.',16724,1,0,0,'keleseth SAY_KELESETH_SLAY_2'),
 (-1631107,'%s cackles maniacally!',16726,2,0,0,'keleseth SAY_KELESETH_BERSERK'), -- TODO Can be wrong
 (-1631108,'My queen... they come...',16725,1,0,0,'keleseth SAY_KELESETH_DEATH'),
 

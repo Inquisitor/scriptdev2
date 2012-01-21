@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -37,8 +37,8 @@ void instance_obsidian_sanctum::Initialize()
 {
     memset(&m_auiEncounter, 0, sizeof(m_auiEncounter));
 
-    m_uiAcolyteShadronGUID  = 0;
-    m_uiAcolyteVesperonGUID = 0;
+    m_uiAcolyteShadronGUID.Clear();
+    m_uiAcolyteVesperonGUID.Clear();
 
     m_lTrashMobsGUIDlist.clear();
     m_lTrashMobsGUIDlist.clear();

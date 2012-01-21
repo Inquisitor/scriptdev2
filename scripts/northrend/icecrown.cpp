@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -193,11 +193,11 @@ CreatureAI* GetAI_npc_scourge_conventor(Creature* pCreature)
 
 enum
 {
-    SAY_BLESS_1                         = -1000594,
-    SAY_BLESS_2                         = -1000595,
-    SAY_BLESS_3                         = -1000596,
-    SAY_BLESS_4                         = -1000597,
-    SAY_BLESS_5                         = -1000598,
+    SAY_BLESS_1                         = -1999819,
+    SAY_BLESS_2                         = -1999820,
+    SAY_BLESS_3                         = -1999821,
+    SAY_BLESS_4                         = -1999822,
+    SAY_BLESS_5                         = -1999823,
 
     SPELL_STRIKE                        = 11976,
     SPELL_BLESSING_OF_PEACE             = 66719,     //spell casted from relic of light
@@ -268,7 +268,7 @@ CreatureAI* GetAI_npc_fallen_hero_spirit(Creature* pCreature)
 
 enum
 {
-    SAY_DEFEATED          = -1667788,
+    SAY_DEFEATED          = -1999824,
     SPELL_VCHARGE         = 63010,
     SPELL_VSHIELDBREAKER  = 65147,
 

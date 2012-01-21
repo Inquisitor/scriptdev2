@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -165,15 +165,11 @@ struct MANGOS_DLL_DECL boss_murmurAI : public ScriptedAI
         {
             if (!CanShockWave)
             {
-                if (Unit* temp = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
+                if (Unit* pTemp = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0, SPELL_MAGNETIC_PULL, SELECT_FLAG_PLAYER))
                 {
-                    if (temp->GetTypeId() == TYPEID_PLAYER)
-                    {
-                        DoCastSpellIfCan(temp, SPELL_MAGNETIC_PULL);
-                        m_playerTargetGuid = temp->GetObjectGuid();
-                        CanShockWave = true;
-                    }
-                    MagneticPull_Timer = 2500;
+                    DoCastSpellIfCan(pTemp, SPELL_MAGNETIC_PULL);
+                    m_playerTargetGuid = pTemp->GetObjectGuid();
+                    CanShockWave = true;
                 }
             }
             else
@@ -185,7 +181,9 @@ struct MANGOS_DLL_DECL boss_murmurAI : public ScriptedAI
                 CanShockWave = false;
                 m_playerTargetGuid.Clear();
             }
-        }else MagneticPull_Timer -= diff;
+        }
+        else
+            MagneticPull_Timer -= diff;
 
         //no meele if preparing for sonic boom
         if (!CanSonicBoom)

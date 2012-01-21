@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -122,13 +122,8 @@ struct MANGOS_DLL_DECL boss_thermapluggAI : public ScriptedAI
         // Remove remaining bombs
         for (GUIDList::const_iterator itr = m_lSummonedBombGUIDs.begin(); itr != m_lSummonedBombGUIDs.end(); ++itr)
         {
-            ObjectGuid guid = *itr;
-            if (!guid || !guid.IsCreature())
-                continue;
-
-            if (Creature* pBomb = m_creature->GetMap()->GetCreature(guid))
-                if (pBomb->IsInWorld())
-                    pBomb->ForcedDespawn();
+            if (Creature* pBomb = m_creature->GetMap()->GetCreature(*itr))
+                pBomb->ForcedDespawn();
         }
         m_lSummonedBombGUIDs.clear();
     }

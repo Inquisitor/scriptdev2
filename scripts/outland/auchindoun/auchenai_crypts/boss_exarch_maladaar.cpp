@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -251,24 +251,16 @@ struct MANGOS_DLL_DECL boss_exarch_maladaarAI : public ScriptedAI
 
         if (m_uiStolenSoulTimer < uiDiff)
         {
-            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0, SPELL_STOLEN_SOUL, SELECT_FLAG_PLAYER))
             {
-                if (pTarget->GetTypeId() == TYPEID_PLAYER)
-                {
-                    if (m_creature->IsNonMeleeSpellCasted(false))
-                        m_creature->InterruptNonMeleeSpells(true);
+                DoScriptText(urand(0, 1) ? SAY_ROAR : SAY_SOUL_CLEAVE, m_creature);
 
-                    DoScriptText(urand(0, 1) ? SAY_ROAR : SAY_SOUL_CLEAVE, m_creature);
+                m_targetGuid = pTarget->GetObjectGuid();
 
-                    m_targetGuid = pTarget->GetObjectGuid();
+                DoCastSpellIfCan(pTarget, SPELL_STOLEN_SOUL, CAST_INTERRUPT_PREVIOUS);
+                DoSpawnCreature(NPC_STOLEN_SOUL, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000);
 
-                    DoCastSpellIfCan(pTarget, SPELL_STOLEN_SOUL);
-                    DoSpawnCreature(NPC_STOLEN_SOUL, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000);
-
-                    m_uiStolenSoulTimer = urand(20000, 30000);
-                }
-                else
-                    m_uiStolenSoulTimer = 1000;
+                m_uiStolenSoulTimer = urand(20000, 30000);
             }
         }
         else

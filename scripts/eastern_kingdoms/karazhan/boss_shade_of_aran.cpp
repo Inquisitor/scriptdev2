@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -59,7 +59,7 @@ enum
     SPELL_BLINK_CENTER          = 29967,
     SPELL_ELEMENTALS            = 29962,
     SPELL_CONJURE               = 29975,
-    SPELL_DRINK_1                 = 30024,
+    SPELL_DRINK                 = 30024,
     SPELL_POTION                = 32453,
     SPELL_AOE_PYROBLAST         = 29978,
 
@@ -266,7 +266,7 @@ struct MANGOS_DLL_DECL boss_aranAI : public ScriptedAI
             {
                 m_creature->CastSpell(m_creature, SPELL_MASS_POLY, true);
                 m_creature->CastSpell(m_creature, SPELL_CONJURE, false);
-                m_creature->CastSpell(m_creature, SPELL_DRINK_1, false);
+                m_creature->CastSpell(m_creature, SPELL_DRINK, false);
                 m_creature->SetStandState(UNIT_STAND_STATE_SIT);
                 m_uiDrinkInturrupt_Timer = 10000;
             }
@@ -276,7 +276,7 @@ struct MANGOS_DLL_DECL boss_aranAI : public ScriptedAI
         if (m_bDrinking && m_bDrinkInturrupted)
         {
             m_bDrinking = false;
-            m_creature->RemoveAurasDueToSpell(SPELL_DRINK_1);
+            m_creature->RemoveAurasDueToSpell(SPELL_DRINK);
             m_creature->SetStandState(UNIT_STAND_STATE_STAND);
             m_creature->SetPower(POWER_MANA, m_creature->GetMaxPower(POWER_MANA)-32000);
             m_creature->CastSpell(m_creature, SPELL_POTION, false);

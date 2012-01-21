@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -271,26 +271,11 @@ struct MANGOS_DLL_DECL boss_vaelastraszAI : public ScriptedAI
         // Burning Adrenaline Caster Timer
         if (m_uiBurningAdrenalineCasterTimer < uiDiff)
         {
-            std::vector<Unit*> vManaPlayers;
-
-            // Scan for mana targets in threat list
-            ThreatList const& tList = m_creature->getThreatManager().getThreatList();
-            vManaPlayers.reserve(tList.size());
-            for (ThreatList::const_iterator iter = tList.begin();iter != tList.end(); ++iter)
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0, SPELL_BURNING_ADRENALINE, SELECT_FLAG_PLAYER | SELECT_FLAG_POWER_MANA))
             {
-                Unit* pTempTarget = m_creature->GetMap()->GetUnit((*iter)->getUnitGuid());
-
-                if (pTempTarget && pTempTarget->getPowerType() == POWER_MANA && pTempTarget->GetTypeId() == TYPEID_PLAYER)
-                    vManaPlayers.push_back(pTempTarget);
+                pTarget->CastSpell(pTarget, SPELL_BURNING_ADRENALINE, true, NULL, NULL, m_creature->GetObjectGuid());
+                m_uiBurningAdrenalineCasterTimer = 15000;
             }
-
-            if (vManaPlayers.empty())
-                return;
-
-            Unit* pTarget = vManaPlayers[urand(0, vManaPlayers.size() - 1)];
-            pTarget->CastSpell(pTarget, SPELL_BURNING_ADRENALINE, true, NULL, NULL, m_creature->GetObjectGuid());
-
-            m_uiBurningAdrenalineCasterTimer = 15000;
         }
         else
             m_uiBurningAdrenalineCasterTimer -= uiDiff;

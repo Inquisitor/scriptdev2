@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -370,22 +370,8 @@ struct MANGOS_DLL_DECL boss_lady_vashjAI : public ScriptedAI
             //m_uiCheck_Timer - used to check if somebody is in melee range
             if (m_uiCheck_Timer < uiDiff)
             {
-                bool bInMeleeRange = false;
-                ThreatList const& tList = m_creature->getThreatManager().getThreatList();
-                for (ThreatList::const_iterator itr = tList.begin();itr != tList.end(); ++itr)
-                {
-                    Unit* pTarget = m_creature->GetMap()->GetUnit((*itr)->getUnitGuid());
-
-                    //if in melee range
-                    if (pTarget && m_creature->CanReachWithMeleeAttack(pTarget))
-                    {
-                        bInMeleeRange = true;
-                        break;
-                    }
-                }
-
                 //if nobody is in melee range
-                if (!bInMeleeRange)
+                if (!m_creature->SelectAttackingTarget(ATTACKING_TARGET_TOPAGGRO, 0, uint32(0), SELECT_FLAG_IN_MELEE_RANGE))
                     CastShootOrMultishot();
 
                 m_uiCheck_Timer = 1500;

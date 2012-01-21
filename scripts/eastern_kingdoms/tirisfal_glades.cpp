@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -79,7 +79,7 @@ bool GOUse_go_mausoleum_trigger(Player* pPlayer, GameObject* pGo)
 enum
 {
     SAY_COMPLETE        = -1000356,
-    SPELL_DRINK_2         = 2639,                             // possibly not correct spell (but iconId is correct)
+    SPELL_DRINK         = 2639,                             // possibly not correct spell (but iconId is correct)
     QUEST_590           = 590,
     FACTION_HOSTILE     = 168
 };
@@ -153,7 +153,7 @@ struct MANGOS_DLL_DECL npc_calvin_montagueAI : public ScriptedAI
                     if (Player* pPlayer = m_creature->GetMap()->GetPlayer(m_playerGuid))
                         pPlayer->AreaExploredOrEventHappens(QUEST_590);
 
-                    m_creature->CastSpell(m_creature,SPELL_DRINK_2,true);
+                    m_creature->CastSpell(m_creature,SPELL_DRINK,true);
                     ++m_uiPhase;
                     break;
                 case 3:

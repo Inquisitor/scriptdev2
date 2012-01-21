@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -42,6 +42,8 @@ enum
     SPELL_KNOCK_AWAY            = 19633,
     SPELL_FIREBALL              = 18392,
     SPELL_FIREBALL_H            = 68926,
+    SPELL_ERRUPTION             = 17731,                    // does not work
+    SPELL_ERRUPTION_H           = 69294,                    // does not work
 
     //Not much choise about these. We have to make own defintion on the direction/start-end point
     SPELL_BREATH_NORTH_TO_SOUTH = 17086,                    // 20x in "array"
