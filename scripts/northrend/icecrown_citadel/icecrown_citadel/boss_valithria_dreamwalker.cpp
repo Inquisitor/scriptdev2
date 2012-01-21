@@ -181,19 +181,19 @@ struct MANGOS_DLL_DECL boss_valithria_dreamwalkerAI : public BSWScriptedAI
 
     void CallMobs(uint8 door, uint8 ad)
     {
-       if(!door) return;
-        uint32 randommob; 
-                             switch (ad) 
-                             {
-                              case 0: randommob = NPC_SUPPRESSOR;             break;
-                              case 1: randommob = NPC_BLISTERING_ZOMBIE;      break;
-                              case 2: randommob = NPC_BLASING_SKELETON;       break;
-                              case 3: randommob = NPC_GLUTTONOUS_ABOMINATION; break;
-                              case 4: randommob = NPC_RISEN_ARCHMAGE;         break;
-                              default: break;
-                              }
-                             if (Unit* pTemp = doSummon(randommob, SpawnLoc[door].x, SpawnLoc[door].y, SpawnLoc[door].z, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 300000))
-                                    mobsGUIDList.push_back(pTemp->GetObjectGuid());  
+        if(!door) return;
+        uint32 randommob = 0; 
+        switch (ad) 
+        {
+            case 0: randommob = NPC_SUPPRESSOR;             break;
+            case 1: randommob = NPC_BLISTERING_ZOMBIE;      break;
+            case 2: randommob = NPC_BLASING_SKELETON;       break;
+            case 3: randommob = NPC_GLUTTONOUS_ABOMINATION; break;
+            case 4: randommob = NPC_RISEN_ARCHMAGE;         break;
+            default: break;
+        }
+        if (Unit* pTemp = doSummon(randommob, SpawnLoc[door].x, SpawnLoc[door].y, SpawnLoc[door].z, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 300000))
+            mobsGUIDList.push_back(pTemp->GetObjectGuid());  
     }
 
     void SummPortal(uint32 npc, uint8 countportal)
