@@ -2137,7 +2137,9 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1558006,'Stare into the darkness of your soul.',10511,1,0,0,'maladaar SAY_SOUL_CLEAVE'),
 (-1558007,'These walls will be your doom.',10516,1,0,0,'maladaar SAY_SLAY_1'),
 (-1558008,'<laugh> Now, you\'ll stay for eternity!',10517,1,0,0,'maladaar SAY_SLAY_2'),
-(-1558009,'This is... where.. I belong...',10518,1,0,0,'maladaar SAY_DEATH');
+(-1558009,'This is... where.. I belong...',10518,1,0,0,'maladaar SAY_DEATH'),
+
+(-1558010,'%s focuses on $N',0,3,0,0,'shirrak EMOTE_FOCUS');
 
 -- -1 560 000 ESCAPE FROM DURNHOLDE (OLD HILLSBRAD)
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -2587,6 +2589,31 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1576022,'%s shields himself and divert his power to the rifts!',0,3,0,0,'anomalus EMOTE_SHIELD');
 
 -- -1 578 000 OCULUS
+INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
+(-1578000,'What do we have here... those would defy the Spell-Weaver? Those without foresight or understanding. How could I make you see? Malygos is saving the world from itself! Bah! You are hardly worth my time!',13635,1,0,0,'urom SAY_SUMMON_1'),
+(-1578001,'Clearly my pets failed. Perhaps another demonstration is in order.',13636,1,0,0,'urom SAY_SUMMON_2'),
+(-1578002,'Still you fight. Still you cling to misguided principles. If you survive, you\'ll find me in the center ring.',13637,1,0,0,'urom SAY_SUMMON_3'),
+(-1578003,'Poor blind fools!',13638,1,0,0,'urom SAY_AGGRO'),
+(-1578004,'A taste... just a small taste... of the Spell-Weaver\'s power!',13639,1,0,0,'urom SAY_EXPLOSION_1'),
+(-1578005,'So much unstable energy... but worth the risk to destroy you!',13640,1,0,0,'urom SAY_EXPLOSION_2'),
+(-1578006,'If only you understood!',13641,1,0,0,'urom SAY_KILL_1'),
+(-1578007,'Now do you see? Do you?!',13642,1,0,0,'urom SAY_KILL_2'),
+(-1578008,'Unfortunate, but necessary.',13643,1,0,0,'urom SAY_KILL_3'),
+(-1578009,'Everything I\'ve done... has been for Azeroth...',13644,1,0,0,'urom SAY_DEATH'),
+
+(-1578010,'Simpletons! You cannot comprehend the forces you have set in motion. The ley line conduit will not be disrupted! Your defeat shall be absolute!',13622,6,0,0,'eregos SAY_SPAWN'),
+(-1578011,'You brash interlopers are out of your element! I will ground you!',13623,1,0,0,'eregos SAY_AGGRO'),
+(-1578012,'We command the arcane! It shall not be used against us.',13626,1,0,0,'eregos SAY_ARCANE_SHIELD'),
+(-1578013,'It is trivial to extinguish your fire!',13627,1,0,0,'eregos SAY_FIRE_SHIELD'),
+(-1578014,'No magic of nature will help you now!',13625,1,0,0,'eregos SAY_NATURE_SHIELD'),
+(-1578015,'Such insolence... such arrogance... must be PUNISHED!',13624,1,0,0,'eregos SAY_FRENZY'),
+(-1578016,'It\'s a long way down...',13628,1,0,0,'eregos SAY_KILL_1'),
+(-1578017,'Back to the earth with you!',13629,1,0,0,'eregos SAY_KILL_2'),
+(-1578018,'Enjoy the fall!',13630,1,0,0,'eregos SAY_KILL_3'),
+(-1578019,'Savor this small victory, foolish little creatures. You and your dragon allies have won this battle. But we will win... the Nexus War.',13631,1,0,0,'eregos SAY_DEATH'),
+
+(-1578020,'Intruders, your victory will be short-lived. I am Commander Varos Cloudstrider. My drakes control the skies and protect this conduit. I will see to it personally that the Oculus does not fall into your hands!',13648,6,0,0,'varos SAY_VAROS_INTRO'),
+(-1578021,'Thank you for freeing us, mortals. Beware, the Blue Flight is alerted to your presence. Even now, Malygos sends Varos Cloudstrider and his ring guardians to defend the Oculus. You will need our help to stand a chance.',0,0,0,1,'belgaristrasz SAY_BELGARISTRASZ_GREET');
 
 -- -1 580 000 SUNWELL PLATEAU
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -2869,11 +2896,11 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1601016,'You shall experience my torment, first-hand!',14055,1,0,0,'anubarak SAY_KILL_1'),
 (-1601017,'You have made your choice.',14056,1,0,0,'anubarak SAY_KILL_2'),
 (-1601018,'Soon, the Master\'s voice will call to you.',14057,1,0,0,'anubarak SAY_KILL_3'),
-(-1601019,'Come forth, my brethren. Feast on their flesh!',14058,1,0,0,'anubarak SAY_SUBMERGE_1'),
-(-1601020,'Auum na-l ak-k-k-k, isshhh.',14059,1,0,0,'anubarak SAY_SUBMERGE_2'),
+(-1601019,'Come forth, my brethren. Feast on their flesh!',14059,1,0,0,'anubarak SAY_SUBMERGE_1'),
+(-1601020,'Auum na-l ak-k-k-k, isshhh.',14058,1,0,0,'anubarak SAY_SUBMERGE_2'),
 (-1601021,'Your armor is useless against my locusts!',14060,1,0,0,'anubarak SAY_LOCUST_1'),
-(-1601022,'The pestilence upon you!',14067,1,0,0,'anubarak SAY_LOCUST_2'),
-(-1601023,'Uunak-hissss tik-k-k-k-k!',14068,1,0,0,'anubarak SAY_LOCUST_3'),
+(-1601022,'The pestilence upon you!',14068,1,0,0,'anubarak SAY_LOCUST_2'),
+(-1601023,'Uunak-hissss tik-k-k-k-k!',14067,1,0,0,'anubarak SAY_LOCUST_3'),
 (-1601024,'Ahhh... RAAAAAGH! Never thought... I would be free of him...',14069,1,0,0,'anubarak SAY_DEATH');
 
 -- -1 602 000 HALLS OF LIGHTNING
@@ -3507,12 +3534,12 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1619032,'I give myself to the master!',0,1,0,0,'jedoga SAY_VOLUNTEER_2'),
 
 (-1619033,'Shgla\'yos plahf mh\'naus.',14043,1,0,0,'volazj SAY_AGGRO'),
-(-1619034,' ',14044,1,0,0,'volazj SAY_INSANITY'),
-(-1619035,' ',14045,1,0,0,'volazj SAY_SLAY_1'),
-(-1619036,' ',14046,1,0,0,'volazj SAY_SLAY_2'),
-(-1619037,' ',14047,1,0,0,'volazj SAY_SLAY_3'),
+(-1619034,'Gul\'kafh an\'shel. Yoq\'al shn ky ywaq nuul.',14044,1,0,0,'volazj SAY_INSANITY'),
+(-1619035,'Ywaq puul skshgn: on\'ma yeh\'glu zuq.',14045,1,0,0,'volazj SAY_SLAY_1'),
+(-1619036,'Ywaq ma phgwa\'cul hnakf.',14046,1,0,0,'volazj SAY_SLAY_2'),
+(-1619037,'Ywaq maq oou; ywaq maq ssaggh. Ywaq ma shg\'fhn.',14047,1,0,0,'volazj SAY_SLAY_3'),
 (-1619038,' ',14048,1,0,0,'volazj SAY_DEATH_1'),
-(-1619039,' ',14049,1,0,0,'volazj SAY_DEATH_2');
+(-1619039,'Iilth vwah, uhn\'agth fhssh za.',14049,1,0,0,'volazj SAY_DEATH_2');
 
 -- -1 631 000 ICC: ICECROWN CITADEL
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -4057,6 +4084,11 @@ INSERT INTO gossip_texts (entry,content_default,comment) VALUES
 (-3560004,'We\'re ready, Thrall.','thrall GOSSIP_ITEM_TARREN'),
 (-3560005,'Strange wizard?','taretha GOSSIP_ITEM_EPOCH1'),
 (-3560006,'We\'ll get you out. Taretha. Don\'t worry. I doubt the wizard would wander too far away.','taretha GOSSIP_ITEM_EPOCH2');
+
+-- -3 564 000 BLACK TEMPLE
+INSERT INTO gossip_texts (entry,content_default,comment) VALUES
+(-3564000,'We are ready to fight alongside you, Akama','akama(shade) GOSSIP_ITEM_START_ENCOUNTER');
+
 
 -- -3 595 000 CULLING OF STRATHOLME
 INSERT INTO gossip_texts (entry,content_default,comment) VALUES
