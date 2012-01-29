@@ -15,9 +15,9 @@
  */
 
 /* ScriptData
-SDName: instance_icecrown_citadel
-SD%Complete: 
-SDComment: 
+SDName: instance_icecrown_spire
+SD%Complete: 90%
+SDComment: by /dev/rsa
 SDCategory: Icecrown Citadel
 EndScriptData */
 

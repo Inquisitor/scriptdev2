@@ -913,6 +913,14 @@ struct MANGOS_DLL_DECL boss_illidan_stormrageAI : public ScriptedAI
     {
         m_uiPhase = PHASE_NORMAL;
 
+        // Check if Maiev are alive/existing. Despawn and clear GUID
+        if (m_maievGuid)
+        {
+            if (Creature* Maiev = m_creature->GetMap()->GetCreature(m_maievGuid))
+                Maiev->ForcedDespawn();
+            m_maievGuid.Clear();
+        }
+
         // Check if any flames/glaives are alive/existing. Kill if alive and set GUIDs to 0
         for(uint8 i = 0; i < 2; ++i)
         {
@@ -1006,7 +1014,7 @@ struct MANGOS_DLL_DECL boss_illidan_stormrageAI : public ScriptedAI
 
     void AttackStart(Unit* pWho)
     {
-        if (!pWho || m_bIsTalking || m_uiPhase == PHASE_FLIGHT || m_uiPhase == PHASE_DEMON || m_uiPhase == PHASE_DEMON_SEQUENCE || m_creature->HasAura(SPELL_KNEEL, EFFECT_INDEX_0))
+        if (!pWho || m_bIsTalking)
             return;
 
         if (pWho == m_creature)
@@ -1017,6 +1025,9 @@ struct MANGOS_DLL_DECL boss_illidan_stormrageAI : public ScriptedAI
             m_creature->AddThreat(pWho);
             m_creature->SetInCombatWith(pWho);
             pWho->SetInCombatWith(m_creature);
+
+        if (m_uiPhase == PHASE_FLIGHT || m_uiPhase == PHASE_DEMON || m_uiPhase == PHASE_DEMON_SEQUENCE || m_creature->HasAura(SPELL_KNEEL, EFFECT_INDEX_0))
+            return;
 
             DoStartMovement(pWho);
         }
@@ -1578,14 +1589,14 @@ struct MANGOS_DLL_DECL boss_illidan_stormrageAI : public ScriptedAI
         }
 
         /** Signal to summon Maiev **/
-        if (m_creature->GetHealthPercent() < 30.0f && !m_maievGuid && (m_uiPhase != PHASE_DEMON || m_uiPhase != PHASE_DEMON_SEQUENCE))
+        if (m_creature->GetHealthPercent() < 30.0f && !m_maievGuid && m_uiPhase != PHASE_DEMON && m_uiPhase != PHASE_DEMON_SEQUENCE)
         {
             SummonMaiev();
             return;
         }
 
         /** Time for the death speech **/
-        if (m_creature->GetHealthPercent() < 1.0f && (m_uiPhase != PHASE_DEMON || m_uiPhase != PHASE_DEMON_SEQUENCE))
+        if (m_creature->GetHealthPercent() < 1.0f && m_uiPhase != PHASE_DEMON && m_uiPhase != PHASE_DEMON_SEQUENCE)
         {
             InitializeDeath();
             return;
