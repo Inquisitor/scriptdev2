@@ -44,7 +44,6 @@ struct MANGOS_DLL_DECL instance_trial_of_the_champion : public ScriptedInstance
     uint32 m_uiArgentChallengerID;
     uint32 m_uiBlackKnightMinionID;
     uint32 m_uiAnnouncerID;
-    uint32 m_uiAnnouncerID_NPC;
     bool   m_bIsRegularMode;
 
     void Initialize()
@@ -278,9 +277,6 @@ struct MANGOS_DLL_DECL instance_trial_of_the_champion : public ScriptedInstance
                 return m_uiBlackKnightMinionID;
             case DATA_TOC5_ANNOUNCER:
                 return m_uiAnnouncerID;
-            case DATA_ARELAS:
-            case DATA_JAEREN:
-                return m_uiAnnouncerID_NPC;
             case TYPE_GRAND_CHAMPIONS:
                 return m_auiEncounter[0];
             case TYPE_ARGENT_CHALLENGE:

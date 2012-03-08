@@ -44,7 +44,6 @@ EndContentData */
 #include "precompiled.h"
 #include "escort_ai.h"
 #include "ObjectMgr.h"
-#include "ObjectAccessor.h"
 #include "TemporarySummon.h"
 #include "WorldPacket.h"
 #include "Vehicle.h"
@@ -1210,120 +1209,6 @@ bool GOUse_go_acherus_soul_prison(Player* pPlayer, GameObject* pGo)
     return false;
 }
 
-#if PLATFORM == PLATFORM_WINDOWS
-// This might fix compilation under Win, but this is wrong! Correct variant under #else branch
-// Code by boxa
-/*######
-## npc_eye_of_acherus
-######*/
- 
-enum EOAMsgs
-{
-    MSG_EOA_LAUNCH     = -1666451,   // The Eye of Acherus launches towards its destination
-    MSG_EOA_CONTROL    = -1666452    // The Eye of Acherus is in your control
-};
- 
-struct MANGOS_DLL_DECL npc_eye_of_acherusAI : public ScriptedAI
-{
-    npc_eye_of_acherusAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
- 
-    ObjectGuid ownerGuid;
-    uint32 StartTimer;
-    bool Active;
- 
-    void Reset()
-    {
-        StartTimer = 2000;
-        Active = false;
-        m_creature->SetDisplayId(26320);
-    }
- 
-    void AttackStart(Unit*) {}
-    void MoveInLineOfSight(Unit*) {}
- 
-    void Finalize()
-    {
-        if (!m_creature || m_creature->GetTypeId() != TYPEID_UNIT)
-            return;
- 
-        Player* owner = m_creature->GetMap()->GetPlayer(ownerGuid);
-        if (owner)
-        {
-            owner->RemoveAurasDueToSpell(51923);
-            owner->RemoveAurasDueToSpell(51852);
-        }
- 
-        m_creature->RemoveAurasDueToSpell(51923);
-        m_creature->RemoveAurasDueToSpell(51852);
-        m_creature->RemoveAurasDueToSpell(530);
-        m_creature->ForcedDespawn();
-    }
- 
-    void JustDied(Unit* killer)
-    {
-        Finalize();
-    }
- 
-    void SpellHit(Unit* pCaster, const SpellEntry* pSpell)
-    {
-        switch (pSpell->Id)
-        {
-            case 530:
-                if (ownerGuid.IsEmpty())
-                    ownerGuid = m_creature->GetCharmerOrOwnerGuid();
-                break;
-            case 52694:
-                Finalize();
-                break;
-        }
-    }
- 
-    void MovementInform(uint32 uiType, uint32 uiPointId)
-    {
-        if (uiType != POINT_MOTION_TYPE && uiPointId == 0)
-            return;
- 
-        m_creature->SetSpeedRate(MOVE_FLIGHT, 1.0f, true);
-        m_creature->RemoveAurasDueToSpell(51923);
-        m_creature->SetDisplayId(25499);
-        m_creature->CastSpell(m_creature, 51890, true);
- 
-        DoScriptText(MSG_EOA_CONTROL, m_creature);
-    }
- 
-    void UpdateAI(const uint32 uiDiff)
-    {
-        if (m_creature->isCharmed())
-        {
-            if (StartTimer < uiDiff && !Active)
-            {
-                // in JustDied() ownerGuid == 0, so set more HP :-/
-                m_creature->SetMaxHealth(999999);
-                m_creature->SetHealth(999999);
- 
-                m_creature->CastSpell(m_creature, 70889, true);
-                m_creature->CastSpell(m_creature, 51892, true);
-                m_creature->CastSpell(m_creature, 51923, true);
-                m_creature->SetSpeedRate(MOVE_FLIGHT, 4.0f, true);
- 
-                DoScriptText(MSG_EOA_LAUNCH, m_creature);
-                m_creature->GetMotionMaster()->MovePoint(0, 1750.8276f, -5873.788f, 147.2266f);
-                Active = true;
-            }
-            else
-                StartTimer -= uiDiff;
-        }
-        else
-            Finalize();
-    }
-};
- 
-CreatureAI* GetAI_npc_eye_of_acherus(Creature* pCreature)
-{
-    return new npc_eye_of_acherusAI(pCreature);
-}
-#else
-// This is code by RSA
 /*######
 ## npc_eye_of_acherus
 ######*/
@@ -1416,7 +1301,6 @@ CreatureAI* GetAI_npc_eye_of_acherus(Creature* pCreature)
 {
     return new npc_eye_of_acherusAI(pCreature);
 }
-#endif
 
 /*######
 ## Mob scarlet miner
