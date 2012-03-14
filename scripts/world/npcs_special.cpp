@@ -2461,6 +2461,16 @@ CreatureAI* GetAI_npc_shade_of_horseman(Creature* pCreature)
 /*########
 npc_wild_turkey
 #########*/
+enum
+{
+    EMOTE_TURKEY_HUNTER              = -1730001,
+    EMOTE_TURKEY_DOMINATION          = -1730002,
+    EMOTE_TURKEY_SLAUGHTER           = -1730003,
+    EMOTE_TURKEY_TRIUMPH             = -1730004,
+
+    SPELL_TURKEY_TRACKER             = 62014,
+    SPELL_PH_KILL_COUNTER_VISUAL_MAX = 62021
+};
 struct MANGOS_DLL_DECL npc_wild_turkeyAI : public ScriptedAI
 {
     npc_wild_turkeyAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -2479,8 +2489,8 @@ struct MANGOS_DLL_DECL npc_wild_turkeyAI : public ScriptedAI
     {
         if (pKiller && pKiller->GetTypeId() == TYPEID_PLAYER)
         {
-            pKiller->CastSpell(pKiller, 62014, true);
-            Aura * pAura = pKiller->GetAura(62014, EFFECT_INDEX_0);
+            pKiller->CastSpell(pKiller, SPELL_TURKEY_TRACKER, true);
+            Aura * pAura = pKiller->GetAura(SPELL_TURKEY_TRACKER, EFFECT_INDEX_0);
             if (pAura)
             {
                 uint32 stacks = pAura->GetStackAmount();
@@ -2488,23 +2498,23 @@ struct MANGOS_DLL_DECL npc_wild_turkeyAI : public ScriptedAI
                 {
                     case 10:
                     {
-                        DoScriptText(-1730001, m_creature, pKiller);
+                        DoScriptText(EMOTE_TURKEY_HUNTER, m_creature, pKiller);
                         break;
                     }
                     case 20:
                     {
-                        DoScriptText(-1730002, m_creature, pKiller);
+                        DoScriptText(EMOTE_TURKEY_DOMINATION, m_creature, pKiller);
                         break;
                     }
                     case 30:
                     {
-                        DoScriptText(-1730003, m_creature, pKiller);
+                        DoScriptText(EMOTE_TURKEY_SLAUGHTER, m_creature, pKiller);
                         break;
                     }
                     case 40:
                     {
-                        DoScriptText(-1730004, m_creature, pKiller);
-                        pKiller->CastSpell(pKiller, 62021, true);
+                        DoScriptText(EMOTE_TURKEY_TRIUMPH, m_creature, pKiller);
+                        pKiller->CastSpell(pKiller, SPELL_PH_KILL_COUNTER_VISUAL_MAX, true);
                         break;
                     }
                     default: break;
@@ -2527,7 +2537,6 @@ CreatureAI* GetAI_npc_wild_turkey(Creature* pCreature)
 #define GOSSIP_TEXT_EXP         14736
 #define GOSSIP_XP_OFF           "I no longer wish to gain experience."
 #define GOSSIP_XP_ON            "I wish to start gaining experience again."
-
 
 bool GossipHello_npc_experience(Player* pPlayer, Creature* pCreature)
 {
