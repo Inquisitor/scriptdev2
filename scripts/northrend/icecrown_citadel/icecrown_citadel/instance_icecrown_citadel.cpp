@@ -287,6 +287,23 @@ void instance_icecrown_spire::SetData(uint32 uiType, uint32 uiData)
             }
             break;
          case TYPE_FLIGHT_WAR:
+            if (uiData == DONE && m_auiEncounter[TYPE_FLIGHT_WAR] != DONE  )
+            {
+                if (GameObject* pChest = GetSingleGameObjectFromStorage(m_uiGunshipArmoryA_ID))
+                {
+                    if (pChest && !pChest->isSpawned()) 
+                    {
+                        pChest->SetRespawnTime(7*DAY);
+                    }
+                }
+                if (GameObject* pChest = GetSingleGameObjectFromStorage(m_uiGunshipArmoryH_ID))
+                {
+                    if (pChest && !pChest->isSpawned()) 
+                    {
+                        pChest->SetRespawnTime(7*DAY);
+                    }
+                }
+            };
             m_auiEncounter[3] = uiData;
             break;
          case TYPE_SAURFANG:
