@@ -64,6 +64,9 @@ enum BossSpells
     // Phase 3
     SPELL_MYSTIC_BUFFET         = 70128,
 
+    // Upon death
+    SPELL_FROST_INFUSION_QUEST_CREDIT = 72289,
+
     // NPCs
     NPC_ICE_TOMB                = 36980,
     NPC_FROST_BOMB              = 37186,
@@ -183,6 +186,9 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public base_icc_bossAI
             m_pInstance->SetData(TYPE_SINDRAGOSA, DONE);
 
         DoScriptText(SAY_DEATH, m_creature);
+
+        // Frost Infusion Quest Credit
+        DoCast(m_creature, SPELL_FROST_INFUSION_QUEST_CREDIT, true);
     }
 
     void MovementInform(uint32 uiMovementType, uint32 uiData)
