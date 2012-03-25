@@ -1954,11 +1954,11 @@ struct MANGOS_DLL_DECL npc_valkyr  : public ScriptedAI
      m_creature->SetLevel(owner->getLevel());
      m_creature->setFaction(owner->getFaction());
 
-     m_creature->SetUInt32Value(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GUARD);
+     //m_creature->SetUInt32Value(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GUARD);
      m_creature->SetUInt32Value(UNIT_FIELD_FLAGS, UNIT_FLAG_PVP_ATTACKABLE);
      m_creature->SetUInt32Value(UNIT_FIELD_BYTES_0, 50331648);
      m_creature->SetUInt32Value(UNIT_FIELD_BYTES_1, 50331648);
-     m_creature->AddSplineFlag(SPLINEFLAG_FLYING);
+     m_creature->SetLevitate(true);
 
      inCombat = false;
      m_ui_valkyr_Timer = urand(1500,2000);
@@ -2041,7 +2041,7 @@ struct MANGOS_DLL_DECL npc_valkyr  : public ScriptedAI
         float mPosX, mPosY, mPosZ;
         m_creature->GetPosition(mPosX, mPosY, mPosZ);
         if (fabsf(mPosZ-fPosZ-4.0)> 1.0 )
-            m_creature->SendMonsterMoveWithSpeed(mPosX,mPosY,fPosZ+4.0,200);
+            m_creature->MonsterMoveWithSpeed(mPosX,mPosY,fPosZ+4.0,28);
 
         if (!inCombat) return;
 
