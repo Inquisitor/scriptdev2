@@ -366,6 +366,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public base_icc_bossAI
                 {
                     m_uiPhaseTimer = 35000;
                     m_uiPhase = PHASE_FLYING;
+                    m_uiFlyingTimer = 60000;
                     DoScriptText(SAY_TAKEOFF, m_creature);
 
                     // fly to the air point
@@ -416,6 +417,7 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public base_icc_bossAI
                 {
                     m_uiPhase = PHASE_FLYING;
                     m_uiPhaseTimer = 42000;
+                    m_uiFlyingTimer = 60000;
 
                     // fly to the ground point
                     m_creature->GetMotionMaster()->MovePoint(POINT_LAND, SindragosaLoc[0].x, SindragosaLoc[0].y, SindragosaLoc[0].z, false);
