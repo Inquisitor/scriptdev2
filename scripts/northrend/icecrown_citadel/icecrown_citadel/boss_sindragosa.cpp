@@ -489,6 +489,10 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public base_icc_bossAI
                 // Icy Grip and Blistering Cold
                 if (m_uiIcyGripTimer <= uiDiff)
                 {
+                    // Delay Frost Beacon and Ice Tomb while gripping players
+                    m_uiFrostBeaconTimer += 9000;
+                    m_uiIceTombTimer += 9000;
+                    // Cast Icy Grip (Blistering Cold is triggered)
                     if (DoCastSpellIfCan(m_creature, SPELL_ICY_GRIP) == CAST_OK)
                     {
                         DoScriptText(SAY_BLISTERING_COLD, m_creature);
