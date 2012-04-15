@@ -2585,6 +2585,102 @@ bool GossipSelect_npc_experience(Player* pPlayer, Creature* /*pCreature*/, uint3
     return true;
 }
 
+/*###############################
+## Spring Rabbit & Noblegarden ##
+###############################*/
+
+enum
+{
+    PHASE_SEEK_RABBIT,
+    PHASE_LOVE_RABBIT,
+
+    SPRING_RABBIT_ENTRY     = 32791,
+
+    TIMER_SEEK_RABBIT       = 15000,
+    TIMER_LOVE_RABBIT       = 15000,
+
+    SPELL_SPRING_FLING      = 61875,
+    SPELL_SUMMON_BABY_BUNNY = 61727,
+    SPELL_RABBIT_IN_LOVE    = 61728
+};
+
+struct MANGOS_DLL_DECL npc_spring_rabbit_AI : public ScriptedAI
+{
+    npc_spring_rabbit_AI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
+
+    uint32 m_uiPhase;                                       //0 - seeking; 1 - love
+
+    uint32 m_uiLoveTimer;                                   //Timer for love
+    uint32 m_uiSeekTimer;                                   //Timer for seek another rabbit
+    bool m_bRabbitFound;                                   //flag whether rabbit is present near another rabbit
+
+    void Reset()
+    {
+        m_uiLoveTimer = TIMER_LOVE_RABBIT;
+        m_uiSeekTimer = TIMER_SEEK_RABBIT;
+        m_uiPhase = PHASE_SEEK_RABBIT;
+        m_bRabbitFound = false;
+        m_creature->InterruptSpell(CURRENT_CHANNELED_SPELL, false);
+        Unit * owner = m_creature->GetOwner();
+        if (owner && owner->GetTypeId() == TYPEID_PLAYER)
+            m_creature->GetMotionMaster()->MoveFollow(owner, PET_FOLLOW_DIST, PET_FOLLOW_ANGLE);
+    }
+
+    void MoveInLineOfSight(Unit *who)
+    {
+        if (who && who->GetTypeId() == TYPEID_UNIT)
+        {
+            if (who->GetEntry() == SPRING_RABBIT_ENTRY)
+            {
+                if (m_uiPhase == PHASE_SEEK_RABBIT)
+                {
+                    if (m_creature->IsWithinDistInMap(who, 15.0f))
+                        m_bRabbitFound = true;
+                }
+            }
+        }
+    }
+
+    void UpdateAI(const uint32 uiDiff)
+    {
+        if (m_uiPhase == PHASE_LOVE_RABBIT)
+        {
+            if (m_uiLoveTimer < uiDiff)
+            {
+                m_creature->InterruptSpell(CURRENT_CHANNELED_SPELL, false);
+                m_creature->CastSpell(m_creature, SPELL_SUMMON_BABY_BUNNY, false);
+                m_uiLoveTimer = TIMER_LOVE_RABBIT;
+                m_uiPhase = PHASE_SEEK_RABBIT;
+                m_bRabbitFound = false;
+            }
+            else m_uiLoveTimer -= uiDiff;
+        }
+        if (m_uiPhase == PHASE_SEEK_RABBIT)
+        {
+            if (m_uiSeekTimer < uiDiff)
+            {
+                Unit * owner = m_creature->GetOwner();
+                if (owner && owner->GetTypeId() == TYPEID_PLAYER && m_bRabbitFound)
+                {
+                    m_creature->CastSpell(m_creature, SPELL_RABBIT_IN_LOVE, false);
+                    owner->CastSpell(owner, SPELL_SPRING_FLING, true);
+                    m_bRabbitFound = false;
+                    m_uiPhase = PHASE_LOVE_RABBIT;
+                }
+
+                m_uiSeekTimer = TIMER_SEEK_RABBIT;
+            }
+            else m_uiSeekTimer -= uiDiff;
+        }
+    }
+};
+
+CreatureAI* GetAI_npc_spring_rabbit(Creature* pCreature)
+{
+    return new npc_spring_rabbit_AI(pCreature);
+}
+
+
 void AddSC_npcs_special()
 {
     Script* pNewScript;
@@ -2710,5 +2806,10 @@ void AddSC_npcs_special()
     pNewScript->Name = "npc_experience";
     pNewScript->pGossipHello =  &GossipHello_npc_experience;
     pNewScript->pGossipSelect = &GossipSelect_npc_experience;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "npc_spring_rabbit";
+    pNewScript->GetAI = &GetAI_npc_spring_rabbit;
     pNewScript->RegisterSelf();
 }
