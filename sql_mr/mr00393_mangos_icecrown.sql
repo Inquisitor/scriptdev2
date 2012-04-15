@@ -357,7 +357,7 @@ INSERT INTO `creature_model_info` (`modelid`, `bounding_radius`, `combat_reach`,
 DELETE FROM `creature_model_info` WHERE (`modelid`=31093);
 INSERT INTO `creature_model_info` (`modelid`, `bounding_radius`, `combat_reach`, `gender`, `modelid_other_gender`, `modelid_alternative`) VALUES (31093, 1.24, 2, 1, 0, 0);
 
-UPDATE `gameobject_template` SET `type`='0' WHERE `entry`=201755;
+UPDATE `gameobject_template` SET `type`='0', `flags`='32', `faction`='114' WHERE `entry`=201755;
 
 -- ---------------------
 -- Valithria dreamwalker
@@ -403,6 +403,12 @@ UPDATE `gameobject` SET `state` = '1' WHERE `id` IN (201374);
 UPDATE `gameobject_template` SET `faction` = '114',`data0` = '0' WHERE `gameobject_template`.`entry` IN (201380,201381,201382,201383);
 UPDATE `gameobject_template` SET `faction` = '0' WHERE `entry` IN (201380,201381,201382,201383);
 UPDATE `gameobject` SET `state` = '1' WHERE `id` IN (201380,201381,201382,201383);
+
+UPDATE `gameobject_template` SET `type`='0', `flags`='32', `faction`='114' WHERE `entry` IN (201919, 201380, 201381, 201382, 201383);
+UPDATE `gameobject` SET `spawnMask` = '15', `phaseMask` = '1' WHERE `id` =201919;
+
+UPDATE `creature_template_addon` SET `auras` = '' WHERE `entry` IN ('38131', '38132', '37134', '37132');
+UPDATE `creature_template_addon` SET `auras` = '71244' WHERE `entry`='38133';
 
 -- ----------
 -- Sindragosa
@@ -532,5 +538,27 @@ INSERT INTO `creature_template_addon` (`entry`, `mount`, `bytes1`, `b2_0_sheath`
 
 
 -- DELETE FROM `creature` WHERE `id`=37950;
+
+-- ------
+
+-- ICC Achievements criterias --
+REPLACE INTO `achievement_criteria_requirement` VALUES(12777,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(13079,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(13080,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(13081,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(12776,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(12995,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(12997,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(12998,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(12778,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(13035,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(13036,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(13037,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(12971,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(12978,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(12979,18,0,0);
+REPLACE INTO `achievement_criteria_requirement` VALUES(12980,18,0,0);
+DELETE FROM `achievement_criteria_requirement` WHERE criteria_id IN (12780, 13011, 13012, 13013);
+INSERT INTO `achievement_criteria_requirement` VALUES(12780,0,0,0),(13011,0,0,0),(13012,0,0,0),(13013,0,0,0);
 
 -- ------
