@@ -67,6 +67,39 @@ void ScriptedInstance::DoRespawnGameObject(ObjectGuid guid, uint32 uiTimeToDespa
     }
 }
 
+/// Function that uses a door or button that is stored in m_mGoEntryGuidStore
+void ScriptedInstance::DoToggleGameObjectFlags(uint32 uiEntry, uint32 uiGOflags, bool bApply)
+{
+    EntryGuidMap::iterator find = m_mGoEntryGuidStore.find(uiEntry);
+    if (find != m_mGoEntryGuidStore.end())
+        DoToggleGameObjectFlags(find->second, uiGOflags, bApply);
+    else
+        // Output log, possible reason is not added GO to storage, or not yet loaded
+        debug_log("SD2: Script call ToogleTameObjectFlags (by Entry), but no gameobject of entry %u was created yet, or it was not stored by script for map %u.", uiEntry, instance->GetId());
+}
+
+/**
+   Function that toggles the GO-flags of a GameObject
+
+   @param   guid The ObjectGuid of the GO that will be respawned
+   @param   uiGOflags Which GO-flags to toggle
+   @param   bApply should the GO-flags be applied or removed?
+ */
+void ScriptedInstance::DoToggleGameObjectFlags(ObjectGuid guid, uint32 uiGOflags, bool bApply)
+{
+    if (!guid)
+        return;
+
+    if (GameObject* pGo = instance->GetGameObject(guid))
+    {
+        if (bApply)
+            pGo->SetFlag(GAMEOBJECT_FLAGS, uiGOflags);
+        else
+            pGo->RemoveFlag(GAMEOBJECT_FLAGS, uiGOflags);
+    }
+}
+
+
 /// Function that respawns a despawned GO that is stored in m_mGoEntryGuidStore
 void ScriptedInstance::DoRespawnGameObject(uint32 uiEntry, uint32 uiTimeToDespawn)
 {
@@ -114,6 +147,21 @@ void ScriptedInstance::DoCompleteAchievement(uint32 uiAchievmentId)
     }
     else
         debug_log("SD2: DoCompleteAchievement attempt set data but no players in map.");
+}
+void ScriptedInstance::DoUpdateAchievementCriteria(AchievementCriteriaTypes type, uint32 miscvalue1 /*=0*/, uint32 miscvalue2 /*=0*/)
+{
+    Map::PlayerList const& lPlayers = instance->GetPlayers();
+
+    if (!lPlayers.isEmpty())
+    {
+        for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+        {
+            if (Player* pPlayer = itr->getSource())
+                pPlayer->UpdateAchievementCriteria(type, miscvalue1, miscvalue2);
+        }
+    }
+    else
+        debug_log("SD2: DoUpdateAchievementCriteria attempt set data but no players in map.");
 }
 
 /// Get the first found Player* (with requested properties) in the map. Can return NULL.
