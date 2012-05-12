@@ -2585,6 +2585,34 @@ bool GossipSelect_npc_experience(Player* pPlayer, Creature* /*pCreature*/, uint3
     return true;
 }
 
+/*########
+# npc_football_ballAI
+#########*/
+
+#define SPELL_ICE_SPHERE 69090
+
+struct MANGOS_DLL_DECL npc_football_ballAI : public ScriptedAI
+{
+    npc_football_ballAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
+
+    void Reset()
+    {
+        if (!m_creature->HasAura(SPELL_ICE_SPHERE))
+            m_creature->CastSpell(m_creature, SPELL_ICE_SPHERE, true);
+    }
+
+    void UpdateAI(const uint32 diff)
+    {
+        if (!m_creature->HasAura(SPELL_ICE_SPHERE))
+            m_creature->CastSpell(m_creature, SPELL_ICE_SPHERE, true);
+    }
+};
+
+CreatureAI* GetAI_npc_football_ball(Creature* pCreature)
+{
+    return new npc_football_ballAI(pCreature);
+}
+
 void AddSC_npcs_special()
 {
     Script* pNewScript;
@@ -2710,5 +2738,10 @@ void AddSC_npcs_special()
     pNewScript->Name = "npc_experience";
     pNewScript->pGossipHello =  &GossipHello_npc_experience;
     pNewScript->pGossipSelect = &GossipSelect_npc_experience;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "npc_football_ball";
+    pNewScript->GetAI = &GetAI_npc_football_ball;
     pNewScript->RegisterSelf();
 }
