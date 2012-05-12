@@ -124,7 +124,7 @@ void instance_icecrown_spire::OnCreatureCreate(Creature* pCreature)
         case NPC_SPINESTALKER:
         case NPC_STINKY:
         case NPC_PRECIOUS:
-        case NPC_COMBAT_TRIGGER:
+        case NPC_GREEN_DRAGON_COMBAT_TRIGGER:
         case NPC_FROSTMOURNE_TRIGGER:
         case NPC_FROSTMOURNE_HOLDER:
         case NPC_BLOOD_ORB_CONTROL:
@@ -221,6 +221,10 @@ void instance_icecrown_spire::OnObjectCreate(GameObject* pGo)
         case GO_SINDRAGOSA_DOOR_2:
             if (m_auiEncounter[TYPE_VALITHRIA] == DONE)
                 pGo->SetGoState(GO_STATE_ACTIVE);
+            m_mGoEntryGuidStore[pGo->GetEntry()] = pGo->GetObjectGuid();
+            break;
+        case GO_DRINK_ME_TABLE:
+            pGo->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_NO_INTERACT);
             m_mGoEntryGuidStore[pGo->GetEntry()] = pGo->GetObjectGuid();
             break;
         case GO_SAURFANG_CACHE_10:

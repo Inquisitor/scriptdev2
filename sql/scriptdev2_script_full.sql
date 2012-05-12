@@ -146,7 +146,7 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1000185,'%s puts the shell to his ear.',0,2,7,0,'engineer_spark EMOTE_SHELL'),
 (-1000186,'Now I cut you!',0,1,7,0,'engineer_spark SAY_ATTACK'),
 
-(-1000187,'Thank you, dear $C, you just saved my life.',0,0,7,0,'faulk SAY_HEAL'),
+(-1000187,'Thank you, dear $C, you just saved my life.',0,0,0,0,'npc_redemption_target SAY_HEAL'),
 
 (-1000188,'Deployment sucessful. Trespassers will be neutralized.',0,0,0,0,'converted_sentry SAY_CONVERTED_1'),
 (-1000189,'Objective acquired. Initiating security routines.',0,0,0,0,'converted_sentry SAY_CONVERTED_2'),
@@ -155,11 +155,11 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1000191,'You taste good with maybe a little salt and pepper.',0,0,0,0,' SAY_LUMP_1'),
 (-1000192,'OK, OK! Lump give up!',0,0,0,0,' SAY_LUMP_DEFEAT'),
 
-(-1000193,'Thank you, dear $C, you just saved my life.',0,0,1,0,'stillblade SAY_HEAL'),
+(-1000193,'REUSE ME',0,0,0,0,'REUSE ME'),
 
 (-1000194,'I give up! Please don\'t kill me!',0,0,0,0,'unkor SAY_SUBMIT'),
 
-(-1000195,'REUSE ME',0,0,0,0,'REUSE ME'),
+(-1000195,'Thank you again, $N. I\'ll make my way to the road now. When you can, find Terenthis and let him know we escaped.',0,0,0,1,'volcor SAY_ESCAPE'),
 
 (-1000196,'Belore...',0,0,1,0,'lady_sylvanas SAY_LAMENT_END'),
 (-1000197,'%s kneels down and pick up the amulet.',0,2,1,0,'lady_sylvanas EMOTE_LAMENT_END'),
@@ -1093,21 +1093,23 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1229002,'%s regains its power and breaks free of its bonds!',0,2,0,0,'pyroguard EMOTE_FULL'),
 (-1229003,'Ha! Ha! Ha! Thank you for freeing me, fools. Now let me repay you by charring the flesh from your bones.',0,1,0,0,'pyroguard SAY_FREE'),
 
-(-1229004,'Excellent... it would appear as if the meddlesome insects have arrived just in time to feed my legion. Welcome, mortals!',0,1,0,0,'nefarius SAY_INTRO_1'),
-(-1229005,'Let not even a drop of their blood remain upon the arena floor, my children. Feast on their souls!',0,1,0,0,'nefarius SAY_INTRO_2'),
+(-1229004,'Excellent... it would appear as if the meddlesome insects have arrived just in time to feed my legion. Welcome, mortals!',0,1,0,1,'nefarius SAY_INTRO_1'),
+(-1229005,'Let not even a drop of their blood remain upon the arena floor, my children. Feast on their souls!',0,1,0,1,'nefarius SAY_INTRO_2'),
 (-1229006,'Foolsss...Kill the one in the dress!',0,1,0,0,'nefarius SAY_ATTACK_1'),
-(-1229007,'Sire, let me join the fray! I shall tear their spines out with my bare hands!',0,1,0,0,'rend SAY_REND_JOIN'),
+(-1229007,'Sire, let me join the fray! I shall tear their spines out with my bare hands!',0,1,0,1,'rend SAY_REND_JOIN'),
 (-1229008,'Concentrate your attacks upon the healer!',0,1,0,0,'nefarius SAY_ATTACK_2'),
 (-1229009,'Inconceivable!',0,1,0,0,'nefarius SAY_ATTACK_3'),
 (-1229010,'Do not force my hand, children! I shall use your hides to line my boots.',0,1,0,0,'nefarius SAY_ATTACK_4'),
 (-1229011,'Defilers!',0,1,0,0,'rend SAY_LOSE_1'),
 (-1229012,'Impossible!',0,1,0,0,'rend SAY_LOSE_2'),
 (-1229013,'Your efforts will prove fruitless. None shall stand in our way!',0,1,0,0,'nefarius SAY_LOSE_3'),
-(-1229014,'THIS CANNOT BE!!! Rend, deal with these insects.',0,1,0,0,'nefarius SAY_LOSE_4'),
+(-1229014,'THIS CANNOT BE!!! Rend, deal with these insects.',0,1,0,1,'nefarius SAY_LOSE_4'),
 (-1229015,'With pleasure...',0,1,0,0,'rend SAY_REND_ATTACK'),
-(-1229016,'The Warchief shall make quick work of you, mortals. Prepare yourselves!',0,1,0,0,'nefarius SAY_WARCHIEF'),
+(-1229016,'The Warchief shall make quick work of you, mortals. Prepare yourselves!',0,1,0,25,'nefarius SAY_WARCHIEF'),
 (-1229017,'Taste in my power!',0,1,0,0,'nefarius SAY_BUFF_GYTH'),
-(-1229018,'Your victory shall be short lived. The days of both the Alliance and Horde are coming to an end. The next time we meet shall be the last.',0,1,0,0,'nefarius SAY_VICTORY');
+(-1229018,'Your victory shall be short lived. The days of both the Alliance and Horde are coming to an end. The next time we meet shall be the last.',0,1,0,1,'nefarius SAY_VICTORY'),
+
+(-1229019,'%s is knocked off his drake!',0,2,0,0,'rend EMOTE_KNOCKED_OFF');
 
 -- -1 230 000 BLACKROCK DEPTHS
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -1205,7 +1207,12 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1309022,'You dare set foot upon Hakkari holy ground? Minions of Hakkar, destroy the infidels!',0,6,0,0,'hakkar SAY_MINION_DESTROY'),
 (-1309023,'Minions of Hakkar, hear your God. The sanctity of this temple has been compromised. Invaders encroach upon holy ground! The Altar of Blood must be protected. Kill them all!',0,6,0,0,'hakkar SAY_PROTECT_ALTAR'),
 
-(-1309024,'%s goes into a rage after seeing his raptor fall in battle!',0,2,0,0,'mandokir EMOTE_RAGE');
+(-1309024,'%s goes into a rage after seeing his raptor fall in battle!',0,2,0,0,'mandokir EMOTE_RAGE'),
+
+(-1309025,'The brood shall not fall!',0,1,0,0,'marli SAY_TRANSFORM_BACK'),
+
+(-1309026,'%s emits a deafening shriek!',0,2,0,0,'jeklik SAY_SHRIEK'),
+(-1309027,'%s begins to cast a Great Heal!',0,2,0,0,'jeklik SAY_HEAL');
 
 -- -1 329 000 STRATHOLME
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -6408,20 +6415,30 @@ INSERT INTO script_waypoint VALUES
 
 DELETE FROM script_waypoint WHERE entry=3692;
 INSERT INTO script_waypoint VALUES
-(3692, 1, 4608.54, -6.47, 69.69, 4000, 'SAY_START'),
-(3692, 2, 4604.54, -5.17, 69.51, 0, ''),
-(3692, 3, 4604.26, -2.02, 69.42, 0, ''),
-(3692, 4, 4607.75, 3.79, 70.13, 1000, 'first ambush'),
-(3692, 5, 4607.75, 3.79, 70.13, 0, 'SAY_FIRST_AMBUSH'),
-(3692, 6, 4619.77, 27.47, 70.40, 0, ''),
-(3692, 7, 4626.28, 42.46, 68.75, 0, ''),
-(3692, 8, 4633.13, 51.17, 67.40, 0, ''),
-(3692, 9, 4639.67, 79.03, 61.74, 0, ''),
-(3692, 10, 4647.54, 94.25, 59.92, 0, 'second ambush'),
-(3692, 11, 4682.08, 113.47, 54.83, 0, ''),
-(3692, 12, 4705.28, 137.81, 53.36, 0, 'last ambush'),
-(3692, 13, 4730.30, 158.76, 52.33, 0, ''),
-(3692, 14, 4756.47, 195.65, 53.61, 10000, 'SAY_END');
+(3692, 1, 4608.43, -6.32, 69.74, 1000, 'stand up'),
+(3692, 2, 4608.43, -6.32, 69.74, 4000, 'SAY_START'),
+(3692, 3, 4604.54, -5.17, 69.51, 0, ''),
+(3692, 4, 4604.26, -2.02, 69.42, 0, ''),
+(3692, 5, 4607.75, 3.79, 70.13, 1000, 'first ambush'),
+(3692, 6, 4607.75, 3.79, 70.13, 0, 'SAY_FIRST_AMBUSH'),
+(3692, 7, 4619.77, 27.47, 70.40, 0, ''),
+(3692, 8, 4626.28, 42.46, 68.75, 0, ''),
+(3692, 9, 4633.13, 51.17, 67.40, 0, ''),
+(3692, 10, 4639.67, 79.03, 61.74, 0, ''),
+(3692, 11, 4647.54, 94.25, 59.92, 0, 'second ambush'),
+(3692, 12, 4682.08, 113.47, 54.83, 0, ''),
+(3692, 13, 4705.28, 137.81, 53.36, 0, 'last ambush'),
+(3692, 14, 4730.30, 158.76, 52.33, 0, ''),
+(3692, 15, 4756.47, 195.65, 53.61, 10000, 'SAY_END'),
+(3692, 16, 4608.43, -6.32, 69.74, 1000, 'bow'),
+(3692, 17, 4608.43, -6.32, 69.74, 4000, 'SAY_ESCAPE'),
+(3692, 18, 4608.43, -6.32, 69.74, 4000, 'SPELL_MOONSTALKER_FORM'),
+(3692, 19, 4604.54, -5.17, 69.51, 0, ''),
+(3692, 20, 4604.26, -2.02, 69.42, 0, ''),
+(3692, 21, 4607.75, 3.79, 70.13, 0, ''),
+(3692, 22, 4607.75, 3.79, 70.13, 0, ''),
+(3692, 23, 4619.77, 27.47, 70.40, 0, ''),
+(3692, 24, 4640.33, 33.74, 68.22, 0, 'quest complete');
 
 DELETE FROM script_waypoint WHERE entry=22424;
 INSERT INTO script_waypoint VALUES

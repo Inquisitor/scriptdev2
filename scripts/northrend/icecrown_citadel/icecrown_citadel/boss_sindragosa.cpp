@@ -62,7 +62,7 @@ enum BossSpells
     //SPELL_FROST_BOMB_OTHER      = 70521, // no idea where it is used, wowhead says it is used by Sindragosa
 
     // Phase 3
-    SPELL_MYSTIC_BUFFET         = 70128,
+    SPELL_MYSTIC_BUFFET         = 70127,
 
     // Upon death
     SPELL_FROST_INFUSION_QUEST_CREDIT = 72289,
@@ -156,7 +156,10 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public base_icc_bossAI
     void JustReachedHome()
     {
         if (m_pInstance)
+        {
             m_pInstance->SetData(TYPE_SINDRAGOSA, FAIL);
+            RemoveAurasFromAllPlayers();
+        }
 
         SetCombatMovement(true);
         m_creature->SetLevitate(false);
@@ -183,12 +186,32 @@ struct MANGOS_DLL_DECL boss_sindragosaAI : public base_icc_bossAI
     void JustDied(Unit *pKiller)
     {
         if (m_pInstance)
+        {
             m_pInstance->SetData(TYPE_SINDRAGOSA, DONE);
+            RemoveAurasFromAllPlayers();
+        }
 
         DoScriptText(SAY_DEATH, m_creature);
 
         // Frost Infusion Quest Credit
         DoCast(m_creature, SPELL_FROST_INFUSION_QUEST_CREDIT, true);
+    }
+
+    void RemoveAurasFromAllPlayers()
+    {
+        Map* pMap = m_creature->GetMap();
+        Map::PlayerList const& players = pMap->GetPlayers();
+            if (!players.isEmpty())
+                for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+                    if (Player* pPlayer = itr->getSource())
+                        if(pPlayer)
+                        {
+                            pPlayer->RemoveAurasDueToSpell(SPELL_FROST_BEACON);
+                            pPlayer->RemoveAurasDueToSpell(SPELL_UNCHAINED_MAGIC);
+                            pPlayer->RemoveAurasDueToSpell(SPELL_INSTABILITY);
+                            pPlayer->RemoveAurasDueToSpell(SPELL_FROST_BREATH);
+                            pPlayer->RemoveAurasDueToSpell(SPELL_MYSTIC_BUFFET);
+                        }
     }
 
     void MovementInform(uint32 uiMovementType, uint32 uiData)
